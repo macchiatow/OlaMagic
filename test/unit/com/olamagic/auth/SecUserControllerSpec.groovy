@@ -1,13 +1,12 @@
-package com.olamagic
+package com.olamagic.auth
 
-
-
+import com.olamagic.admin.SecUserController
 import grails.test.mixin.*
 import spock.lang.*
 
-@TestFor(CampaignController)
-@Mock(Campaign)
-class CampaignControllerSpec extends Specification {
+@TestFor(SecUserController)
+@Mock(SecUser)
+class SecUserControllerSpec extends Specification {
 
     def populateValidParams(params) {
         assert params != null
@@ -21,8 +20,8 @@ class CampaignControllerSpec extends Specification {
             controller.index()
 
         then:"The model is correct"
-            !model.campaignInstanceList
-            model.campaignInstanceCount == 0
+            !model.secUserInstanceList
+            model.secUserInstanceCount == 0
     }
 
     void "Test the create action returns the correct model"() {
@@ -30,7 +29,7 @@ class CampaignControllerSpec extends Specification {
             controller.create()
 
         then:"The model is correctly created"
-            model.campaignInstance!= null
+            model.secUserInstance!= null
     }
 
     void "Test the save action correctly persists an instance"() {
@@ -38,25 +37,25 @@ class CampaignControllerSpec extends Specification {
         when:"The save action is executed with an invalid instance"
             request.contentType = FORM_CONTENT_TYPE
             request.method = 'POST'
-            def campaign = new Campaign()
-            campaign.validate()
-            controller.save(campaign)
+            def secUser = new SecUser()
+            secUser.validate()
+            controller.save(secUser)
 
         then:"The create view is rendered again with the correct model"
-            model.campaignInstance!= null
+            model.secUserInstance!= null
             view == 'create'
 
         when:"The save action is executed with a valid instance"
             response.reset()
             populateValidParams(params)
-            campaign = new Campaign(params)
+            secUser = new SecUser(params)
 
-            controller.save(campaign)
+            controller.save(secUser)
 
         then:"A redirect is issued to the show action"
-            response.redirectedUrl == '/campaign/show/1'
+            response.redirectedUrl == '/secUser/show/1'
             controller.flash.message != null
-            Campaign.count() == 1
+            SecUser.count() == 1
     }
 
     void "Test that the show action returns the correct model"() {
@@ -68,11 +67,11 @@ class CampaignControllerSpec extends Specification {
 
         when:"A domain instance is passed to the show action"
             populateValidParams(params)
-            def campaign = new Campaign(params)
-            controller.show(campaign)
+            def secUser = new SecUser(params)
+            controller.show(secUser)
 
         then:"A model is populated containing the domain instance"
-            model.campaignInstance == campaign
+            model.secUserInstance == secUser
     }
 
     void "Test that the edit action returns the correct model"() {
@@ -84,11 +83,11 @@ class CampaignControllerSpec extends Specification {
 
         when:"A domain instance is passed to the edit action"
             populateValidParams(params)
-            def campaign = new Campaign(params)
-            controller.edit(campaign)
+            def secUser = new SecUser(params)
+            controller.edit(secUser)
 
         then:"A model is populated containing the domain instance"
-            model.campaignInstance == campaign
+            model.secUserInstance == secUser
     }
 
     void "Test the update action performs an update on a valid domain instance"() {
@@ -98,28 +97,28 @@ class CampaignControllerSpec extends Specification {
             controller.update(null)
 
         then:"A 404 error is returned"
-            response.redirectedUrl == '/campaign/index'
+            response.redirectedUrl == '/secUser/index'
             flash.message != null
 
 
         when:"An invalid domain instance is passed to the update action"
             response.reset()
-            def campaign = new Campaign()
-            campaign.validate()
-            controller.update(campaign)
+            def secUser = new SecUser()
+            secUser.validate()
+            controller.update(secUser)
 
         then:"The edit view is rendered again with the invalid instance"
             view == 'edit'
-            model.campaignInstance == campaign
+            model.secUserInstance == secUser
 
         when:"A valid domain instance is passed to the update action"
             response.reset()
             populateValidParams(params)
-            campaign = new Campaign(params).save(flush: true)
-            controller.update(campaign)
+            secUser = new SecUser(params).save(flush: true)
+            controller.update(secUser)
 
         then:"A redirect is issues to the show action"
-            response.redirectedUrl == "/campaign/show/$campaign.id"
+            response.redirectedUrl == "/secUser/show/$secUser.id"
             flash.message != null
     }
 
@@ -130,23 +129,23 @@ class CampaignControllerSpec extends Specification {
             controller.delete(null)
 
         then:"A 404 is returned"
-            response.redirectedUrl == '/campaign/index'
+            response.redirectedUrl == '/secUser/index'
             flash.message != null
 
         when:"A domain instance is created"
             response.reset()
             populateValidParams(params)
-            def campaign = new Campaign(params).save(flush: true)
+            def secUser = new SecUser(params).save(flush: true)
 
         then:"It exists"
-            Campaign.count() == 1
+            SecUser.count() == 1
 
         when:"The domain instance is passed to the delete action"
-            controller.delete(campaign)
+            controller.delete(secUser)
 
         then:"The instance is deleted"
-            Campaign.count() == 0
-            response.redirectedUrl == '/campaign/index'
+            SecUser.count() == 0
+            response.redirectedUrl == '/secUser/index'
             flash.message != null
     }
 }

@@ -1,6 +1,6 @@
-package com.olamagic
+package com.olamagic.admin
 
-
+import com.olamagic.Number
 
 import static org.springframework.http.HttpStatus.*
 import grails.transaction.Transactional

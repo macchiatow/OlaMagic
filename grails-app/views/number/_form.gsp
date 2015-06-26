@@ -20,12 +20,12 @@
 
 </div>
 
-<div class="fieldcontain ${hasErrors(bean: numberInstance, field: 'number', 'error')} required">
-	<label for="number">
-		<g:message code="number.number.label" default="Number" />
+<div class="fieldcontain ${hasErrors(bean: numberInstance, field: 'upid', 'error')} required">
+	<label for="upid">
+		<g:message code="number.upid.label" default="Upid" />
 		<span class="required-indicator">*</span>
 	</label>
-	<g:textField name="number" required="" value="${numberInstance?.number}"/>
+	<g:textField name="upid" required="" value="${numberInstance?.upid}"/>
 
 </div>
 

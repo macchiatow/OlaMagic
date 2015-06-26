@@ -34,11 +34,11 @@
 				</li>
 				</g:if>
 			
-				<g:if test="${numberInstance?.number}">
+				<g:if test="${numberInstance?.upid}">
 				<li class="fieldcontain">
-					<span id="number-label" class="property-label"><g:message code="number.number.label" default="Number" /></span>
+					<span id="upid-label" class="property-label"><g:message code="number.upid.label" default="Upid" /></span>
 					
-						<span class="property-value" aria-labelledby="number-label"><g:fieldValue bean="${numberInstance}" field="number"/></span>
+						<span class="property-value" aria-labelledby="upid-label"><g:fieldValue bean="${numberInstance}" field="upid"/></span>
 					
 				</li>
 				</g:if>
