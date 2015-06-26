@@ -115,3 +115,14 @@ log4j.main = {
            'org.hibernate',
            'net.sf.ehcache.hibernate'
 }
+
+grails.plugin.springsecurity.rejectIfNoRule = true
+grails.plugin.springsecurity.securityConfigType = 'InterceptUrlMap'
+grails.plugin.springsecurity.interceptUrlMap = [
+        '/js/**':           ['IS_AUTHENTICATED_ANONYMOUSLY'],
+        '/css/**':          ['IS_AUTHENTICATED_ANONYMOUSLY'],
+        '/images/**':       ['IS_AUTHENTICATED_ANONYMOUSLY'],
+        '/login/**':        ['IS_AUTHENTICATED_ANONYMOUSLY'],
+        '/logout/**':       ['IS_AUTHENTICATED_ANONYMOUSLY'],
+        '/':                ['IS_AUTHENTICATED_ANONYMOUSLY'],
+]
