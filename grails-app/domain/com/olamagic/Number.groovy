@@ -2,7 +2,7 @@ package com.olamagic
 
 class Number {
 
-    String number
+    String upid
 
     static hasMany = [call: Call]
 
