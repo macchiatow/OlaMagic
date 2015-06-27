@@ -20,3 +20,4 @@ web-app/WEB-INF/tld/fmt.tld
 /*.db
 *.iml
 h2
+*.log
