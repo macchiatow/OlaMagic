@@ -115,3 +115,26 @@ log4j.main = {
            'org.hibernate',
            'net.sf.ehcache.hibernate'
 }
+
+grails.plugin.springsecurity.rejectIfNoRule = true
+
+
+
+// Added by the Spring Security Core plugin:
+grails.plugin.springsecurity.userLookup.userDomainClassName = 'com.olamagic.auth.SecUser'
+grails.plugin.springsecurity.userLookup.authorityJoinClassName = 'com.olamagic.auth.SecUserSecRole'
+grails.plugin.springsecurity.authority.className = 'com.olamagic.auth.SecRole'
+grails.plugin.springsecurity.controllerAnnotations.staticRules = [
+	'/':                ['permitAll'],
+	'/index':           ['permitAll'],
+	'/index.gsp':       ['permitAll'],
+	'/assets/**':       ['permitAll'],
+	'/**/js/**':        ['permitAll'],
+	'/**/css/**':       ['permitAll'],
+	'/**/images/**':    ['permitAll'],
+	'/**/favicon.ico':  ['permitAll'],
+   // '/admin/**':        ['ROLE_ADMIN'],
+        '/**': ['permitAll']
+
+]
+
