@@ -1,15 +1,26 @@
 class UrlMappings {
 
 	static mappings = {
-        "/api/call/$action"(controller : "callService", namespace: "api")
-        "/admin/$controller/$action?/$id?(.$format)?"{
-            constraints {
-                // apply constraints here
-            }
-        }
+        // Main
+        "/"(view:"/index")
+
+        // API
+        "/api/${apiController}/$action"(controller : "${apiController}Service", namespace: "api")
+
+        // Admin panel
+        "/admin/number/$action?"(controller: "number")
+        "/admin/user/$action?"(controller: "secUser")
+
+        // User dashboard
+        "/dashboard"(view: "index", controller: "dashboard")
+        "/dashboard/call/$action?"(controller: "call")
+
+        // Authentication
         "/login/$action?"(controller: "login")
         "/logout/$action?"(controller: "logout")
-        "/"(view:"/index")
+
+        // Errors
         "500"(view:'/error')
+        "/**"(view:'/404')
 	}
 }

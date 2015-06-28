@@ -1,6 +1,5 @@
 package com.olamagic
 
-import com.olamagic.Call
 import grails.converters.*
 /**
  * Created by togrul on 6/26/15.
