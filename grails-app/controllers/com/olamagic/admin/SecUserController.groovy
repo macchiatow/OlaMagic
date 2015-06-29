@@ -52,11 +52,26 @@ class SecUserController {
     }
 
     def edit(SecUser secUserInstance) {
+        secUserInstance.roles = secUserInstance.authorities
         respond secUserInstance
+    }
+
+    private updateRoles(SecUser secUserInstance, def roles = params.list("roles")){
+        secUserInstance.authorities.authority.findAll { !roles.contains(it) }.each {
+            SecUserSecRole.findBySecUserAndSecRole(secUserInstance, SecRole.findByAuthority(it)).delete()
+        }
+
+        roles.findAll { !secUserInstance.authorities.authority.contains(it) }.each {
+            SecUserSecRole.create secUserInstance, SecRole.findByAuthority(it)
+        }
+
     }
 
     @Transactional
     def update(SecUser secUserInstance) {
+
+        updateRoles(secUserInstance)
+
         if (secUserInstance == null) {
             notFound()
             return

@@ -13,6 +13,8 @@ class SecUser implements Serializable {
 	boolean accountLocked
 	boolean passwordExpired
 
+    transient roles = []
+
 	SecUser(String username, String password) {
 		this()
 		this.username = username
@@ -52,7 +54,7 @@ class SecUser implements Serializable {
 		password = springSecurityService?.passwordEncoder ? springSecurityService.encodePassword(password) : password
 	}
 
-	static transients = ['springSecurityService']
+	static transients = ['springSecurityService', 'roles']
 
 	static constraints = {
 		username blank: false, unique: true

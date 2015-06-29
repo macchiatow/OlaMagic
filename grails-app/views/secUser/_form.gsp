@@ -1,4 +1,5 @@
 <%@ page import="com.olamagic.auth.SecUser" %>
+<%@ page import="com.olamagic.auth.SecRole" %>
 
 
 
@@ -16,7 +17,19 @@
 		<g:message code="secUser.password.label" default="Password" />
 		<span class="required-indicator">*</span>
 	</label>
-	<g:textField name="password" required="" value="${secUserInstance?.password}"/>
+	<g:passwordField name="password" required="" value="${secUserInstance?.password}"/>
+
+</div>
+
+<div class="fieldcontain ${hasErrors(bean: secUserInstance, field: 'password', 'error')} required">
+    <label for="role">
+        <g:message code="secUser.password.label" default="Role" />
+        <span class="required-indicator">*</span>
+    </label>
+    <g:each in="${SecRole.all}" var="role">
+        <g:checkBox name="roles" value="${role}" checked="${secUserInstance.roles?.contains(role)}" />
+        <g:message code="secUser.accountExpired.label" default="${role.authority}" />
+    </g:each>
 
 </div>
 
