@@ -1,5 +1,7 @@
 package com.olamagic.auth
 
+import com.olamagic.join.UserNumber
+
 class SecUser implements Serializable {
 
 	private static final long serialVersionUID = 1
@@ -16,7 +18,7 @@ class SecUser implements Serializable {
     transient roles = []
 
 	SecUser(String username, String password) {
-		this()
+        super()
 		this.username = username
 		this.password = password
 	}
@@ -39,6 +41,10 @@ class SecUser implements Serializable {
 	Set<SecRole> getAuthorities() {
 		SecUserSecRole.findAllBySecUser(this)*.secRole
 	}
+
+    Set<SecRole> getMyNumbers() {
+        UserNumber.findAllBySecUser(this)*.number
+    }
 
 	def beforeInsert() {
 		encodePassword()

@@ -7,7 +7,7 @@ class SecRole implements Serializable {
 	String authority
 
 	SecRole(String authority) {
-		this()
+        super()
 		this.authority = authority
 	}
 
