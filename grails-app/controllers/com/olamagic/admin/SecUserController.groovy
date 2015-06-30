@@ -101,6 +101,7 @@ class SecUserController {
             return
         }
 
+        SecUserSecRole.findAllBySecUser(secUserInstance)*.delete flush: true
         secUserInstance.delete flush:true
 
         request.withFormat {

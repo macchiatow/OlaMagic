@@ -14,7 +14,7 @@ class SecUserSecRole implements Serializable {
 	SecRole secRole
 
 	SecUserSecRole(SecUser u, SecRole r) {
-		this()
+        super()
 		secUser = u
 		secRole = r
 	}

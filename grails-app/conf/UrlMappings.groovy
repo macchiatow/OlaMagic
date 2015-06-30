@@ -14,6 +14,7 @@ class UrlMappings {
         // User dashboard
         "/dashboard"(view: "index", controller: "dashboard")
         "/dashboard/call/$action?"(controller: "call")
+        "/dashboard/numbers/$action?"(view: "index", controller: "my_numbers")
 
         // Authentication
         "/login/$action?"(controller: "login")
@@ -21,6 +22,6 @@ class UrlMappings {
 
         // Errors
         "500"(view:'/error')
-        "/**"(view:'/404')
+        //"/**"(view:'/404')
 	}
 }

@@ -124,6 +124,7 @@ grails.plugin.springsecurity.userLookup.authorityJoinClassName = 'com.olamagic.a
 grails.plugin.springsecurity.authority.className = 'com.olamagic.auth.SecRole'
 grails.plugin.springsecurity.interceptUrlMap = [
         '/admin/**'      : ['ROLE_ADMIN'],
+        '/dbconsole/**'  : ['ROLE_ADMIN'],
         '/dashboard/**'  : ['ROLE_USER'],
         '/'              : ['permitAll'],
         '/index'         : ['permitAll'],
