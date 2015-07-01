@@ -9,9 +9,9 @@
 <div class="nav" role="navigation">
 
 
-    <form name="buyNumberForm" action="buy" method="post">
-        <g:select name="numbers"
-                  from="${availableNumbers}" value="{$upid}"   />
+    <form name="buyNumberForm" action="buy" method="post" >
+        <g:select name="numberInstance.id"
+                  from="${availableNumbers}" optionValue="upid" optionKey="id" />
         <input type="submit" value="Get">
     </form>
 
