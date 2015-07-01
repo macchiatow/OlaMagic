@@ -15,13 +15,13 @@
         <input type="submit" value="Get">
     </form>
 
-    %{--<g:each in="${numberList}" status="i" var="numberInstance">--}%
-        %{--<tr class="${(i % 2) == 0 ? 'even' : 'odd'}">--}%
-
-            %{--<td><g:link action="show" id="${numberInstance.id}">${fieldValue(bean: numberInstance, field: "upid")}</g:link></td>--}%
-
-        %{--</tr>--}%
-    %{--</g:each>--}%
+    <g:each in="${myNumbers}" status="i" var="numberInstance">
+        <g:form action="release" method="POST"  params="['numberInstance.id' : numberInstance.id]" >
+            <td>${numberInstance.upid}
+                <g:actionSubmit class="delete" action="release" value="release"/>
+            </td>
+        </g:form>
+    </g:each>
 
 </div>
 </body>
