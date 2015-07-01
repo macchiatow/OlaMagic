@@ -15,6 +15,7 @@ class UrlMappings {
         "/dashboard"(view: "index", controller: "dashboard")
         "/dashboard/call/$action?"(controller: "call")
         "/dashboard/numbers/$action?"(controller: "myNumbers")
+        "/dashboard/adsources/$action?"(controller: "adSource")
 
         // Authentication
         "/login/$action?"(controller: "login")
