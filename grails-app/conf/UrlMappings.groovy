@@ -7,6 +7,9 @@ class UrlMappings {
         // API
         "/api/${apiController}/$action"(controller : "${apiController}Service", namespace: "api")
 
+        // External
+        "/external/calls" (controller: "call", action: "notifyCall")
+
         // Admin panel
         "/admin/number/$action?"(controller: "number")
         "/admin/user/$action?"(controller: "secUser")
