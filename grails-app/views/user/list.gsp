@@ -24,7 +24,7 @@
 			<thead>
 					<tr>
 					
-						<g:sortableColumn property="username" title="${message(code: 'secUser.username.label', default: 'Username')}" />
+						<g:sortableColumn property="uid" title="${message(code: 'secUser.uid.label', default: 'Username')}" />
 					
 
 						<g:sortableColumn property="accountExpired" title="${message(code: 'secUser.accountExpired.label', default: 'Account Expired')}" />
@@ -41,7 +41,7 @@
 				<g:each in="${secUserInstanceList}" status="i" var="secUserInstance">
 					<tr class="${(i % 2) == 0 ? 'even' : 'odd'}">
 					
-						<td><g:link action="show" id="${secUserInstance.id}">${fieldValue(bean: secUserInstance, field: "username")}</g:link></td>
+						<td><g:link action="show" id="${secUserInstance.id}">${fieldValue(bean: secUserInstance, field: "uid")}</g:link></td>
 
 						<td><g:formatBoolean boolean="${secUserInstance.accountExpired}" /></td>
 					

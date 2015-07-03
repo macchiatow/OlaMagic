@@ -17,6 +17,7 @@ class MyNumbersController {
     }
 
     def buy(Number numberInstance){
+        println request.parameterMap.get('number.id')
         UserNumber.create  springSecurityService.currentUser, numberInstance, true
         redirect view: 'index'
     }

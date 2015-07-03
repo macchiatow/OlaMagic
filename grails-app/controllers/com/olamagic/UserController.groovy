@@ -1,24 +1,41 @@
-package com.olamagic.admin
+package com.olamagic
 
 import com.olamagic.auth.SecRole
 import com.olamagic.auth.SecUser
 import com.olamagic.auth.SecUserSecRole
+import grails.converters.JSON
 
 import static org.springframework.http.HttpStatus.*
 import grails.transaction.Transactional
 
 @Transactional(readOnly = true)
-class SecUserController {
+class UserController {
 
-    static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
+   // static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
 
-    def index(Integer max) {
+   def show(String uid){
+        respond SecUser.findByUid(uid)
+   }
+
+    def list(Integer max){
         params.max = Math.min(max ?: 10, 100)
         respond SecUser.list(params), model:[secUserInstanceCount: SecUser.count()]
     }
 
-    def show(SecUser secUserInstance) {
-        respond secUserInstance
+    def update(String uid){
+        SecUser user = SecUser.findByUid(uid);
+        request.withFormat {
+            json {
+                user.properties = request.JSON.findAll { k,v -> k != 'uid' }
+                updateAuthorities(user, request.JSON.authorities)
+                render user as JSON
+            }
+        }
+    }
+
+    def index(Integer max) {
+        params.max = Math.min(max ?: 10, 100)
+        respond SecUser.list(params), model:[secUserInstanceCount: SecUser.count()]
     }
 
     def create() {
@@ -47,6 +64,7 @@ class SecUserController {
                 flash.message = message(code: 'default.created.message', args: [message(code: 'secUser.label', default: 'SecUser'), secUserInstance.id])
                 redirect secUserInstance
             }
+            json { render secUserInstance as JSON }
             '*' { respond secUserInstance, [status: CREATED] }
         }
     }
@@ -56,42 +74,44 @@ class SecUserController {
         respond secUserInstance
     }
 
-    private updateRoles(SecUser secUserInstance, def roles = params.list("roles")){
-        secUserInstance.authorities.authority.findAll { !roles.contains(it) }.each {
-            SecUserSecRole.findBySecUserAndSecRole(secUserInstance, SecRole.findByAuthority(it)).delete()
+    private updateAuthorities(SecUser secUserInstance, def authorities){
+        secUserInstance.authorities.authority.findAll { !authorities.contains(it) }.each {
+            println "revoking $it"
+            SecUserSecRole.findBySecUserAndSecRole(secUserInstance, SecRole.findByAuthority(it)).delete(flush: true)
         }
 
-        roles.findAll { !secUserInstance.authorities.authority.contains(it) }.each {
-            SecUserSecRole.create secUserInstance, SecRole.findByAuthority(it)
+        authorities.findAll { !secUserInstance.authorities.authority.contains(it) }.each {
+            println "granding $it"
+            SecUserSecRole.create secUserInstance, SecRole.findByAuthority(it), true
         }
 
     }
 
-    @Transactional
-    def update(SecUser secUserInstance) {
-
-        updateRoles(secUserInstance)
-
-        if (secUserInstance == null) {
-            notFound()
-            return
-        }
-
-        if (secUserInstance.hasErrors()) {
-            respond secUserInstance.errors, view:'edit'
-            return
-        }
-
-        secUserInstance.save flush:true
-
-        request.withFormat {
-            form multipartForm {
-                flash.message = message(code: 'default.updated.message', args: [message(code: 'SecUser.label', default: 'SecUser'), secUserInstance.id])
-                redirect secUserInstance
-            }
-            '*'{ respond secUserInstance, [status: OK] }
-        }
-    }
+//    @Transactional
+//    def update(SecUser secUserInstance) {
+//        println request.format
+//        updateAuthorities(secUserInstance)
+//
+//        if (secUserInstance == null) {
+//            notFound()
+//            return
+//        }
+//
+//        if (secUserInstance.hasErrors()) {
+//            respond secUserInstance.errors, view:'edit'
+//            return
+//        }
+//
+//        secUserInstance.save flush:true
+//
+//        request.withFormat {
+//            form multipartForm {
+//                flash.message = message(code: 'default.updated.message', args: [message(code: 'SecUser.label', default: 'SecUser'), secUserInstance.id])
+//                redirect secUserInstance
+//            }
+//            '*'{ respond secUserInstance, [status: OK] }
+//        }
+//    }
 
     @Transactional
     def delete(SecUser secUserInstance) {

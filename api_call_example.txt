@@ -11,3 +11,14 @@ curl -i -H "Content-Type: application/json" -X POST -d '{"aimed":"true","number"
 
 -- delete all for given upid
 curl -i -H "Accept: application/json" -H "Content-Type: application/json" -X GET http://localhost:8080/OlaMagic/external/numbers/0931326201/calls
+
+--------- UserController
+
+-- update user
+curl -i -H "Content-Type: application/json" -X PUT -d '{"accountExpired":false,"authorities":["ROLE_ADMIN", "ROLE_USER"]}' http://localhost:8080/OlaMagic/admin/users/admin
+
+-- list all users
+curl -i -H "Accept: application/json" -H "Content-Type: application/json" -X GET http://localhost:8080/OlaMagic/admin/users
+
+-- get user for given uid
+curl -i -H "Accept: application/json" -H "Content-Type: application/json" -X GET http://localhost:8080/OlaMagic/admin/users/1

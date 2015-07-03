@@ -4,9 +4,6 @@ class UrlMappings {
         // Main
         "/"(view: "/index")
 
-        // API
-        "/api/${apiController}/$action"(controller: "${apiController}Service", namespace: "api")
-
         // External
         "/external/calls"(method: "POST", controller: "call", action: "notifyCall")
         "/external/calls"(method: "GET", controller: "call", action: "all")
@@ -14,8 +11,12 @@ class UrlMappings {
         "/external/numbers/$upid/calls"(method: "DELETE", controller: "call", action: "deleteWithUpid")
 
         // Admin panel
-        "/admin/number/$action?"(controller: "number")
-        "/admin/user/$action?"(controller: "secUser")
+        "/admin/users/$uid"(method: "GET", controller: "user", action: "show")
+        "/admin/users"(method: "GET", controller: "user", action: "list")
+        "/admin/users/$uid"(method: "PUT", controller: "user", action: "update")
+        // "/admin/users"(method: "POST", controller: "user", action: "save")
+        //"/admin/number/$action?"(controller: "number")
+       // "/admin/user/$action?"(controller: "user")
 
         // User dashboard
         "/dashboard"(view: "index", controller: "dashboard")

@@ -1,4 +1,5 @@
 import com.olamagic.auth.*
+import grails.converters.JSON
 
 class BootStrap {
 
@@ -9,13 +10,25 @@ class BootStrap {
         SecRole.findByAuthority('ROLE_USER') ?: new SecRole(authority: 'ROLE_USER').save(failOnError: true)
         SecRole.findByAuthority('ROLE_API_USER') ?: new SecRole(authority: 'ROLE_API_USER').save(failOnError: true)
 
-        def adminUser = SecUser.findByUsername('admin') ?: new SecUser(
+        def adminUser = SecUser.findByUid('admin') ?: new SecUser(
                 username: 'admin',
                 password: 'admin',
                 enabled: true).save(failOnError: true)
 
         if (!adminUser.authorities.contains(adminRole)) {
             SecUserSecRole.create adminUser, adminRole
+        }
+
+        JSON.registerObjectMarshaller( SecUser ) {SecUser u ->
+            return [
+                    uid : u.uid,
+                    accountExpired : u.accountExpired,
+                    accountLocked : u.accountLocked,
+                    enabled : u.enabled,
+                    passwordExpired : u.passwordExpired,
+                    authorities : u.authorities*.authority,
+                    class : u.class
+            ]
         }
     }
     def destroy = {

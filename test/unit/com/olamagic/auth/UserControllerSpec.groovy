@@ -1,12 +1,12 @@
 package com.olamagic.auth
 
-import com.olamagic.admin.SecUserController
+import com.olamagic.UserController
 import grails.test.mixin.*
 import spock.lang.*
 
-@TestFor(SecUserController)
+@TestFor(UserController)
 @Mock(SecUser)
-class SecUserControllerSpec extends Specification {
+class UserControllerSpec extends Specification {
 
     def populateValidParams(params) {
         assert params != null

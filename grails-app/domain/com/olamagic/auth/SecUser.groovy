@@ -8,34 +8,34 @@ class SecUser implements Serializable {
 
 	transient springSecurityService
 
-	String username
+	String uid
 	String password
 	boolean enabled = true
 	boolean accountExpired
 	boolean accountLocked
 	boolean passwordExpired
 
-    transient roles = []
+    List roles = ['ROLE_AMIND']
 
-	SecUser(String username, String password) {
+	SecUser(String uid, String password) {
         super()
-		this.username = username
+		this.uid = uid
 		this.password = password
 	}
 
 	@Override
 	int hashCode() {
-		username?.hashCode() ?: 0
+		uid?.hashCode() ?: 0
 	}
 
 	@Override
 	boolean equals(other) {
-		is(other) || (other instanceof SecUser && other.username == username)
+		is(other) || (other instanceof SecUser && other.uid == uid)
 	}
 
 	@Override
 	String toString() {
-		username
+		uid
 	}
 
 	Set<SecRole> getAuthorities() {
@@ -63,7 +63,7 @@ class SecUser implements Serializable {
 	static transients = ['springSecurityService', 'roles']
 
 	static constraints = {
-		username blank: false, unique: true
+		uid blank: false, unique: true
 		password blank: false
 	}
 

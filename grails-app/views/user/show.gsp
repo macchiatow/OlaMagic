@@ -23,11 +23,11 @@
 			</g:if>
 			<ol class="property-list secUser">
 			
-				<g:if test="${secUserInstance?.username}">
+				<g:if test="${secUserInstance?.uid}">
 				<li class="fieldcontain">
-					<span id="username-label" class="property-label"><g:message code="secUser.username.label" default="Username" /></span>
+					<span id="uid-label" class="property-label"><g:message code="secUser.uid.label" default="Username" /></span>
 					
-						<span class="property-value" aria-labelledby="username-label"><g:fieldValue bean="${secUserInstance}" field="username"/></span>
+						<span class="property-value" aria-labelledby="uid-label"><g:fieldValue bean="${secUserInstance}" field="uid"/></span>
 					
 				</li>
 				</g:if>
