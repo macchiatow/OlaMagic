@@ -22,17 +22,7 @@
 			<div class="message" role="status">${flash.message}</div>
 			</g:if>
 			<ol class="property-list number">
-			
-				<g:if test="${numberInstance?.call}">
-				<li class="fieldcontain">
-					<span id="call-label" class="property-label"><g:message code="number.call.label" default="Call" /></span>
-					
-						<g:each in="${numberInstance.call}" var="c">
-						<span class="property-value" aria-labelledby="call-label"><g:link controller="call" action="show" id="${c.id}">${c?.encodeAsHTML()}</g:link></span>
-						</g:each>
-					
-				</li>
-				</g:if>
+
 			
 				<g:if test="${numberInstance?.upid}">
 				<li class="fieldcontain">

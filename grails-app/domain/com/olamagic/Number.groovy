@@ -6,10 +6,12 @@ class Number {
 
     String upid
 
-    static hasMany = [call: Call]
-
     Set<Number> getAllAvailableNumbers(){
         Number.all.findAll { !UserNumber.all*.number.contains(it) }
+    }
+
+    static mapping = {
+        unique:['upid']
     }
 
     static constraints = {

@@ -6,7 +6,7 @@ class Call {
     Long duration = 0
     Boolean aimed
 
-    static hasOne = [number:Number]
+    static belongsTo = [number:Number]
 
     static constraints = {
     }

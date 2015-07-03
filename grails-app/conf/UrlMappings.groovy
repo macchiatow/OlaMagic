@@ -1,14 +1,17 @@
 class UrlMappings {
 
-	static mappings = {
+    static mappings = {
         // Main
-        "/"(view:"/index")
+        "/"(view: "/index")
 
         // API
-        "/api/${apiController}/$action"(controller : "${apiController}Service", namespace: "api")
+        "/api/${apiController}/$action"(controller: "${apiController}Service", namespace: "api")
 
         // External
-        "/external/calls" (controller: "call", action: "notifyCall")
+        "/external/calls"(method: "POST", controller: "call", action: "notifyCall")
+        "/external/calls"(method: "GET", controller: "call", action: "all")
+        "/external/numbers/$upid/calls"(method: "GET", controller: "call", action: "allWithUpid")
+        "/external/numbers/$upid/calls"(method: "DELETE", controller: "call", action: "deleteWithUpid")
 
         // Admin panel
         "/admin/number/$action?"(controller: "number")
@@ -25,7 +28,7 @@ class UrlMappings {
         "/logout/$action?"(controller: "logout")
 
         // Errors
-        "500"(view:'/error')
+        "500"(view: '/error')
         //"/**"(view:'/404')
-	}
+    }
 }

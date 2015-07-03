@@ -7,15 +7,7 @@
 		<g:message code="number.call.label" default="Call" />
 		
 	</label>
-	
-<ul class="one-to-many">
-<g:each in="${numberInstance?.call?}" var="c">
-    <li><g:link controller="call" action="show" id="${c.id}">${c?.encodeAsHTML()}</g:link></li>
-</g:each>
-<li class="add">
-<g:link controller="call" action="create" params="['number.id': numberInstance?.id]">${message(code: 'default.add.label', args: [message(code: 'call.label', default: 'Call')])}</g:link>
-</li>
-</ul>
+
 
 
 </div>

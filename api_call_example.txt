@@ -1,0 +1,13 @@
+--------- External access to CallController
+
+-- get all calls
+curl -i -H "Accept: application/json" -H "Content-Type: application/json" -X GET http://localhost:8080/OlaMagic/external/calls
+
+-- get all calls for given upid
+curl -i -H "Accept: application/json" -H "Content-Type: application/json" -X GET http://localhost:8080/OlaMagic/external/numbers/0931326201/calls
+
+-- notified on received call
+curl -i -H "Content-Type: application/json" -X POST -d '{"aimed":"true","number":{"upid":"0931326201"}}' http://localhost:8080/OlaMagic/external/calls
+
+-- delete all for given upid
+curl -i -H "Accept: application/json" -H "Content-Type: application/json" -X GET http://localhost:8080/OlaMagic/external/numbers/0931326201/calls
