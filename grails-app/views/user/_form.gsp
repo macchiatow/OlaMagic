@@ -26,8 +26,8 @@
         <g:message code="secUser.password.label" default="Role" />
         <span class="required-indicator">*</span>
     </label>
-    <g:each in="${SecRole.all}" var="role">
-        <g:checkBox name="roles" value="${role}" checked="${secUserInstance.roles?.contains(role)}" />
+    <g:each in="${SecRole.all}" var="role" status="i">
+        <g:checkBox name="authorities" value="${role.authority}" checked="${secUserInstance?.authorities?.contains(role)}"  />
         <g:message code="secUser.accountExpired.label" default="${role.authority}" />
     </g:each>
 
@@ -36,7 +36,7 @@
 <div class="fieldcontain ${hasErrors(bean: secUserInstance, field: 'accountExpired', 'error')} ">
 	<label for="accountExpired">
 		<g:message code="secUser.accountExpired.label" default="Account Expired" />
-		
+
 	</label>
 	<g:checkBox name="accountExpired" value="${secUserInstance?.accountExpired}" />
 
@@ -45,7 +45,7 @@
 <div class="fieldcontain ${hasErrors(bean: secUserInstance, field: 'accountLocked', 'error')} ">
 	<label for="accountLocked">
 		<g:message code="secUser.accountLocked.label" default="Account Locked" />
-		
+
 	</label>
 	<g:checkBox name="accountLocked" value="${secUserInstance?.accountLocked}" />
 
@@ -54,7 +54,7 @@
 <div class="fieldcontain ${hasErrors(bean: secUserInstance, field: 'enabled', 'error')} ">
 	<label for="enabled">
 		<g:message code="secUser.enabled.label" default="Enabled" />
-		
+
 	</label>
 	<g:checkBox name="enabled" value="${secUserInstance?.enabled}" />
 
@@ -63,7 +63,7 @@
 <div class="fieldcontain ${hasErrors(bean: secUserInstance, field: 'passwordExpired', 'error')} ">
 	<label for="passwordExpired">
 		<g:message code="secUser.passwordExpired.label" default="Password Expired" />
-		
+
 	</label>
 	<g:checkBox name="passwordExpired" value="${secUserInstance?.passwordExpired}" />
 

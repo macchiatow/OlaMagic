@@ -1,14 +1,12 @@
 package com.olamagic
 
-import com.olamagic.auth.SecRole
 import com.olamagic.auth.SecUser
 import com.olamagic.auth.SecUserSecRole
 import com.olamagic.join.UserNumber
-
 import grails.converters.JSON
+import grails.transaction.Transactional
 
 import static org.springframework.http.HttpStatus.*
-import grails.transaction.Transactional
 
 @Transactional(readOnly = true)
 class UserController {
@@ -39,73 +37,36 @@ class UserController {
                 user.updateAuthorities(request.JSON.authorities)
                 render user as JSON
             }
+            '*'{
+                user.properties = params
+                def authorities = params.authorities instanceof String ? [] << params.authorities : params.authorities
+                user.save(flush: true)
+                user.updateAuthorities(authorities)
+                flash.message = message(code: 'default.created.message', args: [message(code: 'secUser.label', default: 'SecUser'), uid])
+                redirect method:"GET"
+            }
         }
-    }
-
-    def index(Integer max) {
-        params.max = Math.min(max ?: 10, 100)
-        respond SecUser.list(params), model:[secUserInstanceCount: SecUser.count()]
     }
 
     def create() {
-        def user = new SecUser(request.JSON)
-        user.save (flush: true)
-        user.updateAuthorities(request.JSON.authorities)
-        render user as JSON
-    }
-
-    @Transactional
-    def save(SecUser secUserInstance) {
-        def defaultUserRole = SecRole.findByAuthority('ROLE_USER') ?: new SecRole(authority: 'ROLE_USER').save(failOnError: true)
-
-        if (secUserInstance == null) {
-            notFound()
-            return
-        }
-
-        if (secUserInstance.hasErrors()) {
-            respond secUserInstance.errors, view:'create'
-            return
-        }
-
-        secUserInstance.save flush:true
-        SecUserSecRole.create secUserInstance, defaultUserRole
-
         request.withFormat {
             form multipartForm {
+                def secUserInstance = new SecUser(params)
+                def authorities = params.authorities instanceof String ? [] << params.authorities : params.authorities
+                secUserInstance.save(flush: true)
+                secUserInstance.updateAuthorities(authorities)
                 flash.message = message(code: 'default.created.message', args: [message(code: 'secUser.label', default: 'SecUser'), secUserInstance.id])
-                redirect secUserInstance
+                redirect method:"GET"
             }
-            json { render secUserInstance as JSON }
+            json {
+                def user = new SecUser(request.JSON)
+                user.save (flush: true)
+                user.updateAuthorities(request.JSON.authorities)
+                render user as JSON
+            }
             '*' { respond secUserInstance, [status: CREATED] }
         }
     }
-
-//    @Transactional
-//    def update(SecUser secUserInstance) {
-//        println request.format
-//        updateAuthorities(secUserInstance)
-//
-//        if (secUserInstance == null) {
-//            notFound()
-//            return
-//        }
-//
-//        if (secUserInstance.hasErrors()) {
-//            respond secUserInstance.errors, view:'edit'
-//            return
-//        }
-//
-//        secUserInstance.save flush:true
-//
-//        request.withFormat {
-//            form multipartForm {
-//                flash.message = message(code: 'default.updated.message', args: [message(code: 'SecUser.label', default: 'SecUser'), secUserInstance.id])
-//                redirect secUserInstance
-//            }
-//            '*'{ respond secUserInstance, [status: OK] }
-//        }
-//    }
 
     @Transactional
     def deleteWithUid(String uid){

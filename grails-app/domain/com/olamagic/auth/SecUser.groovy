@@ -1,7 +1,5 @@
 package com.olamagic.auth
 
-import com.olamagic.join.UserNumber
-
 class SecUser implements Serializable {
 
 	private static final long serialVersionUID = 1
@@ -41,12 +39,12 @@ class SecUser implements Serializable {
 	}
 
     def updateAuthorities(def newAuthorities){
-        this.authorities.authority.findAll { !newAuthorities.contains(it) }.each {
+        this.authorities?.authority.findAll { !newAuthorities?.contains(it) }.each {
             println "revoking $it"
             SecUserSecRole.findBySecUserAndSecRole(this, SecRole.findByAuthority(it)).delete(flush: true)
         }
 
-        newAuthorities.findAll { !this.authorities.authority.contains(it) }.each {
+        newAuthorities?.findAll { !this.authorities?.authority.contains(it) }.each {
             println "granding $it"
             SecUserSecRole.create this, SecRole.findByAuthority(it), true
         }

@@ -9,6 +9,7 @@ class UrlMappings {
         "/external/numbers/$upid/calls"(controller: "call") { action = [GET:"listWithUpid", DELETE:"deleteWithUpid"] }
 
         // Admin panel
+        "/admin/users/new"(controller: "user", view: "new")
         "/admin/users"(controller: "user") { action = [GET:"list", POST:"create"] }
         "/admin/users/$uid"(controller: "user") { action = [GET:"show", PUT:"update", DELETE:"deleteWithUid"] }
 
