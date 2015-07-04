@@ -5,18 +5,12 @@ class UrlMappings {
         "/"(view: "/index")
 
         // External
-        "/external/calls"(method: "POST", controller: "call", action: "notifyCall")
-        "/external/calls"(method: "GET", controller: "call", action: "all")
-        "/external/numbers/$upid/calls"(method: "GET", controller: "call", action: "allWithUpid")
-        "/external/numbers/$upid/calls"(method: "DELETE", controller: "call", action: "deleteWithUpid")
+        "/external/calls"(controller: "call") { action = [GET:"list", POST:"notifyCall"] }
+        "/external/numbers/$upid/calls"(controller: "call") { action = [GET:"listWithUpid", DELETE:"deleteWithUpid"] }
 
         // Admin panel
-        "/admin/users/$uid"(method: "GET", controller: "user", action: "show")
-        "/admin/users"(method: "GET", controller: "user", action: "list")
-        "/admin/users/$uid"(method: "PUT", controller: "user", action: "update")
-        // "/admin/users"(method: "POST", controller: "user", action: "save")
-        //"/admin/number/$action?"(controller: "number")
-       // "/admin/user/$action?"(controller: "user")
+        "/admin/users"(controller: "user") { action = [GET:"list", POST:"create"] }
+        "/admin/users/$uid"(controller: "user") { action = [GET:"show", PUT:"update", DELETE:"deleteWithUid"] }
 
         // User dashboard
         "/dashboard"(view: "index", controller: "dashboard")
@@ -30,6 +24,5 @@ class UrlMappings {
 
         // Errors
         "500"(view: '/error')
-        //"/**"(view:'/404')
     }
 }

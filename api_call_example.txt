@@ -21,4 +21,11 @@ curl -i -H "Content-Type: application/json" -X PUT -d '{"accountExpired":false,"
 curl -i -H "Accept: application/json" -H "Content-Type: application/json" -X GET http://localhost:8080/OlaMagic/admin/users
 
 -- get user for given uid
-curl -i -H "Accept: application/json" -H "Content-Type: application/json" -X GET http://localhost:8080/OlaMagic/admin/users/1
+curl -i -H "Accept: application/json" -H "Content-Type: application/json" -X GET http://localhost:8080/OlaMagic/admin/users/admin
+
+-- create new user
+curl -i -H "Content-Type: application/json" -X POST -d '{"uid":"lg","password":"lg","authorities":["ROLE_ADMIN", "ROLE_USER"]}' http://localhost:8080/OlaMagic/admin/users
+
+-- delete user
+curl -i -H "Accept: application/json" -H "Content-Type: application/json" -X DELETE http://localhost:8080/OlaMagic/admin/users/lg
+

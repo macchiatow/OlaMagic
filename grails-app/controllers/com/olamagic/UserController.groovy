@@ -3,6 +3,8 @@ package com.olamagic
 import com.olamagic.auth.SecRole
 import com.olamagic.auth.SecUser
 import com.olamagic.auth.SecUserSecRole
+import com.olamagic.join.UserNumber
+
 import grails.converters.JSON
 
 import static org.springframework.http.HttpStatus.*
@@ -14,7 +16,14 @@ class UserController {
    // static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
 
    def show(String uid){
-        respond SecUser.findByUid(uid)
+       def user =  SecUser.findByUid(uid)
+
+       if (user == null) {
+           notFound()
+           return
+       }
+
+       respond user
    }
 
     def list(Integer max){
@@ -27,7 +36,7 @@ class UserController {
         request.withFormat {
             json {
                 user.properties = request.JSON.findAll { k,v -> k != 'uid' }
-                updateAuthorities(user, request.JSON.authorities)
+                user.updateAuthorities(request.JSON.authorities)
                 render user as JSON
             }
         }
@@ -39,7 +48,10 @@ class UserController {
     }
 
     def create() {
-        respond new SecUser(params)
+        def user = new SecUser(request.JSON)
+        user.save (flush: true)
+        user.updateAuthorities(request.JSON.authorities)
+        render user as JSON
     }
 
     @Transactional
@@ -69,24 +81,6 @@ class UserController {
         }
     }
 
-    def edit(SecUser secUserInstance) {
-        secUserInstance.roles = secUserInstance.authorities
-        respond secUserInstance
-    }
-
-    private updateAuthorities(SecUser secUserInstance, def authorities){
-        secUserInstance.authorities.authority.findAll { !authorities.contains(it) }.each {
-            println "revoking $it"
-            SecUserSecRole.findBySecUserAndSecRole(secUserInstance, SecRole.findByAuthority(it)).delete(flush: true)
-        }
-
-        authorities.findAll { !secUserInstance.authorities.authority.contains(it) }.each {
-            println "granding $it"
-            SecUserSecRole.create secUserInstance, SecRole.findByAuthority(it), true
-        }
-
-    }
-
 //    @Transactional
 //    def update(SecUser secUserInstance) {
 //        println request.format
@@ -114,7 +108,8 @@ class UserController {
 //    }
 
     @Transactional
-    def delete(SecUser secUserInstance) {
+    def deleteWithUid(String uid){
+        def secUserInstance = SecUser.findByUid(uid)
 
         if (secUserInstance == null) {
             notFound()
@@ -122,24 +117,26 @@ class UserController {
         }
 
         SecUserSecRole.findAllBySecUser(secUserInstance)*.delete flush: true
+        UserNumber.findAllBySecUser(secUserInstance)*.delete flush: true
         secUserInstance.delete flush:true
 
         request.withFormat {
             form multipartForm {
-                flash.message = message(code: 'default.deleted.message', args: [message(code: 'SecUser.label', default: 'SecUser'), secUserInstance.id])
-                redirect action:"index", method:"GET"
+                flash.message = message(code: 'default.deleted.message', args: [message(code: 'SecUser.label', default: 'SecUser'), secUserInstance.uid])
+                redirect method:"GET"
             }
-            '*'{ render status: NO_CONTENT }
+            '*'{ render status: OK }
         }
+
     }
 
     protected void notFound() {
         request.withFormat {
-            form multipartForm {
-                flash.message = message(code: 'default.not.found.message', args: [message(code: 'secUser.label', default: 'SecUser'), params.id])
-                redirect action: "index", method: "GET"
+            json { render status: NOT_FOUND }
+            '*' {
+                flash.message = message(code: 'default.not.found.message', args: [message(code: 'secUser.label', default: 'SecUser'), params.uid])
+                redirect method:"GET"
             }
-            '*'{ render status: NOT_FOUND }
         }
     }
 }

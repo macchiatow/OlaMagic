@@ -15,8 +15,6 @@ class SecUser implements Serializable {
 	boolean accountLocked
 	boolean passwordExpired
 
-    List roles = ['ROLE_AMIND']
-
 	SecUser(String uid, String password) {
         super()
 		this.uid = uid
@@ -42,8 +40,16 @@ class SecUser implements Serializable {
 		SecUserSecRole.findAllBySecUser(this)*.secRole
 	}
 
-    Set<SecRole> getMyNumbers() {
-        UserNumber.findAllBySecUser(this)*.number
+    def updateAuthorities(def newAuthorities){
+        this.authorities.authority.findAll { !newAuthorities.contains(it) }.each {
+            println "revoking $it"
+            SecUserSecRole.findBySecUserAndSecRole(this, SecRole.findByAuthority(it)).delete(flush: true)
+        }
+
+        newAuthorities.findAll { !this.authorities.authority.contains(it) }.each {
+            println "granding $it"
+            SecUserSecRole.create this, SecRole.findByAuthority(it), true
+        }
     }
 
 	def beforeInsert() {
@@ -60,7 +66,7 @@ class SecUser implements Serializable {
 		password = springSecurityService?.passwordEncoder ? springSecurityService.encodePassword(password) : password
 	}
 
-	static transients = ['springSecurityService', 'roles']
+	static transients = ['springSecurityService']
 
 	static constraints = {
 		uid blank: false, unique: true

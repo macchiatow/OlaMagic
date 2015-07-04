@@ -18,12 +18,12 @@ class CallController {
         respond callInstance, [status: CREATED]
     }
 
-    def all(Integer max){
+    def list(Integer max){
         params.max = Math.min(max ?: 10, 100)
         respond Call.list(params), model:[numberInstanceCount: Number.count()]
     }
 
-    def allWithUpid(String upid){
+    def listWithUpid(String upid){
         def calls = Call.findAllByNumber(Number.findByUpid(upid))
         println calls
 

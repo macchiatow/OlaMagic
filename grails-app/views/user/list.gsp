@@ -41,7 +41,7 @@
 				<g:each in="${secUserInstanceList}" status="i" var="secUserInstance">
 					<tr class="${(i % 2) == 0 ? 'even' : 'odd'}">
 					
-						<td><g:link action="show" id="${secUserInstance.id}">${fieldValue(bean: secUserInstance, field: "uid")}</g:link></td>
+						<td><g:link url="users/${secUserInstance.uid}" id="${secUserInstance.id}">${fieldValue(bean: secUserInstance, field: "uid")}</g:link></td>
 
 						<td><g:formatBoolean boolean="${secUserInstance.accountExpired}" /></td>
 					
