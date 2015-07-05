@@ -12,6 +12,7 @@ class SecUser implements Serializable {
 	boolean accountExpired
 	boolean accountLocked
 	boolean passwordExpired
+    List<String> _authorities
 
 	SecUser(String uid, String password) {
         super()
@@ -38,13 +39,15 @@ class SecUser implements Serializable {
 		SecUserSecRole.findAllBySecUser(this)*.secRole
 	}
 
-    def updateAuthorities(def newAuthorities){
-        this.authorities?.authority.findAll { !newAuthorities?.contains(it) }.each {
+    def saveWithAuthorities(){
+        this.save()
+
+        this.authorities?.authority.findAll { !_authorities?.contains(it) }.each {
             println "revoking $it"
             SecUserSecRole.findBySecUserAndSecRole(this, SecRole.findByAuthority(it)).delete(flush: true)
         }
 
-        newAuthorities?.findAll { !this.authorities?.authority.contains(it) }.each {
+        _authorities?.findAll { !this.authorities?.authority.contains(it) }.each {
             println "granding $it"
             SecUserSecRole.create this, SecRole.findByAuthority(it), true
         }
@@ -64,7 +67,7 @@ class SecUser implements Serializable {
 		password = springSecurityService?.passwordEncoder ? springSecurityService.encodePassword(password) : password
 	}
 
-	static transients = ['springSecurityService']
+	static transients = ['springSecurityService', '_authorities']
 
 	static constraints = {
 		uid blank: false, unique: true

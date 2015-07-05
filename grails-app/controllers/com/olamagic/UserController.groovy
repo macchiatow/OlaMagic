@@ -14,14 +14,14 @@ class UserController {
    // static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
 
    def show(String uid){
-       def user =  SecUser.findByUid(uid)
+       def userInstance =  SecUser.findByUid(uid)
 
-       if (user == null) {
+       if (userInstance == null) {
            notFound()
            return
        }
 
-       respond user
+       respond userInstance
    }
 
     def list(Integer max){
@@ -29,61 +29,41 @@ class UserController {
         respond SecUser.list(params), model:[secUserInstanceCount: SecUser.count()]
     }
 
-    def update(String uid){
-        SecUser user = SecUser.findByUid(uid);
-        request.withFormat {
-            json {
-                user.properties = request.JSON.findAll { k,v -> k != 'uid' }
-                user.updateAuthorities(request.JSON.authorities)
-                render user as JSON
-            }
-            '*'{
-                user.properties = params
-                def authorities = params.authorities instanceof String ? [] << params.authorities : params.authorities
-                user.save(flush: true)
-                user.updateAuthorities(authorities)
-                flash.message = message(code: 'default.created.message', args: [message(code: 'secUser.label', default: 'SecUser'), uid])
-                redirect method:"GET"
-            }
-        }
-    }
-
-    def create() {
-        request.withFormat {
-            form multipartForm {
-                def secUserInstance = new SecUser(params)
-                def authorities = params.authorities instanceof String ? [] << params.authorities : params.authorities
-                secUserInstance.save(flush: true)
-                secUserInstance.updateAuthorities(authorities)
-                flash.message = message(code: 'default.created.message', args: [message(code: 'secUser.label', default: 'SecUser'), secUserInstance.id])
-                redirect method:"GET"
-            }
-            json {
-                def user = new SecUser(request.JSON)
-                user.save (flush: true)
-                user.updateAuthorities(request.JSON.authorities)
-                render user as JSON
-            }
-            '*' { respond secUserInstance, [status: CREATED] }
-        }
-    }
-
     @Transactional
-    def deleteWithUid(String uid){
-        def secUserInstance = SecUser.findByUid(uid)
+    def update(String uid){
+        def userInstance = SecUser.findByUid(uid);
 
-        if (secUserInstance == null) {
+        if (userInstance == null) {
             notFound()
             return
         }
 
-        SecUserSecRole.findAllBySecUser(secUserInstance)*.delete flush: true
-        UserNumber.findAllBySecUser(secUserInstance)*.delete flush: true
-        secUserInstance.delete flush:true
+        createOrUpdate(userInstance)
+    }
+
+    @Transactional
+    def create() {
+        def userInstance = new SecUser()
+
+        createOrUpdate(userInstance)
+    }
+
+    @Transactional
+    def deleteWithUid(String uid){
+        def userInstance = SecUser.findByUid(uid)
+
+        if (userInstance == null) {
+            notFound()
+            return
+        }
+
+        SecUserSecRole.findAllBySecUser(userInstance)*.delete flush: true
+        UserNumber.findAllBySecUser(userInstance)*.delete flush: true
+        userInstance.delete flush:true
 
         request.withFormat {
             form multipartForm {
-                flash.message = message(code: 'default.deleted.message', args: [message(code: 'SecUser.label', default: 'SecUser'), secUserInstance.uid])
+                flash.message = message(code: 'default.deleted.message', args: [message(code: 'SecUser.label', default: 'SecUser'), uid])
                 redirect method:"GET"
             }
             '*'{ render status: OK }
@@ -99,5 +79,26 @@ class UserController {
                 redirect method:"GET"
             }
         }
+    }
+
+    private createOrUpdate(def instance){
+        request.withFormat {
+            form multipartForm {
+                bindProperties(instance, params).saveWithAuthorities()
+                flash.message = message(code: 'default.created.message', args: [message(code: 'secUser.label', default: 'SecUser'), instance.id])
+                redirect method:"GET"
+            }
+            json {
+                bindProperties(instance, request.JSON).saveWithAuthorities()
+                render instance as JSON
+            }
+            '*' { respond instance, [status: CREATED] }
+        }
+    }
+
+    private bindProperties(def instance, def params){
+        instance.properties = params
+        instance._authorities = params.authorities instanceof String ? [] << params.authorities : params.authorities
+        instance
     }
 }
