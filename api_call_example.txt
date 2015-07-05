@@ -29,3 +29,18 @@ curl -i -H "Content-Type: application/json" -X POST -d '{"uid":"lg","password":"
 -- delete user
 curl -i -H "Accept: application/json" -H "Content-Type: application/json" -X DELETE http://localhost:8080/OlaMagic/admin/users/lg
 
+--------- NumberController
+
+-- list all numbers
+curl -H "Accept: application/json" -H "Content-Type: application/json" -X GET http://localhost:8080/OlaMagic/admin/numbers
+
+-- get number for given upid
+curl -H "Accept: application/json" -H "Content-Type: application/json" -X GET http://localhost:8080/OlaMagic/admin/numbers/0944444
+
+-- create new number
+curl -H "Content-Type: application/json" -X POST -d '{"upid":"0944444"}' http://localhost:8080/OlaMagic/admin/numbers
+
+-- delete number
+curl -H "Accept: application/json" -H "Content-Type: application/json" -X DELETE http://localhost:8080/OlaMagic/admin/numbers/0944444
+
+

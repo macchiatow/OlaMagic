@@ -13,6 +13,10 @@ class UrlMappings {
         "/admin/users"(controller: "user") { action = [GET:"list", POST:"create"] }
         "/admin/users/$uid"(controller: "user") { action = [GET:"show", PUT:"update", DELETE:"deleteWithUid"] }
 
+        "/admin/numbers/new"(controller: "number", view: "new")
+        "/admin/numbers"(controller: "number") { action = [GET:"list", POST:"create"] }
+        "/admin/numbers/$upid"(controller: "number") { action = [GET:"show", DELETE:"deleteWithUpid"] }
+
         // User dashboard
         "/dashboard"(view: "index", controller: "dashboard")
         "/dashboard/call/$action?"(controller: "call")

@@ -12,7 +12,7 @@
 		<div class="nav" role="navigation">
 			<ul>
 				<li><a class="home" href="${createLink(uri: '/')}"><g:message code="default.home.label"/></a></li>
-				<li><g:link class="create" action="create"><g:message code="default.new.label" args="[entityName]" /></g:link></li>
+				<li><g:link class="create" url="${createLink(controller: "number")}/new"><g:message code="default.new.label" args="[entityName]" /></g:link></li>
 			</ul>
 		</div>
 		<div id="list-number" class="content scaffold-list" role="main">
@@ -32,7 +32,7 @@
 				<g:each in="${numberInstanceList}" status="i" var="numberInstance">
 					<tr class="${(i % 2) == 0 ? 'even' : 'odd'}">
 					
-						<td><g:link action="show" id="${numberInstance.id}">${fieldValue(bean: numberInstance, field: "upid")}</g:link></td>
+						<td><g:link url="numbers/${numberInstance.upid}" id="${numberInstance.id}">${fieldValue(bean: numberInstance, field: "upid")}</g:link></td>
 					
 					</tr>
 				</g:each>

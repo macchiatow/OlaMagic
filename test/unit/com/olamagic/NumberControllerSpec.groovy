@@ -1,6 +1,5 @@
 package com.olamagic
 
-import com.olamagic.admin.NumberController
 import grails.test.mixin.*
 import spock.lang.*
 
