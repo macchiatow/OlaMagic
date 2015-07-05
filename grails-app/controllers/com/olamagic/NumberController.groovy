@@ -1,6 +1,9 @@
 package com.olamagic
 
+import com.olamagic.auth.SecUser
+import com.olamagic.join.UserNumber
 import grails.converters.JSON
+
 
 import static org.springframework.http.HttpStatus.*
 import grails.transaction.Transactional
@@ -24,6 +27,27 @@ class NumberController {
     def list(Integer max){
         params.max = Math.min(max ?: 10, 100)
         respond Number.list(params), model:[numberInstanceCount: Number.count()]
+    }
+
+    def listWithUid(String uid){
+        def list = UserNumber.findAllBySecUser(SecUser.findByUid(uid)).number
+
+        request.withFormat {
+            json { render list as JSON }
+            '*'{
+                respond list, view: "list"
+            }
+        }
+    }
+
+    def buy(String uid, String upid){
+        UserNumber.create SecUser.findByUid(uid), Number.findByUpid(upid), true
+        render status: OK
+    }
+
+    def release(String upid){
+        UserNumber.findByNumber(Number.findByUpid(upid)).delete flush: true
+        render status: OK
     }
 
     @Transactional

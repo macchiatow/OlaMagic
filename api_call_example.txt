@@ -43,4 +43,13 @@ curl -H "Content-Type: application/json" -X POST -d '{"upid":"0944444"}' http://
 -- delete number
 curl -H "Accept: application/json" -H "Content-Type: application/json" -X DELETE http://localhost:8080/OlaMagic/admin/numbers/0944444
 
+--------- MyNumber: NumberController
 
+-- get all my numbers
+curl -H "Content-Type: application/json" -X GET http://localhost:8080/OlaMagic/dashboard/togrul/numbers
+
+-- buy number
+curl -H "Content-Type: application/json" -X POST http://localhost:8080/OlaMagic/dashboard/togrul/numbers/0944444
+
+-- release number
+curl -H "Content-Type: application/json" -X DELETE http://localhost:8080/OlaMagic/dashboard/numbers/0944444
