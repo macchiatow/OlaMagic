@@ -19,7 +19,7 @@ class UrlMappings {
 
         // User dashboard
         "/dashboard/$uid/numbers"(action: "listWithUid", controller: "number")
-        "/dashboard/$uid/numbers/$upid"(controller: "number") { action = [POST:"buy"] }
+        "/dashboard/$uid/numbers"(controller: "number") { action = [POST:"buy"] }
         "/dashboard/numbers/$upid"(controller: "number") { action = [DELETE: "release"] }
 
         // Authentication

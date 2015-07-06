@@ -35,19 +35,35 @@ class NumberController {
         request.withFormat {
             json { render list as JSON }
             '*'{
-                respond list, view: "list"
+                respond list, view: "listMyNumbers"
             }
         }
     }
 
-    def buy(String uid, String upid){
-        UserNumber.create SecUser.findByUid(uid), Number.findByUpid(upid), true
-        render status: OK
+    def buy(String uid){
+        request.withFormat {
+            form multipartForm {
+                UserNumber.create SecUser.findByUid(uid), Number.findByUpid(params.upid), true
+                flash.message = message(code: 'default.created.message', args: [message(code: 'number.label', default: 'Number'), instance.id])
+                redirect method:"GET"
+            }
+            json {
+                UserNumber.create SecUser.findByUid(uid), Number.findByUpid(request.JSON.upid), true
+                render status: OK
+            }
+            '*' { respond instance, [status: CREATED] }
+        }
     }
 
     def release(String upid){
         UserNumber.findByNumber(Number.findByUpid(upid)).delete flush: true
-        render status: OK
+
+        request.withFormat {
+            json { render status: OK }
+            '*'{
+                redirect method:"GET"
+            }
+        }
     }
 
     @Transactional
