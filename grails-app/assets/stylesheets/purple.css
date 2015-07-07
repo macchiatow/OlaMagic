@@ -5942,7 +5942,7 @@ form .input-icon::after {
 	background-image: linear-gradient(to top, rgba(212,212,212,0) 0, #d4d4d4 30%, #d4d4d4 70%, rgba(212,212,212,0) 100%)
 }
 form .input-icon.icon-username {
-	background: url("../icon-username.png");
+	background: url("../images/icon-username.png");
 	background-repeat: repeat
 }
 
@@ -5953,7 +5953,7 @@ form .input-icon.icon-username {
 }
 }
 form .input-icon.icon-password {
-	background: url("../icon-password.png");
+	background: url("../images/icon-password.png");
 	background-repeat: repeat
 }
 
