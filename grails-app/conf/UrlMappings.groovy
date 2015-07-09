@@ -23,6 +23,14 @@ class UrlMappings {
         "/dashboard/$uid/numbers"(controller: "number") { action = [GET:"listWithUid", POST:"buy"] }
         "/dashboard/numbers/$upid"(controller: "number") { action = [DELETE: "release"] }
 
+        "/dashboard/$uid/adSources"(controller: "adSource") { action = [GET:"list", POST:"buy"] }
+        "/dashboard/$uid/campaigns"(controller: "campaign") { action = [GET:"list", POST:"buy"] }
+
+        "/dashboard/$uid/reports/$action"(controller: "report")
+
+
+
+
         // Authentication
         "/login/$action?"(controller: "login")
         "/logout/$action?"(controller: "logout")

@@ -12,7 +12,7 @@ class AdSourceController {
 
     static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
 
-    def index(Integer max) {
+    def list(Integer max) {
         params.max = Math.min(max ?: 10, 100)
         def list = UserAdSource.findAllBySecUser(springSecurityService.currentUser)*.adSource.take(Math.min(max ?: 10, 100))
         respond list, model:[adSourceInstanceCount: AdSource.count()]

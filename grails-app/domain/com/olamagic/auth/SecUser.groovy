@@ -14,7 +14,8 @@ class SecUser implements Serializable {
 	boolean passwordExpired
     List<String> _authorities
 
-	SecUser(String uid, String password) {
+
+    SecUser(String uid, String password) {
         super()
 		this.uid = uid
 		this.password = password
