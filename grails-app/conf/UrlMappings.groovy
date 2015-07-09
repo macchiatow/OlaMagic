@@ -20,8 +20,7 @@ class UrlMappings {
         "/admin/numbers/$upid"(controller: "number") { action = [GET:"show", DELETE:"deleteWithUpid"] }
 
         // User dashboard
-        "/dashboard/$uid/numbers"(action: "listWithUid", controller: "number")
-        "/dashboard/$uid/numbers"(controller: "number") { action = [POST:"buy"] }
+        "/dashboard/$uid/numbers"(controller: "number") { action = [GET:"listWithUid", POST:"buy"] }
         "/dashboard/numbers/$upid"(controller: "number") { action = [DELETE: "release"] }
 
         // Authentication
