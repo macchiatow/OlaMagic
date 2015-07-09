@@ -1,10 +1,10 @@
 <html><head>
 
 
-    <title>olamagic · Resources | Heroku</title>
+    <title>olamagic · Resources | OlaMagic</title>
 
-    <link rel="stylesheet" href="https://d1ic07fwm32hlr.cloudfront.net/assets/vendor-1a910d405448ffb460488efb31563600.css">
-    <link rel="stylesheet" href="https://d1ic07fwm32hlr.cloudfront.net/assets/app-c1ff7d1b783dd67d22354e0fa5c82c2d.css">
+    <asset:stylesheet src="app.css" />
+    <asset:stylesheet src="vendor.css" />
 
     <meta name="debugger" content="false">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -18,8 +18,8 @@
 <body class="ember-application">
 
 
-<script src="https://d1ic07fwm32hlr.cloudfront.net/assets/vendor-689036e16f221dcd9fef86d0a2103f92.js"></script>
-<script src="https://d1ic07fwm32hlr.cloudfront.net/assets/dashboard-6257ad31e1347e0e14bd56f7271555f2.js"></script>
+<asset:javascript src="vendor.js"/>
+<asset:javascript src="dashboard.js"/>
 
 
 <div id="ember391" class="ember-view dashboard-wrapper protected-app-resources"><div class="app-wrapper ">

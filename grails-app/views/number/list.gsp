@@ -16,7 +16,8 @@
     </div>
 </div>
 
-    <div class="ember-view editable-table-component table-responsive" id="ember1079"><form>
+    <div class="ember-view editable-table-component table-responsive" id="ember1079">
+        <form>
         <table class="table editable-list collaborator-list">
             <tbody>
             <g:each in="${numberInstanceList}" status="i" var="numberInstance">
