@@ -93,52 +93,72 @@
                                 </span>
 
                                 <div class="media-body sidebar-user-email">
-                                    <h5 class="media-heading">cmeisters@gmail.com <i class="icon icon-caret"></i></h5>
+                                    <h5 class="media-heading">dobromed-m.ru <i class="icon icon-caret"></i></h5>
                                 </div>
                             </a>
                             <ul class="dropdown-menu user-menu list-group">
-                                <li><a id="ember655" class="ember-view" href="/notifications">View Notifications</a>
+                                <li><a id="ember655" class="ember-view" href="/notifications">macchiatow.org</a>
                                 </li>
-                                <li><a id="ember656" class="ember-view" href="/account">Manage Account</a></li>
-
-
-                                <li role="presentation" class="divider"></li>
-                                <li>
-                                    <a id="ember657" class="ember-view" href="/logout">Logout</a>
-                                </li>
+                                <li><a id="ember656" class="ember-view" href="/account">dobromed-m.ru</a></li>
                             </ul>
                         </div>
                     </div>
                 </div>
 
                 <div class="sidebar-container scrollable-content">
-
-                    <div class="personal-apps">
-                        <ul class="sidebar-nav">
-                            <li class="group-menu-item active">
-                                <a id="ember667" class="ember-view sidebar-nav-heading org ${params.controller == 'report'? 'active' : ''}" href="/OlaMagic/dashboard/togrul/reports/reportOne"><i
-                                        class="icon icon-personal-apps"></i>
-                                    Reports
-                                </a>
-                            </li>
-                        </ul>
-                        <ul class="sidebar-nav">
-                            <li class="group-menu-item active">
-                                <a id="ember669" class="ember-view sidebar-nav-heading org ${params.controller == 'number'? 'active' : ''}" href="/OlaMagic/dashboard/togrul/numbers"><i
-                                        class="icon icon-personal-apps"></i>
-                                    PBX
-                                </a>
-                            </li>
-                        </ul>
-                        <ul class="sidebar-nav">
-                            <li class="group-menu-item active">
-                                <a id="ember670" class="ember-view sidebar-nav-heading org
+                    <div class="shortcuts">
+                        <h6>Application</h6>
+                        <div class="personal-apps">
+                            <ul class="sidebar-nav">
+                                <li class="group-menu-item active">
+                                    <a id="ember667" class="ember-view sidebar-nav-heading org ${params.controller == 'report'? 'active' : ''}" href="/OlaMagic/dashboard/togrul/reports/reportOne"><i
+                                            class="icon icon-personal-apps"></i>
+                                        Reports
+                                    </a>
+                                </li>
+                            </ul>
+                            <ul class="sidebar-nav">
+                                <li class="group-menu-item active">
+                                    <a id="ember669" class="ember-view sidebar-nav-heading org ${params.controller == 'number'? 'active' : ''}" href="/OlaMagic/dashboard/togrul/numbers"><i
+                                            class="icon icon-personal-apps"></i>
+                                        PBX
+                                    </a>
+                                </li>
+                            </ul>
+                            <ul class="sidebar-nav">
+                                <li class="group-menu-item active">
+                                    <a id="ember670" class="ember-view sidebar-nav-heading org
                                 ${params.controller == 'adSource' || params.controller == 'campaign' ? 'active' : ''}" href="/OlaMagic/dashboard/togrul/adSources"><i
-                                        class="icon icon-personal-apps"></i>
-                                    Tags
-                                </a>
-                            </li>
-                        </ul>
+                                            class="icon icon-personal-apps"></i>
+                                        Analytics
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="shortcuts">
+                        <h6>Settings</h6>
+
+                        <div class="personal-apps">
+                            <ul class="sidebar-nav">
+                                <li class="group-menu-item ">
+                                    <a id="ember671" class="ember-view sidebar-nav-heading org" href="/OlaMagic/dashboard/togrul/reports/reportOne"><i
+                                            class="icon icon-personal-apps"></i>
+                                        Sites
+                                    </a>
+                                </li>
+                            </ul>
+                            <ul class="sidebar-nav">
+                                <li class="group-menu-item ">
+                                    <a id="ember672" class="ember-view sidebar-nav-heading org" href="/OlaMagic/dashboard/togrul/reports/reportOne"><i
+                                            class="icon icon-personal-apps"></i>
+                                        Working places
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+
                     </div>
 
                 </div>
@@ -178,8 +198,7 @@
                 <div class="app-header flex-grow-1 flex">
 
                     <div class="app-name-container flex-grow-1">
-                        <span class="app-name">olamagic</span>
-                        <i id="ember958" class="ember-view icon favorite-item icon-favorite off"></i>
+                        <span class="app-name">My Best Company Name</span>
                     </div>
 
                 </div>

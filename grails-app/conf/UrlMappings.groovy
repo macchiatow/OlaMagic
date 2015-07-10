@@ -25,8 +25,13 @@ class UrlMappings {
 
         "/dashboard/$uid/adSources"(controller: "adSource") { action = [GET:"list", POST:"buy"] }
         "/dashboard/$uid/campaigns"(controller: "campaign") { action = [GET:"list", POST:"buy"] }
+        "/dashboard/$uid/sites"(controller: "site") { action = [GET:"list"] }
+        "/dashboard/$uid/workspaces/$action"(controller: "workspace")
+
+
 
         "/dashboard/$uid/reports/$action"(controller: "report")
+
 
 
 

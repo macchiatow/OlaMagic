@@ -31,7 +31,7 @@
             <form>
                 <table class="table editable-list collaborator-list">
                     <tbody>
-                    <g:each in="${list}" status="i" var="numberInstance">
+                    <g:each in="${numberInstanceList}" status="i" var="numberInstance">
                         <tr class="ember-view collaborator-item editable-item item-persisted"
                             id="ember109${i}"><td class="avatar icon-cell">
                             <img src="https://gravatar.com/avatar/f94a08169caa7c95ee3f22c897854051?s=96&amp;d=https://dashboard.heroku.com%2Fimages%2Fninja-avatar-48x48.png"
