@@ -8,4 +8,8 @@ class WorkspaceController {
     def settings(){
 
     }
+
+    def access(){
+
+    }
 }

@@ -9,20 +9,20 @@
 <body class="ember-application">
 
 <div id="ember988" class="ember-view nav nav-tabs sub-nav app-nav">
-    <div id="ember997" class="ember-view sub-nav-item"><a id="ember998" class="ember-view"
-                                                          href="adSources"><i
+    <div id="ember997" class="ember-view sub-nav-item"><a id="ember998" class="ember-view "
+                                                          href="reportOne"><i
                 class="icon icon-sub-nav-resources-active"></i>
         <span>Report One</span>
     </a></div>
 
     <div id="ember999" class="ember-view sub-nav-item"><a id="ember1000" class="ember-view active"
-                                                          href="campaigns"><i
+                                                          href="reportTwo"><i
                 class="icon icon-sub-nav-resources-active"></i>
         <span>Report Two</span>
     </a></div>
 
     <div id="ember1001" class="ember-view sub-nav-item"><a id="ember1002" class="ember-view"
-                                                          href="campaigns"><i
+                                                           href="reportThree"><i
                 class="icon icon-sub-nav-resources-active"></i>
         <span>Report Three</span>
     </a></div>

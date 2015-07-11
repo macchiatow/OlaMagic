@@ -2,8 +2,11 @@
 
     <title>olamagic · Resources | OlaMagic</title>
 
-    <asset:stylesheet src="app.css"/>
-    <asset:stylesheet src="vendor.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/3.0.3/normalize.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+
+    <asset:stylesheet src="application.css"/>
+    <asset:javascript src="application.js"/>
 
     <meta name="debugger" content="false">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -16,10 +19,8 @@
 
 <body class="ember-application">
 
-<asset:javascript src="vendor.js"/>
-<asset:javascript src="dashboard.js"/>
-
-<div id="ember391" class="ember-view dashboard-wrapper protected-app-resources"><div class="app-wrapper ">
+<div id="ember391" class="ember-view dashboard-wrapper protected-app-resources">
+    <div class="app-wrapper ">
     <div id="ember427" class="ember-view alert alert-danger text-center offline-status"><p>There's a problem connecting…
         <button class="btn btn-link" data-ember-action="458">Refresh</button></p></div>
 
@@ -39,41 +40,42 @@
 
                         <ul>
                             <li class="active">
-                                <a href="/">
+                                <a href="">
                                     <i class="icon icon-property-dashboard-active"></i>
-                                    <span class="icon-label">Dashboard</span>
+                                    <span class="icon-label">Workspace 1</span>
                                 </a>
                             </li>
                             <li>
-                                <a href="https://postgres.heroku.com/databases">
+                                <a href="">
                                     <i class="icon icon-property-databases"></i>
-                                    <span class="icon-label">Databases</span>
+                                    <span class="icon-label">Workspace 2</span>
                                 </a>
                             </li>
                             <li>
-                                <a href="https://dataclips.heroku.com/">
+                                <a href="">
                                     <i class="icon icon-property-dataclips"></i>
-                                    <span class="icon-label">Dataclips</span>
+                                    <span class="icon-label">Workspace 3</span>
                                 </a>
                             </li>
                             <li>
-                                <a href="https://elements.heroku.com/addons">
+                                <a href="">
                                     <i class="icon icon-property-addons"></i>
-                                    <span class="icon-label">Add-ons</span>
+                                    <span class="icon-label">Workspace 4</span>
                                 </a>
                             </li>
                             <li>
-                                <a href="https://devcenter.heroku.com">
+                                <a href="">
                                     <i class="icon icon-property-docs"></i>
-                                    <span class="icon-label">Docs</span>
+                                    <span class="icon-label">Workspace 5</span>
                                 </a>
                             </li>
                             <li>
-                                <a href="https://help.heroku.com">
+                                <a href="/OlaMagic/dashboard/togrul/workspaces/settings">
                                     <i class="icon icon-property-support"></i>
-                                    <span class="icon-label">Support</span>
+                                    <span class="icon-label">Settings</span>
                                 </a>
                             </li>
+
                         </ul>
 
                     </div>
@@ -82,7 +84,7 @@
 
                 <div class="account allow-if-delinquent">
                     <div class="sidebar-container">
-                        <div class="sidebar-user-section media dropdown">
+                        <div id="ember554" class="sidebar-user-section media dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                                 <span class="avatar">
                                     <img id="ember653" class="ember-view gravatar-icon"
@@ -93,13 +95,14 @@
                                 </span>
 
                                 <div class="media-body sidebar-user-email">
-                                    <h5 class="media-heading">dobromed-m.ru <i class="icon icon-caret"></i></h5>
+                                    <h5 class="media-heading" id="ember553">dobromed-m.ru <i  class="icon icon-caret"></i></h5>
                                 </div>
                             </a>
                             <ul class="dropdown-menu user-menu list-group">
-                                <li><a id="ember655" class="ember-view" href="/notifications">macchiatow.org</a>
+
+                                <li><a id="ember655" class="ember-view" href="">macchiatow.org</a>
                                 </li>
-                                <li><a id="ember656" class="ember-view" href="/account">dobromed-m.ru</a></li>
+                                <li><a id="ember656" class="ember-view" href="">dobromed-m.ru</a></li>
                             </ul>
                         </div>
                     </div>
@@ -143,17 +146,9 @@
                         <div class="personal-apps">
                             <ul class="sidebar-nav">
                                 <li class="group-menu-item ">
-                                    <a id="ember671" class="ember-view sidebar-nav-heading org" href="/OlaMagic/dashboard/togrul/reports/reportOne"><i
+                                    <a id="ember671" class="ember-view sidebar-nav-heading org" href="/OlaMagic/dashboard/togrul/sites"><i
                                             class="icon icon-personal-apps"></i>
                                         Sites
-                                    </a>
-                                </li>
-                            </ul>
-                            <ul class="sidebar-nav">
-                                <li class="group-menu-item ">
-                                    <a id="ember672" class="ember-view sidebar-nav-heading org" href="/OlaMagic/dashboard/togrul/reports/reportOne"><i
-                                            class="icon icon-personal-apps"></i>
-                                        Working places
                                     </a>
                                 </li>
                             </ul>

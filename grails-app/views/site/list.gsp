@@ -11,14 +11,9 @@
     <div id="ember997" class="ember-view sub-nav-item"><a id="ember998" class="ember-view "
                                                           href="adSources"><i
                 class="icon icon-sub-nav-resources-active"></i>
-        <span>Ad Sources</span>
+        <span>Sites</span>
     </a></div>
 
-    <div id="ember999" class="ember-view sub-nav-item"><a id="ember1000" class="ember-view active"
-                                                          href="campaigns"><i
-                class="icon icon-sub-nav-resources-active"></i>
-        <span>Campaign</span>
-    </a></div>
 
 </div>
 

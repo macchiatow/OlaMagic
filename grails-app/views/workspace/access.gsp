@@ -1,16 +1,28 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: togrul
-  Date: 7/10/15
-  Time: 8:40 AM
---%>
-
-<%@ page contentType="text/html;charset=UTF-8" %>
+<!DOCTYPE html>
 <html>
 <head>
-  <title></title>
+
+    <title>olamagic · Resources | Heroku</title>
+    <meta name="layout" content="dashboard">
 </head>
-<body>
+
+<body class="ember-application">
+
+<div id="ember988" class="ember-view nav nav-tabs sub-nav app-nav">
+    <div id="ember997" class="ember-view sub-nav-item"><a id="ember998" class="ember-view "
+                                                          href="settings"><i
+                class="icon icon-sub-nav-settings-active"></i>
+        <span>Settings</span>
+    </a></div>
+
+    <div id="ember999" class="ember-view sub-nav-item"><a id="ember1000" class="ember-view active"
+                                                          href="access"><i
+                class="icon icon-sub-nav-access"></i>
+        <span>Access</span>
+    </a></div>
+
+</div>
+
 
 </body>
 </html>

@@ -18,3 +18,19 @@ if (typeof jQuery !== 'undefined') {
 		});
 	})(jQuery);
 }
+
+$(document).ready(onPageLoad);
+
+
+function onPageLoad() {
+
+    $("#ember630").click(function() {
+        $("#ember391" ).toggleClass("navigator-visible");
+    });
+
+    $("#ember553").click(function() {
+        $("#ember554" ).toggleClass("open");
+    });
+}
+
+

@@ -6,7 +6,7 @@
     <title>OlaMagic | Login</title>
     <asset:stylesheet src="purple.css"/>
     <asset:javascript src="purple.js"/>
-    <asset:javascript src="modernizr.min.js"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.js">
     <meta content="width=device-width, initial-scale=1" name="viewport" />
 </head>
 <body>
