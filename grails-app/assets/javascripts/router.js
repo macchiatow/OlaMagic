@@ -3,3 +3,7 @@
 OlaMagic.Router.map(function() {
     // this.resource('numbers');
 });
+
+OlaMagic.Router.reopen({
+    location: 'history'
+});
