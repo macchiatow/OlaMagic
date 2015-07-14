@@ -5,12 +5,12 @@
 
 
     <div class="nav nav-tabs sub-nav app-nav">
-        <div class="sub-nav-item"><a class="active"
-                                     href="/apps/olamagic/resources"><i
-                class="icon icon-sub-nav-resources-active"></i>
-            <span>My Numbers</span>
-        </a></div>
-
+        <div class="sub-nav-item">
+            {{#link-to 'dashboard.pbx.numbers' }}
+                <i class="icon icon-sub-nav-resources"></i>
+                My Numbers
+            {{/link-to}}
+        </div>
     </div>
 
     {{outlet}}

@@ -1,4 +1,4 @@
-<div class="dashboard-wrapper protected-app-resources">
+<div {{bind-attr class=":dashboard-wrapper :protected-app-resources isShowMissionControl:navigator-visible"}}  >
     <div class="app-wrapper ">
         <div class="alert alert-danger text-center offline-status">
             <p>There's a problem connecting…
@@ -11,17 +11,19 @@
         <div class="sidebar scrollable-container">
             <div id="sidebar" class="sidebar-wrapper">
 
-                {{render "snippets.mission-control"}}
+                {{partial "snippets/mission-control"}}
 
-                {{render "snippets.site-section"}}
+                {{partial "snippets/site-section"}}
 
-                {{render "snippets.navigation"}}
+                {{partial "snippets/navigation"}}
 
             </div>
 
         </div>
 
         <div class="main-panel scrollable-container container-fluid snap-main-panel">
+
+            <button {{action 'showSiteControl'}} ></button>
 
             {{outlet}}
 

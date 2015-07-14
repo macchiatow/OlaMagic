@@ -3,26 +3,27 @@
 
 <div class="main-content">
 
-
     <div class="nav nav-tabs sub-nav app-nav">
-        <div class="sub-nav-item"><a class="active"
-                                     href="/apps/olamagic/resources"><i
-                class="icon icon-sub-nav-resources-active"></i>
-            <span>Report One</span>
-        </a></div>
+        <div class="sub-nav-item">
+            {{#link-to 'dashboard.reports.report-one' }}
+                <i class="icon icon-sub-nav-resources"></i>
+                Report One
+            {{/link-to}}
+        </div>
 
-        <div class="sub-nav-item"><a class="active"
-                                     href="/apps/olamagic/resources"><i
-                class="icon icon-sub-nav-resources-active"></i>
-            <span>Report Two</span>
-        </a></div>
+        <div class="sub-nav-item">
+            {{#link-to 'dashboard.reports.report-two' }}
+                <i class="icon icon-sub-nav-resources"></i>
+                Report Two
+            {{/link-to}}
+        </div>
 
-
-        <div class="sub-nav-item"><a class="active"
-                                     href="/apps/olamagic/resources"><i
-                class="icon icon-sub-nav-resources-active"></i>
-            <span>Report Three</span>
-        </a></div>
+        <div class="sub-nav-item">
+            {{#link-to 'dashboard.reports.report-three' }}
+                <i class="icon icon-sub-nav-resources"></i>
+                Report Three
+            {{/link-to}}
+        </div>
 
 
     </div>

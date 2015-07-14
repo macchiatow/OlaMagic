@@ -3,13 +3,13 @@
 
 <div class="main-content">
 
-
     <div class="nav nav-tabs sub-nav app-nav">
-        <div class="sub-nav-item"><a class="active"
-                                     href="/apps/olamagic/resources"><i
-                class="icon icon-sub-nav-resources-active"></i>
-            <span>Sites</span>
-        </a></div>
+        <div class="sub-nav-item">
+            {{#link-to 'dashboard.sites' }}
+                <i class="icon icon-sub-nav-resources"></i>
+                Sites
+            {{/link-to}}
+        </div>
 
     </div>
 

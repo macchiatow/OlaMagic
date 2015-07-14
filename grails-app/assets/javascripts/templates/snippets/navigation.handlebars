@@ -5,24 +5,26 @@
         <div class="personal-apps">
             <ul class="sidebar-nav">
                 <li class="group-menu-item active">
-                    <a class="sidebar-nav-heading org " href="/OlaMagic/dashboard/togrul/reports/reportOne"><i class="icon icon-personal-apps"></i>
+                    {{#link-to 'dashboard.reports' class="sidebar-nav-heading org"}}
+                        <i class="icon icon-personal-apps"></i>
                         Reports
-                    </a>
+                    {{/link-to}}
                 </li>
             </ul>
             <ul class="sidebar-nav">
                 <li class="group-menu-item active">
-                    <a class="sidebar-nav-heading org active" href="/OlaMagic/dashboard/togrul/numbers"><i class="icon icon-personal-apps"></i>
+                    {{#link-to 'dashboard.pbx' class="sidebar-nav-heading org"}}
+                        <i class="icon icon-personal-apps"></i>
                         PBX
-                    </a>
+                    {{/link-to}}
                 </li>
             </ul>
             <ul class="sidebar-nav">
                 <li class="group-menu-item active">
-                    <a class="sidebar-nav-heading org
-                                " href="/OlaMagic/dashboard/togrul/adSources"><i class="icon icon-personal-apps"></i>
+                    {{#link-to 'dashboard.analytics' class="sidebar-nav-heading org"}}
+                        <i class="icon icon-personal-apps"></i>
                         Analytics
-                    </a>
+                    {{/link-to}}
                 </li>
             </ul>
         </div>
@@ -34,9 +36,10 @@
         <div class="personal-apps">
             <ul class="sidebar-nav">
                 <li class="group-menu-item ">
-                    <a class="sidebar-nav-heading org" href="/OlaMagic/dashboard/togrul/sites"><i class="icon icon-personal-apps"></i>
+                    {{#link-to 'dashboard.sites' class="sidebar-nav-heading org"}}
+                        <i class="icon icon-personal-apps"></i>
                         Sites
-                    </a>
+                    {{/link-to}}
                 </li>
             </ul>
         </div>
