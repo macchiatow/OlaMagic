@@ -8,6 +8,8 @@ class AdSource {
 
     String description
 
+    static belongsTo = [site: Site]
+
     static constraints = {
     }
 }

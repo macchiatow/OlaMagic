@@ -1,5 +1,7 @@
 package com.olamagic.auth
 
+import com.olamagic.Profile
+
 class SecUser implements Serializable {
 
 	private static final long serialVersionUID = 1
@@ -14,6 +16,7 @@ class SecUser implements Serializable {
 	boolean passwordExpired
     List<String> _authorities
 
+    static hasOne = [profile: Profile]
 
     SecUser(String uid, String password) {
         super()

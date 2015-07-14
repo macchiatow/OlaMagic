@@ -6,6 +6,8 @@ class Campaign {
 
     String details
 
+    static belongsTo = [site: Site]
+
     static hasMany = [number: Number]
 
     static constraints = {
