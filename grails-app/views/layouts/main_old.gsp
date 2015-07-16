@@ -4,24 +4,27 @@
 <!--[if IE 8 ]>    <html lang="en" class="no-js ie8"> <![endif]-->
 <!--[if IE 9 ]>    <html lang="en" class="no-js ie9"> <![endif]-->
 <!--[if (gt IE 9)|!(IE)]><!--> <html lang="en" class="no-js"><!--<![endif]-->
-	<head>
-		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-		<title><g:layoutTitle default="Grails"/></title>
-		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<link rel="shortcut icon" href="${assetPath(src: 'favicon.ico')}" type="image/x-icon">
-		<link rel="apple-touch-icon" href="${assetPath(src: 'apple-touch-icon.png')}">
-		<link rel="apple-touch-icon" sizes="114x114" href="${assetPath(src: 'apple-touch-icon-retina.png')}">
-  		<asset:stylesheet src="application.css"/>
-		<asset:javascript src="application.js"/>
-		<g:layoutHead/>
-	</head>
-	<body>
-		<div id="grailsLogo" role="banner"><a href="http://grails.org"><asset:image src="grails_logo.png" alt="Grails"/></a></div>
-		<g:layoutBody/>
-		<div class="footer" role="contentinfo"></div>
-		<div id="spinner" class="spinner" style="display:none;"><g:message code="spinner.alt" default="Loading&hellip;"/></div>
-	</body>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title><g:layoutTitle default="Grails"/></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="${assetPath(src: 'favicon.ico')}" type="image/x-icon">
+    <link rel="apple-touch-icon" href="${assetPath(src: 'apple-touch-icon.png')}">
+    <link rel="apple-touch-icon" sizes="114x114" href="${assetPath(src: 'apple-touch-icon-retina.png')}">
+    <asset:stylesheet src="application.css"/>
+    <asset:javascript src="application.js"/>
+    <g:layoutHead/>
+</head>
+
+<body>
+<div id="grailsLogo" role="banner"><a href="http://grails.org"><asset:image src="grails_logo.png" alt="Grails"/></a>
+</div>
+<g:layoutBody/>
+<div class="footer" role="contentinfo"></div>
+
+<div id="spinner" class="spinner" style="display:none;"><g:message code="spinner.alt" default="Loading&hellip;"/></div>
+</body>
 </html>
 
 <%@ page import="com.olamagic.Number" %>
@@ -29,9 +32,11 @@
 <html><head>
 
     <title>Admin · Access | OlaMagic</title>
-    <link rel="stylesheet" href="https://d1ic07fwm32hlr.cloudfront.net/assets/vendor-a2dcd6f4ae83c80bafad276f475492e0.css">
+    <link rel="stylesheet"
+          href="https://d1ic07fwm32hlr.cloudfront.net/assets/vendor-a2dcd6f4ae83c80bafad276f475492e0.css">
     <link rel="stylesheet" href="https://d1ic07fwm32hlr.cloudfront.net/assets/app-4024e909698d4167b58d47492b43d6aa.css">
-    <meta name="app/config/environment" content="{&quot;modulePrefix&quot;:&quot;app&quot;,&quot;environment&quot;:&quot;production&quot;,&quot;baseURL&quot;:&quot;/&quot;,&quot;locationType&quot;:&quot;auto&quot;,&quot;EmberENV&quot;:{&quot;FEATURES&quot;:{}},&quot;APP&quot;:{}}">
+    <meta name="app/config/environment"
+          content="{&quot;modulePrefix&quot;:&quot;app&quot;,&quot;environment&quot;:&quot;production&quot;,&quot;baseURL&quot;:&quot;/&quot;,&quot;locationType&quot;:&quot;auto&quot;,&quot;EmberENV&quot;:{&quot;FEATURES&quot;:{}},&quot;APP&quot;:{}}">
     <meta name="debugger" content="false">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -50,12 +55,14 @@
 <div class="ember-view dashboard-wrapper protected-app-access" id="ember542"><div class="app-wrapper ">
     <div class="ember-view alert alert-danger text-center offline-status" id="ember584"><p>There's a problem connecting…
         <button data-ember-action="608" class="btn btn-link">Refresh</button></p></div>
+
     <div class="ember-view flash-messages" id="ember595"></div>
+
     <div class="ember-view sidebar scrollable-container" id="ember619">
         <div class="sidebar-wrapper" id="sidebar">
             <div class="ember-view" id="ember669">
                 <div class="sidebar-container property-switcher fixed-top allow-if-delinquent">
-                    <a href="/" class="ember-view" id="ember673">      <i class="icon icon-logo dashboard-logo"></i>
+                    <a href="/" class="ember-view" id="ember673"><i class="icon icon-logo dashboard-logo"></i>
                         <h4 class="dashboard-logo-text">Admin panel</h4>
                     </a>
                 </div>
@@ -65,9 +72,12 @@
                         <div class="sidebar-user-section media dropdown">
                             <a data-toggle="dropdown" class="dropdown-toggle" href="#">
                                 <span class="avatar">
-                                    <img src="https://gravatar.com/avatar/f94a08169caa7c95ee3f22c897854051?s=96&amp;d=https://dashboard.heroku.com%2Fimages%2Fninja-avatar-48x48.png" class="ember-view gravatar-icon" id="ember700" height="32px" width="32px">
+                                    <img src="https://gravatar.com/avatar/f94a08169caa7c95ee3f22c897854051?s=96&amp;d=https://dashboard.heroku.com%2Fimages%2Fninja-avatar-48x48.png"
+                                         class="ember-view gravatar-icon" id="ember700" height="32px" width="32px">
+
                                     <div class="notification-badge "></div>
                                 </span>
+
                                 <div class="media-body sidebar-user-email">
                                     <h5 class="media-heading">cmeisters@gmail.com <i class="icon icon-caret"></i></h5>
                                 </div>
@@ -83,7 +93,6 @@
 
                 <div class="sidebar-container scrollable-content">
 
-
                 </div>
 
             </div>
@@ -93,8 +102,8 @@
 
     <div style="transition: all 0.3s ease 0s;" class="main-panel scrollable-container container-fluid snap-main-panel">
 
-
-        <div data-test-target="sms-nag-banner" style="display:none;" class="ember-view sms-nag-banner" id="ember637"><div class="global-notification is-warning">
+        <div data-test-target="sms-nag-banner" style="display:none;" class="ember-view sms-nag-banner"
+             id="ember637"><div class="global-notification is-warning">
             <p class="pull-left">
                 <i class="icon icon-2fa-sms"></i>
                 We recommend you add a backup phone number for account recovery purposes.
@@ -131,21 +140,24 @@
 
             </div>
 
-
         </div>
 
         <div class="main-content">
 
             <div class="ember-view nav nav-tabs sub-nav app-nav" id="ember851">
 
-
-                <div class="ember-view sub-nav-item" id="ember860"><a href="numbers" class="ember-view ${params.controller == 'number'?'active':''}" id="ember861">  <i class="icon icon-sub-nav-resources"></i>
+                <div class="ember-view sub-nav-item" id="ember860"><a href="numbers"
+                                                                      class="ember-view ${params.controller == 'number' ? 'active' : ''}"
+                                                                      id="ember861"><i
+                            class="icon icon-sub-nav-resources"></i>
                     <span>Numbers</span>
                 </a></div>
 
 
-
-                <div class="ember-view sub-nav-item" id="ember977"><a href="users" class="ember-view ${params.controller == 'user'?'active':''}" id="ember978">  <i class="icon icon-sub-nav-access-active"></i>
+                <div class="ember-view sub-nav-item" id="ember977"><a href="users"
+                                                                      class="ember-view ${params.controller == 'user' ? 'active' : ''}"
+                                                                      id="ember978"><i
+                            class="icon icon-sub-nav-access-active"></i>
                     <span>Access</span>
                 </a></div>
 
@@ -155,10 +167,8 @@
 
         </div>
 
-
     </div>
 
 </div>
-
 
 </div></body></html>

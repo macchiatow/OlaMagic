@@ -1,5 +1,7 @@
 import com.olamagic.Number
-import com.olamagic.auth.*
+import com.olamagic.auth.SecRole
+import com.olamagic.auth.SecUser
+import com.olamagic.auth.SecUserSecRole
 import grails.converters.JSON
 
 class BootStrap {
@@ -20,22 +22,22 @@ class BootStrap {
             SecUserSecRole.create adminUser, adminRole
         }
 
-        JSON.registerObjectMarshaller( SecUser ) {SecUser u ->
+        JSON.registerObjectMarshaller(SecUser) { SecUser u ->
             return [
-                    uid : u.uid,
+                    uid            : u.uid,
                     accountExpired : u.accountExpired,
-                    accountLocked : u.accountLocked,
-                    enabled : u.enabled,
-                    passwordExpired : u.passwordExpired,
-                    authorities : u.authorities*.authority,
-                    class : u.class
+                    accountLocked  : u.accountLocked,
+                    enabled        : u.enabled,
+                    passwordExpired: u.passwordExpired,
+                    authorities    : u.authorities*.authority,
+                    class          : u.class
             ]
         }
 
-        JSON.registerObjectMarshaller( Number ) {Number u ->
+        JSON.registerObjectMarshaller(Number) { Number u ->
             return [
-                    id : u.id,
-                    upid : u.upid
+                    id  : u.id,
+                    upid: u.upid
             ]
         }
     }
