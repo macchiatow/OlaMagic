@@ -2,7 +2,7 @@ class UrlMappings {
 
     static mappings = {
         // Main
-        "/"(view: "/index")
+        "/**"(view: "/index")
 
         // External
         "/external/calls"(controller: "call") { action = [GET:"list", POST:"notifyCall"] }
@@ -29,12 +29,7 @@ class UrlMappings {
         "/dashboard/$uid/workspaces/$action"(controller: "workspace")
 
 
-
         "/dashboard/$uid/reports/$action"(controller: "report")
-
-
-
-
 
         // Authentication
         "/login/$action?"(controller: "login")

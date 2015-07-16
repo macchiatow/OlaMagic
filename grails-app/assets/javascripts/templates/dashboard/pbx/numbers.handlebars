@@ -15,18 +15,19 @@
             <table class="table editable-list domain-list">
                 <tbody>
 
-                <tr class="collaborator-item editable-item item-persisted">
-                    <td >
-                        0944444
-                    </td>
+                {{#each}}
+                    <tr class="collaborator-item editable-item item-persisted">
+                        <td >
+                            {{upid}}
+                        </td>
 
-                    <td class="collaborator-info  show-role">
-                    </td>
+                        <td class="collaborator-info  show-role">
+                        </td>
 
-                    <td class="action-cell"></td>
+                        <td class="action-cell"></td>
 
-                </tr>
-
+                    </tr>
+                {{/each}}
 
                 <tr class="ember-view domain-item editable-item item-added" id="ember2456">
                     <td>

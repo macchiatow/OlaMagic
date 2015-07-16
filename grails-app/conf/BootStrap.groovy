@@ -1,3 +1,4 @@
+import com.olamagic.Number
 import com.olamagic.auth.*
 import grails.converters.JSON
 
@@ -28,6 +29,13 @@ class BootStrap {
                     passwordExpired : u.passwordExpired,
                     authorities : u.authorities*.authority,
                     class : u.class
+            ]
+        }
+
+        JSON.registerObjectMarshaller( Number ) {Number u ->
+            return [
+                    id : u.id,
+                    upid : u.upid
             ]
         }
     }

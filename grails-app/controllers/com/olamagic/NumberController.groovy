@@ -25,8 +25,9 @@ class NumberController {
     }
 
     def list(Integer max){
+        println params
         params.max = Math.min(max ?: 10, 100)
-        respond Number.list(params), model:[numberInstanceCount: Number.count()]
+        render '{"numbers": '+ (Number.list(params) as JSON) +'}'
     }
 
     def listWithUid(String uid){
