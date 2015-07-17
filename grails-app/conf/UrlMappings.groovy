@@ -8,6 +8,10 @@ class UrlMappings {
         "/api/numbers"(controller: "number") { action = [GET: "list", POST: "create"] }
         "/api/numbers/$upid"(controller: "number") { action = [DELETE: "delete"] }
 
+        "/api/users"(controller: "user") { action = [GET: "list", POST: "create"] }
+        "/api/users/$upid"(controller: "user") { action = [DELETE: "delete"] }
+
+
         // External
         "/external/calls"(controller: "call") { action = [GET: "list", POST: "notifyCall"] }
         "/external/numbers/$upid/calls"(controller: "call") { action = [GET: "listWithUpid", DELETE: "deleteWithUpid"] }

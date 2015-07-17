@@ -1,0 +1,27 @@
+{{render "snippets.top-nav"}}
+
+
+<div class="main-content">
+
+    <div class="nav nav-tabs sub-nav app-nav">
+        <div class="sub-nav-item">
+            {{#link-to 'dashboard.workspaces.settings' }}
+                <i class="icon icon-sub-nav-settings"></i>
+                Settings
+            {{/link-to}}
+        </div>
+
+        <div class="sub-nav-item">
+            {{#link-to 'dashboard.workspaces.access' }}
+                <i class="icon icon-sub-nav-access"></i>
+                Access
+            {{/link-to}}
+        </div>
+
+
+
+    </div>
+
+    {{outlet}}
+
+</div>
