@@ -7,6 +7,8 @@ import com.olamagic.auth.SecUser
  */
 class Profile {
 
+    String uid;
+
     static belongsTo = [secUser: SecUser]
 
     static hasMany = [workplaces: Workspace]

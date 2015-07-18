@@ -11,26 +11,30 @@ import static org.springframework.http.HttpStatus.*
 @Transactional(readOnly = true)
 class UserController {
 
-   // static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
+    // static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
 
-   def show(String uid){
-       def userInstance =  SecUser.findByUid(uid)
+    def show(String uid) {
+        def userInstance = SecUser.findByUid(uid)
 
-       if (userInstance == null) {
-           notFound()
-           return
-       }
+        if (userInstance == null) {
+            notFound()
+            return
+        }
 
-       respond userInstance
-   }
+        respond userInstance
+    }
 
-    def list(Integer max){
+    def listWorkspaces(String uid) {
+        render (["workspaces": Profile.findByUid(uid)?.workplaces] as JSON)
+    }
+
+    def list(Integer max) {
         params.max = Math.min(max ?: 10, 100)
-        respond SecUser.list(params), model:[secUserInstanceCount: SecUser.count()]
+        respond SecUser.list(params), model: [secUserInstanceCount: SecUser.count()]
     }
 
     @Transactional
-    def update(String uid){
+    def update(String uid) {
         def userInstance = SecUser.findByUid(uid);
 
         if (userInstance == null) {
@@ -49,7 +53,7 @@ class UserController {
     }
 
     @Transactional
-    def deleteWithUid(String uid){
+    def deleteWithUid(String uid) {
         def userInstance = SecUser.findByUid(uid)
 
         if (userInstance == null) {
@@ -59,14 +63,14 @@ class UserController {
 
         SecUserSecRole.findAllBySecUser(userInstance)*.delete flush: true
         UserNumber.findAllBySecUser(userInstance)*.delete flush: true
-        userInstance.delete flush:true
+        userInstance.delete flush: true
 
         request.withFormat {
             form multipartForm {
                 flash.message = message(code: 'default.deleted.message', args: [message(code: 'SecUser.label', default: 'SecUser'), uid])
-                redirect method:"GET"
+                redirect method: "GET"
             }
-            '*'{ render status: OK }
+            '*' { render status: OK }
         }
 
     }
@@ -76,17 +80,17 @@ class UserController {
             json { render status: NOT_FOUND }
             '*' {
                 flash.message = message(code: 'default.not.found.message', args: [message(code: 'secUser.label', default: 'SecUser'), params.uid])
-                redirect method:"GET"
+                redirect method: "GET"
             }
         }
     }
 
-    private createOrUpdate(def instance){
+    private createOrUpdate(def instance) {
         request.withFormat {
             form multipartForm {
                 bindProperties(instance, params).saveWithAuthorities()
                 flash.message = message(code: 'default.created.message', args: [message(code: 'secUser.label', default: 'SecUser'), instance.id])
-                redirect method:"GET"
+                redirect method: "GET"
             }
             json {
                 bindProperties(instance, request.JSON).saveWithAuthorities()
@@ -96,7 +100,7 @@ class UserController {
         }
     }
 
-    private bindProperties(def instance, def params){
+    private bindProperties(def instance, def params) {
         instance.properties = params
         instance._authorities = params.authorities instanceof String ? [] << params.authorities : params.authorities
         instance
