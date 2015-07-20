@@ -1,4 +1,5 @@
 import com.olamagic.Number
+import com.olamagic.Site
 import com.olamagic.auth.SecRole
 import com.olamagic.auth.SecUser
 import com.olamagic.auth.SecUserSecRole
@@ -31,6 +32,14 @@ class BootStrap {
                     passwordExpired: u.passwordExpired,
                     authorities    : u.authorities*.authority,
                     class          : u.class
+            ]
+        }
+
+        JSON.registerObjectMarshaller(Site) { Site s ->
+            return [
+                    details        : s.details,
+                    username       : s.name,
+                    class          : s.class
             ]
         }
 
