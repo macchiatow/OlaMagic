@@ -8,6 +8,14 @@
     <div id="property-navigator" class="dropdown-menu">
 
         <ul>
+            {{#each item in model}}
+                <li class="active">
+                    <a href="">
+                        <i class="icon icon-property-dashboard-active"></i>
+                        <span class="icon-label">{{item}}</span>
+                    </a>
+                </li>
+            {{/each}}
             <li class="active">
                 <a href="">
                     <i class="icon icon-property-dashboard-active"></i>

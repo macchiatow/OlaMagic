@@ -1,3 +1,4 @@
+//= require_tree ./adapters
 //= require_tree ./services
 //= require_tree ./mixins
 //= require_tree ./models

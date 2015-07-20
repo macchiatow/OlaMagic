@@ -1,8 +1,7 @@
-OlaMagic.ApplicationStore = DS.Store.extend({
+OlaMagic.StoreService = DS.Store.extend({
 });
 
 OlaMagic.ApplicationAdapter = DS.RESTAdapter.extend({
-    namespace : 'api',
-    host : 'http://localhost:8080'
-
+    namespace : 'api'
 });
+

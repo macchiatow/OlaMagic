@@ -2,7 +2,7 @@
  * Created by togrul on 7/15/15.
  */
 
-OlaMagic.DashboardController = Ember.ObjectController.extend({
+OlaMagic.DashboardController = Ember.Controller.extend({
     isShowMissionControl: false,
     isShowSiteControl: false,
     currentSite: "Site...",

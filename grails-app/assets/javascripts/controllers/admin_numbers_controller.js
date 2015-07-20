@@ -1,4 +1,4 @@
-OlaMagic.AdminNumbersController = Ember.ArrayController.extend({
+OlaMagic.AdminNumbersController = Ember.Controller.extend({
     isEditing: false,
 
     actions: {
