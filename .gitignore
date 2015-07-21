@@ -21,3 +21,19 @@ web-app/WEB-INF/tld/fmt.tld
 *.iml
 h2
 *.log
+
+# compiled output
+/ember-app/dist
+/ember-app/tmp
+
+# dependencies
+/ember-app/node_modules
+/ember-app/bower_components
+
+# misc
+/.sass-cache
+/connect.lock
+/coverage/*
+/libpeerconnection.log
+npm-debug.log
+testem.log
