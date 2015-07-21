@@ -1,4 +1,4 @@
-<div {{bind-attr class=":dashboard-wrapper :protected-app-resources isShowMissionControl:navigator-visible"}}  >
+<div {{bind-attr class="dashboard-wrapper protected-app-resources isShowMissionControl:navigator-visible"}}  >
     <div class="app-wrapper ">
         <div class="alert alert-danger text-center offline-status">
             <p>There's a problem connecting…
@@ -11,11 +11,58 @@
         <div class="sidebar scrollable-container">
             <div id="sidebar" class="sidebar-wrapper">
 
-                {{partial "snippets/workspace-control"}}
+                <div class="sidebar-container property-switcher fixed-top allow-if-delinquent">
+                    <a href="/"><i class="icon icon-logo dashboard-logo"></i>
+                        <h4 class="dashboard-logo-text">Dashboard</h4>
+                    </a>
 
-                {{partial "snippets/site-section"}}
+                    <div class="navigator-toggle icon icon-navigator-toggle" {{action 'showMissionControl'}} ></div>
 
-                {{partial "snippets/navigation"}}
+                    <div id="property-navigator" class="dropdown-menu">
+
+                        <ul>
+                            <li class="active">
+                                <a href="">
+                                    <i class="icon icon-property-dashboard-active"></i>
+                                    <span class="icon-label">Workspace 1</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="">
+                                    <i class="icon icon-property-databases"></i>
+                                    <span class="icon-label">Workspace 2</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="">
+                                    <i class="icon icon-property-dataclips"></i>
+                                    <span class="icon-label">Workspace 3</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="">
+                                    <i class="icon icon-property-addons"></i>
+                                    <span class="icon-label">Workspace 4</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="">
+                                    <i class="icon icon-property-docs"></i>
+                                    <span class="icon-label">Workspace 5</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/OlaMagic/dashboard/togrul/workspaces/settings">
+                                    <i class="icon icon-property-support"></i>
+                                    <span class="icon-label">Settings</span>
+                                </a>
+                            </li>
+
+                        </ul>
+
+                    </div>
+
+                </div>
 
             </div>
 

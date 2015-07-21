@@ -4,7 +4,7 @@
 OlaMagic.DashboardRoute = Ember.Route.extend({
     model: function(params) {
         console.log(params);
-        return this.store.query('workspace', {user: ':uid'});
+        return null;//this.store.query('workspace', {user: ':uid'});
     }
 
 });
