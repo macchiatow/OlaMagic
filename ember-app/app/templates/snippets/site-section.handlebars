@@ -1,0 +1,27 @@
+<div class="account allow-if-delinquent">
+    <div class="sidebar-container">
+        <div class="sidebar-user-section media dropdown {{isShowSiteControl:open}}">
+            <a href="#" class="dropdown-toggle" {{action 'showSiteControl'}}>
+                                    <span class="avatar">
+                                        <img class="gravatar-icon"
+                                             src="https://gravatar.com/avatar/f94a08169caa7c95ee3f22c897854051?s=96&amp;d=https://dashboard.heroku.com%2Fimages%2Fstatic%2Fninja-avatar-48x48.png"
+                                             >
+
+                                        <div class="notification-badge "></div>
+                                    </span>
+
+                <div class="media-body sidebar-user-email">
+                    <h5 class="media-heading"  >
+                      {{currentSite}}  Site
+                        <i class="icon icon-caret"></i>
+                    </h5>
+                </div>
+            </a>
+            <ul class="dropdown-menu user-menu list-group">
+
+                <li><a href="#" {{action "selectSite" "macchiatow.org"}}>macchiatow.org</a></li>
+                <li><a href="#" {{action "selectSite" "dobromed-m.ru"}}>dobromed-m.ru</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
