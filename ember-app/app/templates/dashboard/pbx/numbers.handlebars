@@ -14,11 +14,10 @@
         <form>
             <table class="table editable-list domain-list">
                 <tbody>
-
-                {{#each}}
+                {{#each item in model}}
                     <tr class="collaborator-item editable-item item-persisted">
                         <td >
-                            {{upid}}
+                            {{item.upid}}
                         </td>
 
                         <td class="collaborator-info  show-role">

@@ -32,9 +32,6 @@ Router.map(function () {
     this.route('numbers');
     this.route('users');
   });
-  this.route('admin-numbers');
-  this.route('admin-users');
-  this.route('dashboard-pbx-numbers');
 });
 
 export default Router;
