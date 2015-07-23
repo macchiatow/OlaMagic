@@ -25,7 +25,7 @@ class UserController {
     }
 
     def listWorkspaces(String uid) {
-        render (["workspaces": Profile.findByUid(uid)?.workplaces] as JSON)
+        render '{"workspaces": [{"id":1, "title":"WS01"}, {"id":2, "title":"WS02"}] }'
     }
 
     def list(Integer max) {
