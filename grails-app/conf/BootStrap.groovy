@@ -1,4 +1,5 @@
 import com.olamagic.Number
+import com.olamagic.Profile
 import com.olamagic.Site
 import com.olamagic.auth.SecRole
 import com.olamagic.auth.SecUser
@@ -15,9 +16,10 @@ class BootStrap {
         SecRole.findByAuthority('ROLE_API_USER') ?: new SecRole(authority: 'ROLE_API_USER').save(failOnError: true)
 
         def adminUser = SecUser.findByUid('admin') ?: new SecUser(
-                username: 'admin',
+                uid: 'admin',
                 password: 'admin',
-                enabled: true).save(failOnError: true)
+                enabled: true,
+                profile: new Profile()).save(failOnError: true)
 
         if (!adminUser.authorities.contains(adminRole)) {
             SecUserSecRole.create adminUser, adminRole
