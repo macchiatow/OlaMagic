@@ -5,6 +5,7 @@ module.exports = function(environment) {
     modulePrefix: 'ember-app',
     environment: environment,
     baseURL: '/',
+    API_HOST: '/',
     locationType: 'auto',
     EmberENV: {
       FEATURES: {
@@ -20,6 +21,7 @@ module.exports = function(environment) {
   };
 
   if (environment === 'development') {
+    ENV.API_HOST = 'http://localhost:8080';
     // ENV.APP.LOG_RESOLVER = true;
     // ENV.APP.LOG_ACTIVE_GENERATION = true;
     // ENV.APP.LOG_TRANSITIONS = true;

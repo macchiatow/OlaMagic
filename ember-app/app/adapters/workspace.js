@@ -1,9 +1,9 @@
 import DS from 'ember-data';
+import config from '../config/environment';
 
 export default DS.RESTAdapter.extend({
-    namespace : 'api/users',
-    host : 'http://localhost:8080',
-
+    namespace: 'api/users',
+    host: config.API_HOST,
     urlForQuery: function(query, modelName){
         var url = [this.host, this.namespace, query.user, Ember.String.pluralize(modelName)];
         delete query.user;
