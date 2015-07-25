@@ -13,11 +13,13 @@ class NumberController {
 
     //static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
 
+    static responseFormats = ['json']
+
     def show(String upid){
         def instance =  Number.findByUpid(upid)
 
         if (instance == null) {
-            notFound()
+            respond status: NOT_FOUND
             return
         }
 
@@ -25,7 +27,6 @@ class NumberController {
     }
 
     def list(Integer max){
-        println params
         params.max = Math.min(max ?: 10, 100)
         render (["numbers": Number.list(params)] as JSON)
     }
@@ -42,18 +43,8 @@ class NumberController {
     }
 
     def buy(String uid){
-        request.withFormat {
-            form multipartForm {
-                UserNumber.create SecUser.findByUid(uid), Number.findByUpid(params.upid), true
-                flash.message = message(code: 'default.created.message', args: [message(code: 'number.label', default: 'Number'), instance.id])
-                redirect method:"GET"
-            }
-            json {
-                UserNumber.create SecUser.findByUid(uid), Number.findByUpid(request.JSON.upid), true
-                render status: OK
-            }
-            '*' { respond instance, [status: CREATED] }
-        }
+        UserNumber.create SecUser.findByUid(uid), Number.findByUpid(request.JSON.upid), true
+        respond instance, [status: CREATED]
     }
 
     def release(String upid){
@@ -69,9 +60,8 @@ class NumberController {
 
     @Transactional
     def create() {
-        def instance = new Number()
-
-        createOrUpdate(instance)
+        def instance = new Number(request.JSON).save flush: true
+        respond instance, [status: CREATED]
     }
 
     @Transactional
@@ -79,49 +69,12 @@ class NumberController {
         def instance = Number.findByUpid(upid)
 
         if (instance == null) {
-            notFound()
+            respond status: NOT_FOUND
             return
         }
 
         instance.delete flush:true
-
-        request.withFormat {
-            form multipartForm {
-                flash.message = message(code: 'default.deleted.message', args: [message(code: 'Number.label', default: 'Number'), upid])
-                redirect method:"GET"
-            }
-            '*'{ render status: OK }
-        }
-
+        respond status: OK
     }
 
-    private createOrUpdate(def instance){
-        request.withFormat {
-            form multipartForm {
-                bindProperties(instance, params).save flush: true
-                flash.message = message(code: 'default.created.message', args: [message(code: 'number.label', default: 'Number'), instance.id])
-                redirect method:"GET"
-            }
-            json {
-                bindProperties(instance, request.JSON).save flush: true
-                render instance as JSON
-            }
-            '*' { respond instance, [status: CREATED] }
-        }
-    }
-
-    protected void notFound() {
-        request.withFormat {
-            form multipartForm {
-                flash.message = message(code: 'default.not.found.message', args: [message(code: 'number.label', default: 'Number'), params.id])
-                redirect method: "GET"
-            }
-            '*'{ render status: NOT_FOUND }
-        }
-    }
-
-    private bindProperties(def instance, def params){
-        instance.properties = params
-        instance
-    }
 }

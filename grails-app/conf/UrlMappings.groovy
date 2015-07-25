@@ -1,12 +1,10 @@
 class UrlMappings {
 
     static mappings = {
-        // Main
-        "/**"(view: "/index")
 
         // API
         "/api/numbers"(controller: "number") { action = [GET: "list", POST: "create"] }
-        "/api/numbers/$upid"(controller: "number") { action = [DELETE: "delete"] }
+        "/api/numbers/$upid"(controller: "number") { action = [DELETE: "deleteWithUpid"] }
 
         "/api/users"(controller: "user") { action = [GET: "list", POST: "create"] }
         "/api/users/$upid"(controller: "user") { action = [DELETE: "delete"] }
@@ -36,5 +34,8 @@ class UrlMappings {
 
         // Errors
         "500"(view: '/error')
+
+        // Main
+        "/**"(view: "/index")
     }
 }

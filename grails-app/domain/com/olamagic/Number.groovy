@@ -15,9 +15,9 @@ class Number {
     }
 
     static mapping = {
-        unique:['upid']
     }
 
     static constraints = {
+        upid unique: true
     }
 }
