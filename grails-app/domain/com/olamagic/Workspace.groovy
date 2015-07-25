@@ -9,6 +9,6 @@ class Workspace {
 
     static hasOne = [owner: Profile]
 
-    static hasMany = [myNumbers: Number, sites: Site]
+    static hasMany = [myNumbers: Number, sites: Site, contributors: Profile]
 
 }

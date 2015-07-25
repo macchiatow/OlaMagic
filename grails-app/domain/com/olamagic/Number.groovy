@@ -1,18 +1,14 @@
 package com.olamagic
 
-import com.olamagic.join.UserNumber
-
 class Number {
 
     String upid
 
     static hasMany = [calls: Call]
 
-    static transients = ['calls']
+    static hasOne = [workspace: Workspace, adSource: AdSource, campaign: Campaign]
 
-    Set<Number> getAllAvailableNumbers(){
-        Number.all.findAll { !UserNumber.all*.number.contains(it) }
-    }
+    static transients = ['calls']
 
     static mapping = {
     }

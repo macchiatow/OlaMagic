@@ -2,31 +2,49 @@ class UrlMappings {
 
     static mappings = {
 
-        // API
+        // Users
+        "/api/users"(controller: "user") { action = [GET: "list", POST: "create"] }
+        "/api/users/$upid"(controller: "user") { action = [DELETE: "delete", PUT: "update"] }
+
+        // Workspaces
+        "/api/users/$uid/workspaces"(controller: "workspace") { action = [GET: "list", POST: "create"] }
+        "/api/users/$uid/workspaces/$wid"(controller: "workspace") { action = [UPDATE: "update"] }
+        "/api/users/$uid/workspaces/$wid/subscribe"(controller: "workspace") { action = [POST: "subscribe"] }
+        "/api/users/$uid/workspaces/$wid/unsubscribe"(controller: "workspace") { action = [POST: "unsubscribe"] }
+        "/api/users/$uid/workspaces/$wid/change_owner"(controller: "workspace") { action = [POST: "changeOwner"] }
+
+        // Numbers
         "/api/numbers"(controller: "number") { action = [GET: "list", POST: "create"] }
         "/api/numbers/$upid"(controller: "number") { action = [DELETE: "deleteWithUpid"] }
+        "/api/numbers/$upid/release"(controller: "number") { action = [DELETE: "deleteWithUpid"] }
+        "/api/workspaces/$wid/numbers"(controller: "number") { action = [GET: "listWithUid", POST: "buy"] }
+        "/api/workspaces/$wid/numbers/$upid/buy"(controller: "number") { action = [GET: "listWithUid", POST: "buy"] }
 
-        "/api/users"(controller: "user") { action = [GET: "list", POST: "create"] }
-        "/api/users/$upid"(controller: "user") { action = [DELETE: "delete"] }
-        "/api/users/$uid/workspaces"(controller: "user") { action = [GET: "listWorkspaces"] }
+        // Calls
+        "/api/numbers/$upid/calls"(controller: "call") { action = [GET: "list", POST: "notifyCall"] }
+        "/api/numbers/$upid/calls/$cid"(controller: "call") { action = [DELETE: "delete"] }
 
+        // Sites
+        "/api/workspaces/$wid/sites"(controller: "site") { action = [GET: "list", POST: "create"] }
+        "/api/workspaces/$wid/sites/$sid"(controller: "site") { action = [DELETE: "delete", PUT: "update"] }
 
+        // AdSources
+        "/api/sites/$sid/ad_sources"(controller: "adSource") { action = [GET: "list", POST: "create"] }
+        "/api/sites/$sid/ad_sources/$aid"(controller: "adSource") { action = [DELETE: "delete", PUT: "update"] }
+        "/api/ad_sources/$aid/numbers"(controller: "adSource") { action = [GET: "list"] }
+        "/api/ad_sources/$aid/numbers/$upid/add"(controller: "adSource") { action = [POST: "list"] }
+        "/api/ad_sources/$aid/numbers/$upid/remove"(controller: "adSource") { action = [POST: "list"] }
 
-        // External
-        "/external/calls"(controller: "call") { action = [GET: "list", POST: "notifyCall"] }
-        "/external/numbers/$upid/calls"(controller: "call") { action = [GET: "listWithUpid", DELETE: "deleteWithUpid"] }
+        // Campaign
+        "/api/sites/$sid/campaigns"(controller: "adSource") { action = [GET: "list", POST: "create"] }
+        "/api/sites/$sid/campaigns/$caid"(controller: "adSource") { action = [DELETE: "delete", PUT: "update"] }
+        "/api/campaigns/$aid/numbers"(controller: "adSource") { action = [GET: "list"] }
+        "/api/campaigns/$aid/numbers/$upid/add"(controller: "adSource") { action = [POST: "list"] }
+        "/api/campaigns/$aid/numbers/$upid/remove"(controller: "adSource") { action = [POST: "list"] }
 
-        // User dashboard
-        "/dashboard/$uid/numbers"(controller: "number") { action = [GET: "listWithUid", POST: "buy"] }
-        "/dashboard/numbers/$upid"(controller: "number") { action = [DELETE: "release"] }
-
-        "/dashboard/$uid/adSources"(controller: "adSource") { action = [GET: "list", POST: "buy"] }
-        "/dashboard/$uid/campaigns"(controller: "campaign") { action = [GET: "list", POST: "buy"] }
-        "/dashboard/$uid/sites"(controller: "site") { action = [GET: "list"] }
-        "/dashboard/$uid/workspaces/$action"(controller: "workspace")
-
-
-        "/dashboard/$uid/reports/$action"(controller: "report")
+        // Reports
+        "/api/reports"(controller: "report")
+        "/api/sites/$sid/reports/$rname"(controller: "report")
 
         // Authentication
         "/login/$action?"(controller: "login")
@@ -34,6 +52,9 @@ class UrlMappings {
 
         // Errors
         "500"(view: '/error')
+
+        // DB Debug
+        "/dbconsole"(view: "/dbconsole")
 
         // Main
         "/**"(view: "/index")

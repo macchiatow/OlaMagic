@@ -4,7 +4,7 @@ class Campaign {
 
     String name
 
-    String details
+    String description
 
     static belongsTo = [site: Site]
 

@@ -1,7 +1,5 @@
 package com.olamagic
 
-import com.olamagic.auth.SecUser
-
 class AdSource {
 
     String name
@@ -9,6 +7,8 @@ class AdSource {
     String description
 
     static belongsTo = [site: Site]
+
+    static hasMany = [number: Number]
 
     static constraints = {
     }
