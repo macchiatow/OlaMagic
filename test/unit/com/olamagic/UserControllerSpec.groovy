@@ -6,25 +6,29 @@ import com.olamagic.auth.SecUserSecRole
 import com.olamagic.util.JsonWrapper
 import grails.test.mixin.Mock
 import grails.test.mixin.TestFor
+import org.springframework.http.HttpStatus
 import spock.lang.Specification
 
+import static org.springframework.http.HttpStatus.NOT_FOUND
+import static org.springframework.http.HttpStatus.OK
+
 @TestFor(UserController)
-@Mock([SecUser,Profile,Workspace])
+@Mock([SecUser, SecUserSecRole, Profile, Workspace])
 class UserControllerSpec extends Specification {
 
     def populateValidParams(params) {
         assert params != null
-        // TODO: Populate valid properties like...
-        //params["name"] = 'someValidName'
+        params.uid = 'someValidName'
+        params.password = 'someValidPassword'
     }
 
     void "Test the 'list' action returns the correct model"() {
         when:"A domain instance is created"
-            def user = new SecUser(
-                        uid: 'admin',
-                        password: 'admin',
-                        enabled: true,
-                        profile: new Profile()).save flush: true
+        def user = new SecUser(
+                uid: 'admin',
+                password: 'admin',
+                enabled: true,
+                profile: new Profile()).save flush: true
 
         then:"It exists"
             SecUser.count() == 1
@@ -139,28 +143,28 @@ class UserControllerSpec extends Specification {
 
     void "Test that the delete action deletes an instance if it exists"() {
         when:"The delete action is called for a null instance"
-            request.contentType = FORM_CONTENT_TYPE
+            request.contentType = JSON_CONTENT_TYPE
             request.method = 'DELETE'
             controller.delete(null)
 
         then:"A 404 is returned"
-            response.redirectedUrl == '/secUser/index'
-            flash.message != null
+            response.status == 404
 
         when:"A domain instance is created"
             response.reset()
             populateValidParams(params)
-            def secUser = new SecUser(params).save(flush: true)
+            def secUser = new SecUser(params)
+            secUser.profile = new Profile()
+            secUser.save(flush: true)
 
         then:"It exists"
             SecUser.count() == 1
 
         when:"The domain instance is passed to the delete action"
-            controller.delete(secUser)
+           controller.delete(params.uid)
 
         then:"The instance is deleted"
             SecUser.count() == 0
-            response.redirectedUrl == '/secUser/index'
-            flash.message != null
+            response.status == 200
     }
 }

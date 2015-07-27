@@ -11,4 +11,8 @@ class Profile {
 
     static hasMany = [workplaces: Workspace]
 
+    static constraints = {
+      	workplaces minSize: 1
+   }
+
 }

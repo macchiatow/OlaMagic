@@ -56,26 +56,18 @@ class UserController {
     }
 
     @Transactional
-    def deleteWithUid(String uid) {
+    def delete(String uid) {
         def userInstance = SecUser.findByUid(uid)
 
         if (userInstance == null) {
-            notFound()
+            render status: NOT_FOUND
             return
         }
 
         SecUserSecRole.findAllBySecUser(userInstance)*.delete flush: true
-        UserNumber.findAllBySecUser(userInstance)*.delete flush: true
         userInstance.delete flush: true
 
-        request.withFormat {
-            form multipartForm {
-                flash.message = message(code: 'default.deleted.message', args: [message(code: 'SecUser.label', default: 'SecUser'), uid])
-                redirect method: "GET"
-            }
-            '*' { render status: OK }
-        }
-
+        render status: OK
     }
 
     protected void notFound() {
