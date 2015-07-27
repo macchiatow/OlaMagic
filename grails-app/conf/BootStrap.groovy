@@ -1,6 +1,7 @@
 import com.olamagic.Number
 import com.olamagic.Profile
 import com.olamagic.Site
+import com.olamagic.Workspace
 import com.olamagic.auth.SecRole
 import com.olamagic.auth.SecUser
 import com.olamagic.auth.SecUserSecRole
@@ -19,7 +20,7 @@ class BootStrap {
                 uid: 'admin',
                 password: 'admin',
                 enabled: true,
-                profile: new Profile()).save(failOnError: true)
+                profile: new Profile(workplaces: [new Workspace(title: 'WS01')])).save(failOnError: true)
 
         if (!adminUser.authorities.contains(adminRole)) {
             SecUserSecRole.create adminUser, adminRole
@@ -49,6 +50,13 @@ class BootStrap {
             return [
                     id  : u.id,
                     upid: u.upid
+            ]
+        }
+
+        JSON.registerObjectMarshaller(Workspace) { Workspace w ->
+            return [
+                    id  : w.id,
+                    title: w.title
             ]
         }
     }

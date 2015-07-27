@@ -6,12 +6,15 @@ import com.olamagic.join.UserNumber
 import grails.converters.JSON
 import grails.transaction.Transactional
 
+import static com.olamagic.util.JsonWrapper.getToJson
 import static org.springframework.http.HttpStatus.*
 
 @Transactional(readOnly = true)
 class UserController {
 
     // static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
+
+    static responseFormats = ['json']
 
     def show(String uid) {
         def userInstance = SecUser.findByUid(uid)
@@ -30,7 +33,7 @@ class UserController {
 
     def list(Integer max) {
         params.max = Math.min(max ?: 10, 100)
-        respond SecUser.list(params), model: [secUserInstanceCount: SecUser.count()]
+        render toJson('users', SecUser.list(params))
     }
 
     @Transactional

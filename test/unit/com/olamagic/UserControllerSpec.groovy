@@ -1,11 +1,15 @@
-package com.olamagic.auth
+package com.olamagic
 
-import com.olamagic.UserController
-import grails.test.mixin.*
-import spock.lang.*
+import com.olamagic.auth.SecRole
+import com.olamagic.auth.SecUser
+import com.olamagic.auth.SecUserSecRole
+import com.olamagic.util.JsonWrapper
+import grails.test.mixin.Mock
+import grails.test.mixin.TestFor
+import spock.lang.Specification
 
 @TestFor(UserController)
-@Mock(SecUser)
+@Mock([SecUser,Profile,Workspace])
 class UserControllerSpec extends Specification {
 
     def populateValidParams(params) {
@@ -14,14 +18,25 @@ class UserControllerSpec extends Specification {
         //params["name"] = 'someValidName'
     }
 
-    void "Test the index action returns the correct model"() {
+    void "Test the 'list' action returns the correct model"() {
+        when:"A domain instance is created"
+            def user = new SecUser(
+                        uid: 'admin',
+                        password: 'admin',
+                        enabled: true,
+                        profile: new Profile()).save flush: true
+
+        then:"It exists"
+            SecUser.count() == 1
 
         when:"The index action is executed"
-            controller.index()
+            request.method = 'GET'
+            response.format = 'json'
+            controller.list()
 
         then:"The model is correct"
-            !model.secUserInstanceList
-            model.secUserInstanceCount == 0
+            response.status == 200
+            response.contentAsString == JsonWrapper.toJson('users', [user])
     }
 
     void "Test the create action returns the correct model"() {
