@@ -1,10 +1,7 @@
 package com.olamagic
-
 import com.olamagic.auth.SecRole
 import com.olamagic.auth.SecUser
 import com.olamagic.auth.SecUserSecRole
-import com.olamagic.util.JsonWrapper
-import grails.converters.JSON
 import grails.test.mixin.Mock
 import grails.test.mixin.TestFor
 import spock.lang.Specification
@@ -15,16 +12,19 @@ import static com.olamagic.util.JsonWrapper.toJson
 @Mock([SecUser, SecUserSecRole, SecRole])
 class UserControllerSpec extends Specification {
 
-    def populateValidParams(params) {
-        assert params != null
-        params.uid = 'someValidName'
-        params.password = 'someValidPassword'
-    }
+    def mockUser = new SecUser(
+        email: 'some@email.com',
+        password: '***',
+        authorities: ['ROLE_USER']
+    )
+
+    def mockRole = new SecRole(
+        authority: 'ROLE_USER'
+    )
 
     void "Test the 'list' action returns the correct model"() {
         when:"A domain instance is created"
-            populateValidParams(params)
-            def user = new SecUser(params).save flush: true
+            mockUser.save flush: true
 
         then:"It exists"
             SecUser.count() == 1
@@ -36,17 +36,18 @@ class UserControllerSpec extends Specification {
 
         then:"The model is correct"
             response.status == 200
-            response.contentAsString == toJson('users', [user])
+            response.contentAsString == toJson('users', [mockUser])
     }
 
     void "Test the 'save' action correctly persists an instance"() {
         when:"Exists user role"
-            new SecRole(authority: 'ROLE_USER').save flush: true
+            mockRole.save flush: true
         and:"The save action is executed with a valid request"
             request.contentType = JSON_CONTENT_TYPE
             request.method = 'POST'
             request.json = [
-                uid: "someUid",
+                id: 999,  // trying to pass id should not effect
+                email: 'some2@email.com',
                 password: '***',
                 authorities: ['ROLE_USER', 'NOT-EXISTING_ROLE']
             ]
@@ -56,11 +57,11 @@ class UserControllerSpec extends Specification {
             SecUser.count() == 1
             response.status == 200
             response.json.user.id != null
-            response.json.user.uid =='someUid'
+            response.json.user.email =='some2@email.com'
             response.json.user.authorities == ['ROLE_USER']
     }
 
-    void "Test that the show action returns the correct model"() {
+    void "Test that the 'show' action returns the correct model"() {
         when:"The show action is executed with a null domain"
             controller.show(null)
 
@@ -68,28 +69,11 @@ class UserControllerSpec extends Specification {
             response.status == 404
 
         when:"A domain instance is passed to the show action"
-            populateValidParams(params)
-            def secUser = new SecUser(params).save flush: true
-            controller.show(params.uid)
+            mockUser.save flush: true
+            controller.show(mockUser.id)
 
         then:"A model is populated containing the domain instance"
-            response.contentAsString == toJson('user', secUser)
-    }
-
-    void "Test that the edit action returns the correct model"() {
-        when:"The edit action is executed with a null domain"
-            controller.edit(null)
-
-        then:"A 404 error is returned"
-            response.status == 404
-
-        when:"A domain instance is passed to the edit action"
-            populateValidParams(params)
-            def secUser = new SecUser(params)
-            controller.edit(secUser)
-
-        then:"A model is populated containing the domain instance"
-            model.secUserInstance == secUser
+            response.contentAsString == toJson('user', mockUser)
     }
 
     void "Test the update action performs an update on a valid domain instance"() {
@@ -103,20 +87,30 @@ class UserControllerSpec extends Specification {
 
         when:"An invalid domain instance is passed to the update action"
             response.reset()
-            controller.update('wrong-uid')
+            controller.update(1001)
 
         then:"The edit view is rendered again with the invalid instance"
             response.status == 404
 
-        when:"A valid domain instance is passed to the update action"
-            response.reset()
-            populateValidParams(params)
-            secUser = new SecUser(params).save(flush: true)
-            controller.update(params.uid)
+        when:"Exists user role"
+            mockRole.save flush: true
 
-        then:"A redirect is issues to the show action"
-            response.redirectedUrl == "/secUser/show/$secUser.id"
-            flash.message != null
+        and:"A valid domain instance is passed to the update action"
+            response.reset()
+            mockUser.save flush: true
+            request.json = [
+                id: 999,        // trying to pass id should not effect
+                email: "other@email.com",
+                password: '***',
+                authorities: ['ROLE_USER']
+            ]
+            controller.update(mockUser.id)
+
+        then:"The instance updated"
+            response.status == 200
+            response.json.user.id == mockUser.id
+            response.json.user.email =='other@email.com'
+            response.json.user.authorities == ['ROLE_USER']
     }
 
     void "Test that the delete action deletes an instance if it exists"() {
@@ -130,14 +124,13 @@ class UserControllerSpec extends Specification {
 
         when:"A domain instance is created"
             response.reset()
-            populateValidParams(params)
-            new SecUser(params).save flush: true
+            mockUser.save flush: true
 
         then:"It exists"
             SecUser.count() == 1
 
         when:"The domain instance is passed to the delete action"
-           controller.delete(params.uid)
+           controller.delete(mockUser.id)
 
         then:"The instance is deleted"
             SecUser.count() == 0

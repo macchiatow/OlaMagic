@@ -4,7 +4,7 @@ class UrlMappings {
 
         // Users
         "/api/users"(controller: "user") { action = [GET: "list", POST: "create"] }
-        "/api/users/$upid"(controller: "user") { action = [DELETE: "delete", PUT: "update"] }
+        "/api/users/$id"(controller: "user") { action = [GET: "show", DELETE: "delete", PUT: "update"] }
 
         // Workspaces
         "/api/users/$uid/workspaces"(controller: "workspace") { action = [GET: "list", POST: "create"] }

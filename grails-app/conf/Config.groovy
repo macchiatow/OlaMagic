@@ -121,7 +121,7 @@ grails.plugin.springsecurity.rejectIfNoRule = true
 grails.plugin.springsecurity.securityConfigType = "InterceptUrlMap"
 grails.plugin.springsecurity.userLookup.userDomainClassName = 'com.olamagic.auth.SecUser'
 grails.plugin.springsecurity.userLookup.authorityJoinClassName = 'com.olamagic.auth.SecUserSecRole'
-grails.plugin.springsecurity.userLookup.usernamePropertyName = 'uid'
+grails.plugin.springsecurity.userLookup.usernamePropertyName = 'email'
 grails.plugin.springsecurity.authority.className = 'com.olamagic.auth.SecRole'
 grails.plugin.springsecurity.interceptUrlMap = [
         '/**'            : ['permitAll'],

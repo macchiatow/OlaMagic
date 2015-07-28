@@ -9,7 +9,7 @@ class SecUser implements Serializable {
 
 	transient springSecurityService
 
-	String uid
+	String email
 	String password
 	boolean enabled = true
 	boolean accountExpired
@@ -19,25 +19,25 @@ class SecUser implements Serializable {
 
     static hasOne = [profile: Profile]
 
-    SecUser(String uid, String password) {
+    SecUser(String email, String password) {
         super()
-		this.uid = uid
+		this.email = email
 		this.password = password
 	}
 
 	@Override
 	int hashCode() {
-		uid?.hashCode() ?: 0
+		email?.hashCode() ?: 0
 	}
 
 	@Override
 	boolean equals(other) {
-		is(other) || (other instanceof SecUser && other.uid == uid)
+		is(other) || (other instanceof SecUser && other.email == email)
 	}
 
 	@Override
 	String toString() {
-		uid
+		email
 	}
 
 	Set<SecRole> getAuthorities() {
@@ -81,7 +81,7 @@ class SecUser implements Serializable {
 	static transients = ['springSecurityService', '_authorities']
 
 	static constraints = {
-		uid blank: false, unique: true
+		email blank: false, unique: true
 		password blank: false
 	}
 
@@ -92,7 +92,7 @@ class SecUser implements Serializable {
     static {
         JSON.registerObjectMarshaller(SecUser) { SecUser u ->
             return [
-                    uid            : u.uid,
+                    email          : u.email,
                     id             : u.id,
                     accountExpired : u.accountExpired,
                     accountLocked  : u.accountLocked,
