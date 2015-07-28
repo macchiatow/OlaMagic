@@ -1,6 +1,7 @@
 package com.olamagic.auth
 
 import com.olamagic.Profile
+import grails.converters.JSON
 
 class SecUser implements Serializable {
 
@@ -57,6 +58,12 @@ class SecUser implements Serializable {
         }
     }
 
+    def beforeValidate() {
+        if (profile == null) {
+            profile = new Profile()
+        }
+    }
+
 	def beforeInsert() {
 		encodePassword()
 	}
@@ -81,4 +88,18 @@ class SecUser implements Serializable {
 	static mapping = {
 		password column: '`password`'
 	}
+
+    static {
+        JSON.registerObjectMarshaller(SecUser) { SecUser u ->
+            return [
+                    uid            : u.uid,
+                    id             : u.id,
+                    accountExpired : u.accountExpired,
+                    accountLocked  : u.accountLocked,
+                    enabled        : u.enabled,
+                    passwordExpired: u.passwordExpired,
+                    authorities    : u.authorities*.authority,
+            ]
+        }
+    }
 }

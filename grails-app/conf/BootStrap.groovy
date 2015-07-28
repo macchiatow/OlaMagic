@@ -26,18 +26,6 @@ class BootStrap {
             SecUserSecRole.create adminUser, adminRole
         }
 
-        JSON.registerObjectMarshaller(SecUser) { SecUser u ->
-            return [
-                    uid            : u.uid,
-                    accountExpired : u.accountExpired,
-                    accountLocked  : u.accountLocked,
-                    enabled        : u.enabled,
-                    passwordExpired: u.passwordExpired,
-                    authorities    : u.authorities*.authority,
-                    class          : u.class
-            ]
-        }
-
         JSON.registerObjectMarshaller(Site) { Site s ->
             return [
                     details        : s.details,

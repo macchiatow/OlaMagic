@@ -4,16 +4,15 @@ import com.olamagic.auth.SecRole
 import com.olamagic.auth.SecUser
 import com.olamagic.auth.SecUserSecRole
 import com.olamagic.util.JsonWrapper
+import grails.converters.JSON
 import grails.test.mixin.Mock
 import grails.test.mixin.TestFor
-import org.springframework.http.HttpStatus
 import spock.lang.Specification
 
-import static org.springframework.http.HttpStatus.NOT_FOUND
-import static org.springframework.http.HttpStatus.OK
+import static com.olamagic.util.JsonWrapper.toJson
 
 @TestFor(UserController)
-@Mock([SecUser, SecUserSecRole, Profile, Workspace])
+@Mock([SecUser, SecUserSecRole, SecRole])
 class UserControllerSpec extends Specification {
 
     def populateValidParams(params) {
@@ -24,11 +23,8 @@ class UserControllerSpec extends Specification {
 
     void "Test the 'list' action returns the correct model"() {
         when:"A domain instance is created"
-        def user = new SecUser(
-                uid: 'admin',
-                password: 'admin',
-                enabled: true,
-                profile: new Profile()).save flush: true
+            populateValidParams(params)
+            def user = new SecUser(params).save flush: true
 
         then:"It exists"
             SecUser.count() == 1
@@ -40,41 +36,28 @@ class UserControllerSpec extends Specification {
 
         then:"The model is correct"
             response.status == 200
-            response.contentAsString == JsonWrapper.toJson('users', [user])
+            response.contentAsString == toJson('users', [user])
     }
 
-    void "Test the create action returns the correct model"() {
-        when:"The create action is executed"
-            controller.create()
-
-        then:"The model is correctly created"
-            model.secUserInstance!= null
-    }
-
-    void "Test the save action correctly persists an instance"() {
-
-        when:"The save action is executed with an invalid instance"
-            request.contentType = FORM_CONTENT_TYPE
+    void "Test the 'save' action correctly persists an instance"() {
+        when:"Exists user role"
+            new SecRole(authority: 'ROLE_USER').save flush: true
+        and:"The save action is executed with a valid request"
+            request.contentType = JSON_CONTENT_TYPE
             request.method = 'POST'
-            def secUser = new SecUser()
-            secUser.validate()
-            controller.save(secUser)
+            request.json = [
+                uid: "someUid",
+                password: '***',
+                authorities: ['ROLE_USER', 'NOT-EXISTING_ROLE']
+            ]
+            controller.save()
 
-        then:"The create view is rendered again with the correct model"
-            model.secUserInstance!= null
-            view == 'create'
-
-        when:"The save action is executed with a valid instance"
-            response.reset()
-            populateValidParams(params)
-            secUser = new SecUser(params)
-
-            controller.save(secUser)
-
-        then:"A redirect is issued to the show action"
-            response.redirectedUrl == '/secUser/show/1'
-            controller.flash.message != null
+        then:"An instance saved"
             SecUser.count() == 1
+            response.status == 200
+            response.json.user.id != null
+            response.json.user.uid =='someUid'
+            response.json.user.authorities == ['ROLE_USER']
     }
 
     void "Test that the show action returns the correct model"() {
@@ -86,11 +69,11 @@ class UserControllerSpec extends Specification {
 
         when:"A domain instance is passed to the show action"
             populateValidParams(params)
-            def secUser = new SecUser(params)
-            controller.show(secUser)
+            def secUser = new SecUser(params).save flush: true
+            controller.show(params.uid)
 
         then:"A model is populated containing the domain instance"
-            model.secUserInstance == secUser
+            response.contentAsString == toJson('user', secUser)
     }
 
     void "Test that the edit action returns the correct model"() {
@@ -111,30 +94,25 @@ class UserControllerSpec extends Specification {
 
     void "Test the update action performs an update on a valid domain instance"() {
         when:"Update is called for a domain instance that doesn't exist"
-            request.contentType = FORM_CONTENT_TYPE
+            request.contentType = JSON_CONTENT_TYPE
             request.method = 'PUT'
             controller.update(null)
 
         then:"A 404 error is returned"
-            response.redirectedUrl == '/secUser/index'
-            flash.message != null
-
+            response.status == 404
 
         when:"An invalid domain instance is passed to the update action"
             response.reset()
-            def secUser = new SecUser()
-            secUser.validate()
-            controller.update(secUser)
+            controller.update('wrong-uid')
 
         then:"The edit view is rendered again with the invalid instance"
-            view == 'edit'
-            model.secUserInstance == secUser
+            response.status == 404
 
         when:"A valid domain instance is passed to the update action"
             response.reset()
             populateValidParams(params)
             secUser = new SecUser(params).save(flush: true)
-            controller.update(secUser)
+            controller.update(params.uid)
 
         then:"A redirect is issues to the show action"
             response.redirectedUrl == "/secUser/show/$secUser.id"
@@ -153,9 +131,7 @@ class UserControllerSpec extends Specification {
         when:"A domain instance is created"
             response.reset()
             populateValidParams(params)
-            def secUser = new SecUser(params)
-            secUser.profile = new Profile()
-            secUser.save(flush: true)
+            new SecUser(params).save flush: true
 
         then:"It exists"
             SecUser.count() == 1

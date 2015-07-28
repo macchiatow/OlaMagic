@@ -7,7 +7,7 @@ import grails.converters.JSON
  */
 class JsonWrapper {
 
-    static toJson = { def key, def list ->
-        "{\"$key\" : ${list as JSON}}"
+    static toJson = { def key, def value ->
+        "{\"$key\" : ${value as JSON}}"
     }
 }

@@ -12,7 +12,7 @@ import static org.springframework.http.HttpStatus.*
 @Transactional(readOnly = true)
 class UserController {
 
-    // static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
+    static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
 
     static responseFormats = ['json']
 
@@ -20,15 +20,11 @@ class UserController {
         def userInstance = SecUser.findByUid(uid)
 
         if (userInstance == null) {
-            notFound()
+            render status: NOT_FOUND
             return
         }
 
-        respond userInstance
-    }
-
-    def listWorkspaces(String uid) {
-        render '{"workspaces": [{"id":1, "title":"WS01"}, {"id":2, "title":"WS02"}] }'
+        render toJson('user', userInstance)
     }
 
     def list(Integer max) {
@@ -49,10 +45,11 @@ class UserController {
     }
 
     @Transactional
-    def create() {
+    def save() {
         def userInstance = new SecUser()
 
-        createOrUpdate(userInstance)
+        bindProperties(userInstance, request.JSON).saveWithAuthorities()
+        render toJson('user', userInstance)
     }
 
     @Transactional
@@ -70,29 +67,9 @@ class UserController {
         render status: OK
     }
 
-    protected void notFound() {
-        request.withFormat {
-            json { render status: NOT_FOUND }
-            '*' {
-                flash.message = message(code: 'default.not.found.message', args: [message(code: 'secUser.label', default: 'SecUser'), params.uid])
-                redirect method: "GET"
-            }
-        }
-    }
-
     private createOrUpdate(def instance) {
-        request.withFormat {
-            form multipartForm {
-                bindProperties(instance, params).saveWithAuthorities()
-                flash.message = message(code: 'default.created.message', args: [message(code: 'secUser.label', default: 'SecUser'), instance.id])
-                redirect method: "GET"
-            }
-            json {
-                bindProperties(instance, request.JSON).saveWithAuthorities()
-                render instance as JSON
-            }
-            '*' { respond instance, [status: CREATED] }
-        }
+        bindProperties(instance, request.JSON).saveWithAuthorities()
+        render instance as JSON
     }
 
     private bindProperties(def instance, def params) {
