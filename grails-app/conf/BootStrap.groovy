@@ -41,12 +41,6 @@ class BootStrap {
             ]
         }
 
-        JSON.registerObjectMarshaller(Workspace) { Workspace w ->
-            return [
-                    id  : w.id,
-                    title: w.title
-            ]
-        }
     }
     def destroy = {
     }

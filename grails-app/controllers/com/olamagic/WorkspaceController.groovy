@@ -19,14 +19,14 @@ class WorkspaceController {
 
     }
 
-    def list(String uid) {
-        def workspaces = Workspace.findAllByOwner(Profile.findBySecUser(SecUser.findByUid(uid)))
+    def list(Long uid) {
+        def workspaces = Workspace.findAllByOwner(Profile.findBySecUser(SecUser.findById(uid)))
         render toJson('workspaces', workspaces)
     }
 
-    def create(String uid){
+    def create(Long uid){
         def instance =  new Workspace(request.JSON)
-        instance.profile = Profile.findBySecUser(SecUser.findByUid(uid))
+        instance.profile = Profile.findBySecUser(SecUser.findById(uid))
 
         respond instance
     }

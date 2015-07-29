@@ -17,7 +17,7 @@ class Profile {
 
     def beforeValidate() {
         if (workplaces == null) {
-            workplaces = [new Workspace(title: 'my work', owner: this)]
+            workplaces = [new Workspace(owner: this)]
         }
     }
 
