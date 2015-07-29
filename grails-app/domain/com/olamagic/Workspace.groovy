@@ -15,13 +15,4 @@ class Workspace {
 
     static hasMany = [myNumbers: Number, sites: Site, contributors: Profile]
 
-    static {
-        JSON.registerObjectMarshaller(Workspace) { Workspace w ->
-            return [
-                    id  : w.id,
-                    title: w.title,
-                    owner: w.owner.secUser.email
-            ]
-        }
-    }
 }

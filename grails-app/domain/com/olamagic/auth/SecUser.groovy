@@ -90,17 +90,4 @@ class SecUser implements Serializable {
 		password column: '`password`'
 	}
 
-    static {
-        JSON.registerObjectMarshaller(SecUser) { SecUser u ->
-            return [
-                    email          : u.email,
-                    id             : u.id,
-                    accountExpired : u.accountExpired,
-                    accountLocked  : u.accountLocked,
-                    enabled        : u.enabled,
-                    passwordExpired: u.passwordExpired,
-                    authorities    : u.authorities*.authority,
-            ]
-        }
-    }
 }
