@@ -53,7 +53,7 @@ class WorkspaceControllerSpec extends Specification {
             response.status == 200
             response.json.workspace.id != null
             response.json.workspace.title == 'Another workspace'
-            response.json.workspace.email == mockUser.email
+            response.json.workspace.owner == mockUser.email
     }
 
     void "Test that the 'show' action returns the correct model"() {
