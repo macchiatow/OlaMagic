@@ -9,15 +9,15 @@ class Profile {
 
     static belongsTo = [secUser: SecUser]
 
-    static hasMany = [workplaces: Workspace]
+    static hasMany = [workspaces: Workspace]
 
     static constraints = {
-      	workplaces minSize: 1
+      	workspaces minSize: 1
     }
 
     def beforeValidate() {
-        if (workplaces == null) {
-            workplaces = [new Workspace(owner: this)]
+        if (workspaces == null) {
+            workspaces = [new Workspace(owner: this)]
         }
     }
 

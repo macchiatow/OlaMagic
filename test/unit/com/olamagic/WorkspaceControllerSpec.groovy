@@ -1,12 +1,9 @@
 package com.olamagic
-import com.olamagic.auth.SecRole
+
 import com.olamagic.auth.SecUser
-import com.olamagic.auth.SecUserSecRole
 import grails.test.mixin.Mock
 import grails.test.mixin.TestFor
 import spock.lang.Specification
-
-import static com.olamagic.util.JsonWrapper.toJson
 
 @TestFor(WorkspaceController)
 @Mock([SecUser, Workspace, Profile])
@@ -17,6 +14,8 @@ class WorkspaceControllerSpec extends Specification {
         password: '***',
         authorities: ['ROLE_USER']
     )
+
+    def mockWorkspace = new Workspace(title: 'One workspace');
 
     void "Test the 'list' action returns the correct model"() {
         when:"A user instance is created"
@@ -54,21 +53,6 @@ class WorkspaceControllerSpec extends Specification {
             response.json.workspace.id != null
             response.json.workspace.title == 'Another workspace'
             response.json.workspace.owner == mockUser.email
-    }
-
-    void "Test that the 'show' action returns the correct model"() {
-        when:"The show action is executed with a null domain"
-            controller.show(null)
-
-        then:"A 404 error is returned"
-            response.status == 404
-
-        when:"A domain instance is passed to the show action"
-            mockUser.save flush: true
-            controller.show(mockUser.id)
-
-        then:"A model is populated containing the domain instance"
-            response.contentAsString == toJson('user', mockUser)
     }
 
     void "Test the update action performs an update on a valid domain instance"() {
@@ -109,7 +93,7 @@ class WorkspaceControllerSpec extends Specification {
     }
 
     void "Test that the delete action deletes an instance if it exists"() {
-        when:"The delete action is called for a null instance"
+        when:"The delete action is called for null"
             request.contentType = JSON_CONTENT_TYPE
             request.method = 'DELETE'
             controller.delete(null)
@@ -117,18 +101,30 @@ class WorkspaceControllerSpec extends Specification {
         then:"A 404 is returned"
             response.status == 404
 
-        when:"A domain instance is created"
+        when:"A user instance is created"
             response.reset()
             mockUser.save flush: true
 
-        then:"It exists"
-            SecUser.count() == 1
+        and:"The workspace id is passed to the delete action"
+           controller.delete(mockUser.profile.workspaces[0].id)
 
-        when:"The domain instance is passed to the delete action"
-           controller.delete(mockUser.id)
+        then:"The instance is not deleted; at least one workspace should exist for a user"
+            Workspace.count() == 1
+            response.status == 406
+
+        when:"A user has more than one workspace"
+            response.reset()
+            mockUser.profile.workspaces << new Workspace(title: 'Second workspace')
+            mockUser.save flush: true
+
+        then:"Exist two workspaces"
+            Workspace.count() == 2
+
+        when:"The workspace id is passed to the delete action again"
+            controller.delete(mockUser.profile.workspaces[0].id)
 
         then:"The instance is deleted"
-            SecUser.count() == 0
+            Workspace.count() == 1
             response.status == 200
     }
 }

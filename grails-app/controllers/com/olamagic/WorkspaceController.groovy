@@ -1,8 +1,11 @@
 package com.olamagic
 import com.olamagic.auth.SecUser
-import com.olamagic.util.JsonWrapper
+import grails.transaction.Transactional
 
 import static com.olamagic.util.JsonWrapper.toJson
+import static org.springframework.http.HttpStatus.NOT_ACCEPTABLE
+import static org.springframework.http.HttpStatus.NOT_FOUND
+import static org.springframework.http.HttpStatus.OK
 
 /**
  * Created by togrul on 7/10/15.
@@ -35,9 +38,24 @@ class WorkspaceController {
 
     }
 
-    def delete(){
+    @Transactional
+    def delete(Long id) {
+        def workspace = Workspace.findById(id)
 
+        if (workspace == null) {
+            render status: NOT_FOUND
+            return
+        }
+
+        if (workspace.owner.workspaces.size() < 2) {
+            render status: NOT_ACCEPTABLE
+            return
+        }
+
+        workspace.delete flush: true
+        render status: OK
     }
+
 
     def subscribe(){
 

@@ -20,7 +20,7 @@ class BootStrap {
                 uid: 'admin',
                 password: 'admin',
                 enabled: true,
-                profile: new Profile(workplaces: [new Workspace(title: 'WS01')])).save(failOnError: true)
+                profile: new Profile(workspaces: [new Workspace(title: 'WS01')])).save(failOnError: true)
 
         if (!adminUser.authorities.contains(adminRole)) {
             SecUserSecRole.create adminUser, adminRole
