@@ -39,7 +39,7 @@ class UserControllerSpec extends Specification {
             response.contentAsString == toJson('users', [mockUser])
     }
 
-    void "Test the 'save' action correctly persists an instance"() {
+    void "Test the 'create' action correctly persists an instance"() {
         when:"Exists user role"
             mockRole.save flush: true
         and:"The save action is executed with a valid request"
@@ -51,7 +51,7 @@ class UserControllerSpec extends Specification {
                 password: '***',
                 authorities: ['ROLE_USER', 'NOT-EXISTING_ROLE']
             ]
-            controller.save()
+            controller.create()
 
         then:"An instance saved"
             SecUser.count == 1

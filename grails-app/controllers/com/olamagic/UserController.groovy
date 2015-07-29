@@ -44,7 +44,7 @@ class UserController {
     }
 
     @Transactional
-    def save() {
+    def create() {
         def userInstance = new SecUser()
 
         bindProperties(userInstance, request.JSON).saveWithAuthorities()

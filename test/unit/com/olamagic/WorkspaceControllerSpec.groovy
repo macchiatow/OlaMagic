@@ -36,26 +36,24 @@ class WorkspaceControllerSpec extends Specification {
             response.json.workspaces[0].title != null
     }
 
-    void "Test the 'save' action correctly persists an instance"() {
-        when:"Exists user role"
-            mockRole.save flush: true
-        and:"The save action is executed with a valid request"
+    void "Test the 'create' action correctly persists an instance"() {
+        when:"Exists user"
+            mockUser.save flush: true
+        and:"The create action is executed with a valid request"
             request.contentType = JSON_CONTENT_TYPE
             request.method = 'POST'
             request.json = [
                 id: 999,  // trying to pass id should not effect
-                email: 'some2@email.com',
-                password: '***',
-                authorities: ['ROLE_USER', 'NOT-EXISTING_ROLE']
+                title: 'Another workspace',
             ]
-            controller.save()
+            controller.create(mockUser.id)
 
         then:"An instance saved"
-            SecUser.count() == 1
+            Workspace.count() == 2
             response.status == 200
-            response.json.user.id != null
-            response.json.user.email =='some2@email.com'
-            response.json.user.authorities == ['ROLE_USER']
+            response.json.workspace.id != null
+            response.json.workspace.title == 'Another workspace'
+            response.json.workspace.email == mockUser.email
     }
 
     void "Test that the 'show' action returns the correct model"() {

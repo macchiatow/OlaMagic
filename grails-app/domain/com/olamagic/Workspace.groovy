@@ -19,7 +19,8 @@ class Workspace {
         JSON.registerObjectMarshaller(Workspace) { Workspace w ->
             return [
                     id  : w.id,
-                    title: w.title
+                    title: w.title,
+                    owner: w.owner.secUser.email
             ]
         }
     }

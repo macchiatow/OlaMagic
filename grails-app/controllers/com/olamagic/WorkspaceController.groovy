@@ -25,10 +25,10 @@ class WorkspaceController {
     }
 
     def create(Long uid){
-        def instance =  new Workspace(request.JSON)
-        instance.profile = Profile.findBySecUser(SecUser.findById(uid))
-
-        respond instance
+        def workspace =  new Workspace(request.JSON)
+        workspace.owner = Profile.findBySecUser(SecUser.findById(uid))
+        workspace.save flush: true
+        render toJson('workspace', workspace)
     }
 
     def update(){
