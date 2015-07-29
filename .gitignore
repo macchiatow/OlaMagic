@@ -1,7 +1,5 @@
 .gradle
 build
-grailsw
-grailsw.bat
 target
 *.iws
 *Db.properties
