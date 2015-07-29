@@ -13,6 +13,12 @@ class Profile {
 
     static constraints = {
       	workplaces minSize: 1
-   }
+    }
+
+    def beforeValidate() {
+        if (workplaces == null) {
+            workplaces = [new Workspace(title: 'my work', owner: this)]
+        }
+    }
 
 }

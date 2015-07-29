@@ -9,7 +9,7 @@ import spock.lang.Specification
 import static com.olamagic.util.JsonWrapper.toJson
 
 @TestFor(UserController)
-@Mock([SecUser, SecUserSecRole, SecRole])
+@Mock([SecUser, SecUserSecRole, SecRole, Profile, Workspace])
 class UserControllerSpec extends Specification {
 
     def mockUser = new SecUser(
@@ -54,11 +54,16 @@ class UserControllerSpec extends Specification {
             controller.save()
 
         then:"An instance saved"
-            SecUser.count() == 1
+            SecUser.count == 1
             response.status == 200
             response.json.user.id != null
             response.json.user.email =='some2@email.com'
             response.json.user.authorities == ['ROLE_USER']
+        and:"Dependencies set correctly"
+            Profile.count == 1
+            Workspace.count == 1
+            SecUser.first().profile == Workspace.first().owner
+            Workspace.first().owner == Profile.first()
     }
 
     void "Test that the 'show' action returns the correct model"() {

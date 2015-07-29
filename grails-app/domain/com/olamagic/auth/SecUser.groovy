@@ -61,6 +61,7 @@ class SecUser implements Serializable {
     def beforeValidate() {
         if (profile == null) {
             profile = new Profile()
+            profile.validate()
         }
     }
 
