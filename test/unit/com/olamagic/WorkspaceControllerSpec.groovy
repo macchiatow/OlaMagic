@@ -78,7 +78,8 @@ class WorkspaceControllerSpec extends Specification {
 
         when:"A user has more than one workspace"
             response.reset()
-            mockUser.profile.workspaces << new Workspace(title: 'Second workspace')
+            def workspace = new Workspace(title: 'Second workspace', owner: mockUser.profile).save flush: true
+            mockUser.profile.workspaces << workspace
             mockUser.save flush: true
 
         then:"Exist two workspaces"
