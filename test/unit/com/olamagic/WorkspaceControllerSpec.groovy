@@ -1,8 +1,8 @@
 package com.olamagic
-
 import com.olamagic.auth.SecUser
 import grails.test.mixin.Mock
 import grails.test.mixin.TestFor
+import org.junit.Before
 import spock.lang.Specification
 
 @TestFor(WorkspaceController)
@@ -19,6 +19,7 @@ class WorkspaceControllerSpec extends Specification {
 
     void "Test the 'list' action returns the correct model"() {
         when:"A user instance is created"
+
             mockUser.save flush: true
 
         then:"One workspace is already created"
@@ -55,43 +56,6 @@ class WorkspaceControllerSpec extends Specification {
             response.json.workspace.owner == mockUser.email
     }
 
-    void "Test the update action performs an update on a valid domain instance"() {
-        when:"Update is called for a domain instance that doesn't exist"
-            request.contentType = JSON_CONTENT_TYPE
-            request.method = 'PUT'
-            controller.update(null)
-
-        then:"A 404 error is returned"
-            response.status == 404
-
-        when:"An invalid domain instance is passed to the update action"
-            response.reset()
-            controller.update(1001)
-
-        then:"The edit view is rendered again with the invalid instance"
-            response.status == 404
-
-        when:"Exists user role"
-            mockRole.save flush: true
-
-        and:"A valid domain instance is passed to the update action"
-            response.reset()
-            mockUser.save flush: true
-            request.json = [
-                id: 999,        // trying to pass id should not effect
-                email: "other@email.com",
-                password: '***',
-                authorities: ['ROLE_USER']
-            ]
-            controller.update(mockUser.id)
-
-        then:"The instance updated"
-            response.status == 200
-            response.json.user.id == mockUser.id
-            response.json.user.email =='other@email.com'
-            response.json.user.authorities == ['ROLE_USER']
-    }
-
     void "Test that the delete action deletes an instance if it exists"() {
         when:"The delete action is called for null"
             request.contentType = JSON_CONTENT_TYPE
@@ -126,5 +90,12 @@ class WorkspaceControllerSpec extends Specification {
         then:"The instance is deleted"
             Workspace.count() == 1
             response.status == 200
+    }
+
+    static loadExternalBeans = true
+
+    @Before
+    void registerJsonMarshallers() {
+        applicationContext.getBean('customObjectMarshallers').register()
     }
 }

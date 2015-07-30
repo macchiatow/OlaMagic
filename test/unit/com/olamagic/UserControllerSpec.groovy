@@ -4,6 +4,7 @@ import com.olamagic.auth.SecUser
 import com.olamagic.auth.SecUserSecRole
 import grails.test.mixin.Mock
 import grails.test.mixin.TestFor
+import org.junit.Before
 import spock.lang.Specification
 
 import static com.olamagic.util.JsonWrapper.toJson
@@ -140,5 +141,12 @@ class UserControllerSpec extends Specification {
         then:"The instance is deleted"
             SecUser.count() == 0
             response.status == 200
+    }
+
+    static loadExternalBeans = true
+
+    @Before
+    void registerJsonMarshallers() {
+        applicationContext.getBean('customObjectMarshallers').register()
     }
 }
