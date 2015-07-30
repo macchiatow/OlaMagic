@@ -15,9 +15,14 @@ class WorkspaceControllerSpec extends Specification {
         authorities: ['ROLE_USER']
     )
 
+    def mockOtherUser = new SecUser(
+        email: 'other@email.com',
+        password: '***',
+        authorities: ['ROLE_USER']
+    )
+
     void "Test the 'list' action returns the correct model"() {
         when:"A user instance is created"
-
             mockUser.save flush: true
 
         then:"One workspace is already created"
@@ -123,6 +128,27 @@ class WorkspaceControllerSpec extends Specification {
             response.status == 200
             response.json.workspace.id == mockUser.profile.workspaces[0].id
             response.json.workspace.title =='other title'
+    }
+
+    void "Test the 'subscribe' action returns the correct model"() {
+        when:"A user instance is created"
+            mockUser.save flush: true
+            mockOtherUser.save flush: true
+
+        then:"Two workspaces are already created"
+            Workspace.count() == 2
+
+        when:"The index action is executed"
+            request.method = 'POST'
+            response.format = 'json'
+            controller.subscribe(mockOtherUser.id, mockUser.profile.workspaces[0].id)
+
+        then:"The model is updated"
+            response.status == 200
+            response.json.workspace.id != null
+            response.json.workspace.title != null
+            response.json.workspace.owner == mockUser.email
+            response.json.workspace.contributors == [mockOtherUser.email]
     }
 
     static loadExternalBeans = true

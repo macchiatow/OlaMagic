@@ -66,8 +66,22 @@ class WorkspaceController {
     }
 
 
-    def subscribe(){
+    def subscribe(Long uid, Long wid) {
+        def workspace = Workspace.findById(wid)
+        def user = SecUser.findById(uid)
 
+        if (workspace == null || user == null) {
+            render status: NOT_FOUND
+            return
+        }
+
+        user.profile.workspaces << workspace       
+        workspace.contributors << user.profile 
+
+        user.save flush: true
+        workspace.save flush: true
+
+        render toJson('workspace', workspace)
     }
 
     def unsubscribe(){

@@ -13,7 +13,8 @@ class WorkspaceMarshaller {
             return [
                     id  : w.id,
                     title: w.title,
-                    owner: w.owner.secUser.email
+                    owner: w.owner.secUser.email,
+                    contributors : w.contributors?.secUser?.email
             ]
         }
     }
