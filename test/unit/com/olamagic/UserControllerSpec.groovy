@@ -47,10 +47,12 @@ class UserControllerSpec extends Specification {
             request.contentType = JSON_CONTENT_TYPE
             request.method = 'POST'
             request.json = [
-                id: 999,  // trying to pass id should not effect
-                email: 'some2@email.com',
-                password: '***',
-                authorities: ['ROLE_USER', 'NOT-EXISTING_ROLE']
+                user: [
+                    id: 999,  // trying to pass id should not effect
+                    email: 'some2@email.com',
+                    password: '***',
+                    authorities: ['ROLE_USER', 'NOT-EXISTING_ROLE']
+                ]
             ]
             controller.create()
 
@@ -105,10 +107,12 @@ class UserControllerSpec extends Specification {
             response.reset()
             mockUser.save flush: true
             request.json = [
-                id: 999,        // trying to pass id should not effect
-                email: "other@email.com",
-                password: '***',
-                authorities: ['ROLE_USER']
+                user: [
+                    id: 999,        // trying to pass id should not effect
+                    email: "other@email.com",
+                    password: '***',
+                    authorities: ['ROLE_USER']
+                ]
             ]
             controller.update(mockUser.id)
 

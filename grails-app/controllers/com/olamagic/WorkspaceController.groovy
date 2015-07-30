@@ -28,14 +28,23 @@ class WorkspaceController {
     }
 
     def create(Long uid){
-        def workspace =  new Workspace(request.JSON)
+        def workspace =  new Workspace(request.JSON.workspace)
         workspace.owner = Profile.findBySecUser(SecUser.findById(uid))
         workspace.save flush: true
         render toJson('workspace', workspace)
     }
 
-    def update(){
+    def update(Long id){
+        def workspace = Workspace.findById(id)
 
+        if (workspace == null) {
+            render status: NOT_FOUND
+            return
+        }
+
+        workspace.title = request.JSON.workspace.title
+        workspace.save flush: true
+        render toJson('workspace', workspace)
     }
 
     @Transactional

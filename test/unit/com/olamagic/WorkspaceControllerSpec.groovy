@@ -15,8 +15,6 @@ class WorkspaceControllerSpec extends Specification {
         authorities: ['ROLE_USER']
     )
 
-    def mockWorkspace = new Workspace(title: 'One workspace');
-
     void "Test the 'list' action returns the correct model"() {
         when:"A user instance is created"
 
@@ -43,8 +41,10 @@ class WorkspaceControllerSpec extends Specification {
             request.contentType = JSON_CONTENT_TYPE
             request.method = 'POST'
             request.json = [
-                id: 999,  // trying to pass id should not effect
-                title: 'Another workspace',
+                workspace : [
+                    id: 999,     // trying to pass id should not effect
+                    title: 'Another workspace'
+                ]
             ]
             controller.create(mockUser.id)
 
@@ -91,6 +91,38 @@ class WorkspaceControllerSpec extends Specification {
         then:"The instance is deleted"
             Workspace.count() == 1
             response.status == 200
+    }
+
+    void "Test the update action performs an update on a valid domain instance"() {
+        when:"Update is called for a domain instance that doesn't exist"
+            request.contentType = JSON_CONTENT_TYPE
+            request.method = 'PUT'
+            controller.update(null)
+
+        then:"A 404 error is returned"
+            response.status == 404
+
+        when:"An invalid domain instance is passed to the update action"
+            response.reset()
+            controller.update(1001)
+
+        then:"The edit view is rendered again with the invalid instance"
+            response.status == 404
+
+        when:"Exists instance"
+            mockUser.save flush: true
+
+        and:"A valid domain instance is passed to the update action"
+            response.reset()
+            request.json = [
+                workspace : [title: 'other title']
+            ]
+            controller.update(mockUser.profile.workspaces[0].id)
+
+        then:"The instance updated"
+            response.status == 200
+            response.json.workspace.id == mockUser.profile.workspaces[0].id
+            response.json.workspace.title =='other title'
     }
 
     static loadExternalBeans = true

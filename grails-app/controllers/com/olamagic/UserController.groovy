@@ -39,7 +39,7 @@ class UserController {
             return
         }
 
-        bindProperties(userInstance, request.JSON).saveWithAuthorities()
+        bindProperties(userInstance, request.JSON.user).saveWithAuthorities()
         render toJson('user', userInstance)
     }
 
@@ -47,7 +47,7 @@ class UserController {
     def create() {
         def userInstance = new SecUser()
 
-        bindProperties(userInstance, request.JSON).saveWithAuthorities()
+        bindProperties(userInstance, request.JSON.user).saveWithAuthorities()
         render toJson('user', userInstance)
     }
 
