@@ -138,9 +138,31 @@ class WorkspaceControllerSpec extends Specification {
         then:"Two workspaces are already created"
             Workspace.count() == 2
 
-        when:"The index action is executed"
+        when:"Subscribe is called for a uid that doesn't exist"
+            request.contentType = JSON_CONTENT_TYPE
             request.method = 'POST'
             response.format = 'json'
+            controller.subscribe(null, mockUser.profile.workspaces[0].id)    
+
+        then:"The instance is not found"
+            response.status == 404    
+
+        when:"Subscribe is called for a wid that doesn't exist"
+            response.reset()
+            controller.subscribe(mockOtherUser.id, null)    
+
+        then:"The instance is not found"
+            response.status == 404   
+
+        when:"Subscribe is called for a uid that is workspace owner"
+            response.reset()
+            controller.unsubscribe(mockUser.id, mockUser.profile.workspaces[0].id)
+
+        then:"The action is not accepted"
+            response.status == 406                
+
+        when:"Subscribe is called for valid uid and wid"
+            response.reset()
             controller.subscribe(mockOtherUser.id, mockUser.profile.workspaces[0].id)
 
         then:"The model is updated"
@@ -149,6 +171,101 @@ class WorkspaceControllerSpec extends Specification {
             response.json.workspace.title != null
             response.json.workspace.owner == mockUser.email
             response.json.workspace.contributors == [mockOtherUser.email]
+    }
+
+    void "Test the 'unsubscribe' action returns the correct model"() {
+        when:"A user instance is created"
+            mockUser.save flush: true
+            mockOtherUser.save flush: true
+
+        then:"Two workspaces are already created"
+            Workspace.count() == 2
+
+        when:"Subscribtion is created"
+            request.contentType = JSON_CONTENT_TYPE
+            request.method = 'POST'
+            response.format = 'json'
+            controller.subscribe(mockOtherUser.id, mockUser.profile.workspaces[0].id)    
+
+        then:"The model is updated"
+            response.json.workspace.owner == mockUser.email
+            response.json.workspace.contributors == [mockOtherUser.email]
+
+        when:"Subscribe is called for a wid that doesn't exist"
+            response.reset()
+            controller.unsubscribe(mockOtherUser.id, null)    
+
+        then:"The instance is not found"
+            response.status == 404      
+
+        when:"Subscribe is called for a uid that doesn't exist"
+            response.reset()
+            controller.unsubscribe(null, mockUser.profile.workspaces[0].id)    
+
+        then:"The instance is not found"
+            response.status == 404  
+
+        when:"Unsubscribe is called for a uid that is workspace owner"
+            response.reset()
+            controller.unsubscribe(mockUser.id, mockUser.profile.workspaces[0].id)      
+
+        then:"The action is not accepted"
+            response.status == 406      
+
+        when:"Unsubscribe is called for valid uid and wid"
+            response.reset()
+            controller.unsubscribe(mockOtherUser.id, mockUser.profile.workspaces[0].id)  
+
+        then:"The model is updated"
+            response.json.workspace.id != null
+            response.json.workspace.title != null
+            response.json.workspace.owner == mockUser.email
+            response.json.workspace.contributors == []   
+    }
+
+    void "Test the 'change_owner' action returns the correct model"() {
+        when:"A user instance is created"
+            mockUser.save flush: true
+            mockOtherUser.save flush: true
+
+        then:"Two workspaces are already created"
+            Workspace.count() == 2
+
+        when:"ChangeOwner is called for a wid that doesn't exist"
+            response.reset()
+            controller.changeOwner(mockOtherUser.id, null)    
+
+        then:"The instance is not found"
+            response.status == 404      
+
+        when:"ChangeOwner is called for a uid that doesn't exist"
+            response.reset()
+            controller.changeOwner(null, mockUser.profile.workspaces[0].id)    
+
+        then:"The instance is not found"
+            response.status == 404  
+
+        when:"ChangeOwner is called for a uid that is workspace owner"
+            response.reset()
+            controller.changeOwner(mockUser.id, mockUser.profile.workspaces[0].id)      
+
+        then:"The action is not accepted"
+            response.status == 406      
+
+        when:"ChangeOwner is called for valid uid and wid"
+            response.reset()
+            controller.changeOwner(mockOtherUser.id, mockUser.profile.workspaces[0].id)  
+
+        then:"The model is updated"
+            response.json.workspace.id != null
+            response.json.workspace.title != null
+            response.json.workspace.owner == mockOtherUser.email
+            response.json.workspace.contributors == []  
+
+        and:"New workspace created for user without one"
+            mockUser.profile.workspaces.size() == 1
+            Workspace.count() == 3
+
     }
 
     static loadExternalBeans = true

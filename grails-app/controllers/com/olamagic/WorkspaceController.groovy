@@ -1,8 +1,8 @@
 package com.olamagic
 import com.olamagic.auth.SecUser
 import grails.transaction.Transactional
+import grails.converters.JSON
 
-import static com.olamagic.util.JsonWrapper.toJson
 import static org.springframework.http.HttpStatus.NOT_ACCEPTABLE
 import static org.springframework.http.HttpStatus.NOT_FOUND
 import static org.springframework.http.HttpStatus.OK
@@ -14,24 +14,16 @@ class WorkspaceController {
 
     static responseFormats = ['json']
 
-    def settings(){
-
-    }
-
-    def access(){
-
-    }
-
     def list(Long uid) {
         def workspaces = Workspace.findAllByOwner(Profile.findBySecUser(SecUser.findById(uid)))
-        render toJson('workspaces', workspaces)
+        render ([workspaces: workspaces] as JSON)
     }
 
     def create(Long uid){
         def workspace =  new Workspace(request.JSON.workspace)
         workspace.owner = Profile.findBySecUser(SecUser.findById(uid))
         workspace.save flush: true
-        render toJson('workspace', workspace)
+        render ([workspace: workspace] as JSON)
     }
 
     def update(Long id){
@@ -44,7 +36,7 @@ class WorkspaceController {
 
         workspace.title = request.JSON.workspace.title
         workspace.save flush: true
-        render toJson('workspace', workspace)
+        render ([workspace: workspace] as JSON)
     }
 
     @Transactional
@@ -56,7 +48,7 @@ class WorkspaceController {
             return
         }
 
-        if (workspace.owner.workspaces.size() < 2) {
+        if (Workspace.findAllByOwner(workspace.owner).size() < 2) {
             render status: NOT_ACCEPTABLE
             return
         }
@@ -75,17 +67,65 @@ class WorkspaceController {
             return
         }
 
+        if (workspace.owner == user.profile) {
+            render status: NOT_ACCEPTABLE
+            return
+        }
+
         user.profile.workspaces << workspace       
         workspace.contributors << user.profile 
 
         user.save flush: true
-        workspace.save flush: true
 
-        render toJson('workspace', workspace)
+        render ([workspace: workspace] as JSON)
     }
 
-    def unsubscribe(){
+    def unsubscribe(Long uid, Long wid) {
+        def workspace = Workspace.findById(wid)
+        def user = SecUser.findById(uid)
 
+        if (workspace == null || user == null) {
+            render status: NOT_FOUND
+            return
+        }
+
+        if (workspace.owner == user.profile) {
+            render status: NOT_ACCEPTABLE
+            return
+        }
+
+        user.profile.workspaces.remove workspace
+        workspace.contributors.remove user.profile
+
+        user.save flush: true
+
+        render ([workspace: workspace] as JSON)
+    }
+
+    def changeOwner(Long uid, Long wid) {
+        def workspace = Workspace.findById(wid)
+        def newUser = SecUser.findById(uid)
+
+        if (workspace == null || newUser == null) {
+            render status: NOT_FOUND
+            return
+        }
+
+        if (workspace.owner == newUser.profile) {
+            render status: NOT_ACCEPTABLE
+            return
+        }
+
+        def oldUser = workspace.owner.secUser
+        
+        newUser.profile.workspaces.add workspace
+        oldUser.profile.workspaces.remove workspace
+        workspace.owner = newUser.profile
+
+        newUser.save flush: true
+        oldUser.save flush: true
+
+        render ([workspace: workspace] as JSON)
     }
 
 }

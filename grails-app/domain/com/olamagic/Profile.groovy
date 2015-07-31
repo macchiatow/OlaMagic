@@ -16,7 +16,7 @@ class Profile {
     }
 
     def beforeValidate() {
-        if (workspaces == null) {
+        if (workspaces == null || workspaces == []) {
             workspaces = [new Workspace(owner: this)]
         }
     }
