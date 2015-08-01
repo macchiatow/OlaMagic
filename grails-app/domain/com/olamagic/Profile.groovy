@@ -16,9 +16,24 @@ class Profile {
     }
 
     def beforeValidate() {
-        if (workspaces == null || workspaces == []) {
-            workspaces = [new Workspace(owner: this)]
+        if (workspaces == null || workspaces.isEmpty()) {
+            def workspace = new Workspace(owner: this).save()
+            workspaces = [workspace]
         }
     }
 
+    boolean equals(o) {
+        if (this.is(o)) return true
+        if (getClass() != o.class) return false
+
+        Profile profile = (Profile) o
+
+        if (secUser != profile.secUser) return false
+
+        return true
+    }
+
+    int hashCode() {
+        return secUser.hashCode()
+    }
 }

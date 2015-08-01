@@ -14,7 +14,7 @@ class WorkspaceMarshaller {
                     id  : w.id,
                     title: w.title,
                     owner: w.owner.secUser.email,
-                    contributors : w.contributors?.secUser?.email
+                    contributors : w.contributors?.secUser?.email?: []
             ]
         }
     }

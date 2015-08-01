@@ -27,6 +27,7 @@ class WorkspaceControllerSpec extends Specification {
 
         then:"One workspace is already created"
             Workspace.count() == 1
+            mockUser.profile.workspaces.size() == 1
 
         when:"The index action is executed"
             request.method = 'GET'
@@ -55,6 +56,9 @@ class WorkspaceControllerSpec extends Specification {
 
         then:"An instance saved"
             Workspace.count() == 2
+            mockUser.profile.workspaces.size() == 2
+
+        and:"Response model is correct"
             response.status == 200
             response.json.workspace.id != null
             response.json.workspace.title == 'Another workspace'
@@ -137,6 +141,9 @@ class WorkspaceControllerSpec extends Specification {
 
         then:"Two workspaces are already created"
             Workspace.count() == 2
+            mockUser.profile.workspaces.size() == 1
+            mockOtherUser.profile.workspaces.size() == 1
+            !mockUser.profile.workspaces.first().equals(mockOtherUser.profile.workspaces.first())
 
         when:"Subscribe is called for a uid that doesn't exist"
             request.contentType = JSON_CONTENT_TYPE
@@ -180,6 +187,7 @@ class WorkspaceControllerSpec extends Specification {
 
         then:"Two workspaces are already created"
             Workspace.count() == 2
+
 
         when:"Subscribtion is created"
             request.contentType = JSON_CONTENT_TYPE
@@ -263,8 +271,8 @@ class WorkspaceControllerSpec extends Specification {
             response.json.workspace.contributors == []  
 
         and:"New workspace created for user without one"
-            mockUser.profile.workspaces.size() == 1
             Workspace.count() == 3
+            mockUser.profile.workspaces.size() == 1
 
     }
 
