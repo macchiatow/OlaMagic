@@ -28,7 +28,7 @@ class NumberController {
 
     def list(Integer max){
         params.max = Math.min(max ?: 10, 100)
-        render (["numbers": Number.list(params)] as JSON)
+        render ([numbers: Number.list(params)] as JSON)
     }
 
     def listWithUid(String uid){
@@ -60,8 +60,8 @@ class NumberController {
 
     @Transactional
     def create() {
-        def instance = new Number(request.JSON).save flush: true
-        respond instance, [status: CREATED]
+        def number = new Number(request.JSON.number).save flush: true
+        render ([number: number] as JSON)
     }
 
     @Transactional

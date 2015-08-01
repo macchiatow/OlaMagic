@@ -4,16 +4,20 @@ class Number {
 
     String upid
 
-    static hasMany = [calls: Call]
+    Workspace workspace
 
-    static hasOne = [workspace: Workspace, adSource: AdSource, campaign: Campaign]
+    AdSource adSource
+
+    Campaign campaign
+
+    static hasMany = [calls: Call]
 
     static transients = ['calls']
 
-    static mapping = {
-    }
-
     static constraints = {
-        upid unique: true
+        upid unique: true, nullable: false
+        workspace nullable: true
+        adSource nullable: true
+        campaign nullable: true
     }
 }
