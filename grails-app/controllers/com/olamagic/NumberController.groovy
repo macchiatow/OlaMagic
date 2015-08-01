@@ -42,9 +42,20 @@ class NumberController {
         }
     }
 
-    def buy(String uid){
-        UserNumber.create SecUser.findByUid(uid), Number.findByUpid(request.JSON.upid), true
-        respond instance, [status: CREATED]
+    def buy(Long wid, String upid){
+        def number = Number.findByUpidAndWorkspaceIsNull(upid)
+        def workspace = Workspace.findById(wid)
+
+        if (number == null || workspace == null) {
+            render status: NOT_FOUND
+            return
+        }
+
+        number.workspace = workspace
+
+        number.save flush: true
+
+        render ([number: number] as JSON)
     }
 
     def release(String upid){
@@ -65,16 +76,16 @@ class NumberController {
     }
 
     @Transactional
-    def deleteWithUpid(String upid){
-        def instance = Number.findByUpid(upid)
+    def delete(String upid){
+        def number = Number.findByUpid(upid)
 
-        if (instance == null) {
-            respond status: NOT_FOUND
+        if (number == null) {
+            render status: NOT_FOUND
             return
         }
 
-        instance.delete flush:true
-        respond status: OK
+        number.delete flush:true
+        render status: OK
     }
 
 }

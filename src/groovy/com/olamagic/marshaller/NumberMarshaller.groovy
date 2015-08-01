@@ -13,7 +13,10 @@ class NumberMarshaller {
         JSON.registerObjectMarshaller(Number) { Number u ->
             return [
                     id  : u.id,
-                    upid: u.upid
+                    upid: u.upid,
+                    workspace: u.workspace?.title?: '',
+                    adSource: u.adSource?.description?: '',
+                    campaign: u.campaign?.description?: ''
             ]
         }
     }

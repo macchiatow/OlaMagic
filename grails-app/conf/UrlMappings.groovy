@@ -9,16 +9,16 @@ class UrlMappings {
         // Workspaces
         "/api/users/$uid/workspaces"(controller: "workspace") { action = [GET: "list", POST: "create"] }
         "/api/workspaces/$id"(controller: "workspace") { action = [UPDATE: "update", DELETE: "delete"] }
-        "/api/users/$uid/workspaces/$wid/subscribe"(controller: "workspace") { action = [POST: "subscribe"] }
-        "/api/users/$uid/workspaces/$wid/unsubscribe"(controller: "workspace") { action = [POST: "unsubscribe"] }
-        "/api/users/$uid/workspaces/$wid/change_owner"(controller: "workspace") { action = [POST: "changeOwner"] }
+        "/api/users/$uid/workspaces/$wid/subscribe"(controller: "workspace") { action = [PUT: "subscribe"] }
+        "/api/users/$uid/workspaces/$wid/unsubscribe"(controller: "workspace") { action = [PUT: "unsubscribe"] }
+        "/api/users/$uid/workspaces/$wid/change_owner"(controller: "workspace") { action = [PUT: "changeOwner"] }
 
         // Numbers
         "/api/numbers"(controller: "number") { action = [GET: "list", POST: "create"] }
-        "/api/numbers/$upid"(controller: "number") { action = [DELETE: "deleteWithUpid"] }
-        "/api/numbers/$upid/release"(controller: "number") { action = [DELETE: "deleteWithUpid"] }
-        "/api/workspaces/$wid/numbers"(controller: "number") { action = [GET: "listWithUid", POST: "buy"] }
-        "/api/workspaces/$wid/numbers/$upid/buy"(controller: "number") { action = [GET: "listWithUid", POST: "buy"] }
+        "/api/numbers/$upid"(controller: "number") { action = [DELETE: "delete"] }
+        "/api/numbers/$upid/release"(controller: "number") { action = [PUT: "release"] }
+        "/api/workspaces/$wid/numbers"(controller: "number") { action = [GET: "listWithWid"] }
+        "/api/workspaces/$wid/numbers/$upid/buy"(controller: "number") { action = [PUT: "buy"] }
 
         // Calls
         "/api/numbers/$upid/calls"(controller: "call") { action = [GET: "list", POST: "notifyCall"] }
