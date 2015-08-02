@@ -27,9 +27,16 @@ class CallController {
         render ([call: call] as JSON)
     }
 
-    def list(Integer max){
-        params.max = Math.min(max ?: 10, 100)
-        respond Call.list(params), model:[numberInstanceCount: Number.count()]
+    def list(String upid){
+        def number = Number.findByUpid(upid)
+
+        if (number == null) {
+            render status: NOT_FOUND
+            return
+        }
+
+        def calls = Call.findAllByNumber(number)
+        render ([calls: calls] as JSON)
     }
 
     def clear(String upid){

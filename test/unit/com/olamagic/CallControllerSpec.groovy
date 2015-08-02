@@ -43,6 +43,30 @@ class CallControllerSpec extends Specification {
             response.json.call.upid == mockNumber.upid
     }
 
+    void "Test that the 'list' action returns the correct model"() {
+        when:"Number and two calls exist"
+            mockNumber.save flush: true
+            2.times { new Call(number: mockNumber).save(flush: true) }
+
+        and:"The 'list' action is called for a null or invalid wid"
+            request.method = 'GET'
+            controller.list(null)
+
+        then:"A 404 is returned"
+            response.status == 404
+
+        when:"The correct upid passed to the 'list' action"
+            response.reset()
+            controller.list(mockNumber.upid)
+
+        then:"The model is correct"
+            response.json.calls.size() == 2
+            response.json.calls[0].id != null
+            response.json.calls[0].upid == mockNumber.upid
+            response.json.calls[1].upid == mockNumber.upid
+            response.json.calls[1].id != null
+    }
+
     static loadExternalBeans = true
 
     @Before
