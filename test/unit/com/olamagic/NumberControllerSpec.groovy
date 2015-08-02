@@ -92,8 +92,7 @@ class NumberControllerSpec extends Specification {
             number.save flush: true
 
         and:"The 'buy' action is called for a null or invalid instance"
-            request.contentType = JSON_CONTENT_TYPE
-            request.method = 'DELETE'
+            request.method = 'PUT'
             controller.buy(Workspace.first().id, null)
 
         then:"A 404 is returned"
@@ -106,7 +105,7 @@ class NumberControllerSpec extends Specification {
         then:"A 404 is returned"
             response.status == 404
 
-        when:"The correct workspace id and upidis passed to the buy action"
+        when:"The correct workspace id and upid passed to the buy action"
             response.reset()
             controller.buy(Workspace.first().id, number.upid)
 
@@ -117,6 +116,32 @@ class NumberControllerSpec extends Specification {
         and:"Workspace contains the number"
             mockUser.profile.workspaces[0].myNumbers.size() == 1
             mockUser.profile.workspaces[0].myNumbers.contains(number)
+    }
+
+    void "Test that the 'release' action unassigns workspace from a number"() {
+        when:"User, workspace and number exist"
+            mockUser.save flush: true
+            number.workspace = mockUser.profile.workspaces.first()
+            number.save flush: true
+
+        and:"The 'release' action is called for a null or invalid instance"
+            request.method = 'PUT'
+            controller.release(null)
+
+        then:"A 404 is returned"
+            response.status == 404
+
+        when:"The correct workspace id and upid passed to the 'release' action"
+            response.reset()
+            controller.release(number.upid)
+
+        then:"The model is correct"
+            response.json.number.id == number.id
+            response.json.number.upid == number.upid
+            response.json.number.workspace == null
+
+        and:"Workspace does not the number"
+            mockUser.profile.workspaces[0].myNumbers.size() == 0
     }
 
     static loadExternalBeans = true

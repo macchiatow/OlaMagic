@@ -11,13 +11,18 @@ class NumberMarshaller {
 
     void register(){
         JSON.registerObjectMarshaller(Number) { Number u ->
-            return [
-                    id  : u.id,
-                    upid: u.upid,
-                    workspace: u.workspace?.title?: '',
-                    adSource: u.adSource?.description?: '',
-                    campaign: u.campaign?.description?: ''
-            ]
+            def properties = [:]
+
+            properties << [id: u.id]
+            properties << [upid: u.upid]
+            if (u.workspace?.title){
+                properties << [workspace: u.workspace?.title]
+            }
+            if (u.campaign?.description){
+                properties << [campaign: u.campaign?.description]
+            }
+
+            return properties
         }
     }
 }

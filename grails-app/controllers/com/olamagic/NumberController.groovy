@@ -59,14 +59,20 @@ class NumberController {
     }
 
     def release(String upid){
-        UserNumber.findByNumber(Number.findByUpid(upid)).delete flush: true
+        def number = Number.findByUpid(upid)
 
-        request.withFormat {
-            json { render status: OK }
-            '*'{
-                redirect method:"GET"
-            }
+        if (number == null) {
+            render status: NOT_FOUND
+            return
         }
+
+        def workspace = number.workspace
+        workspace.myNumbers.remove number
+        number.workspace = null
+
+        number.save flush: true
+
+        render ([number: number] as JSON)
     }
 
     @Transactional
