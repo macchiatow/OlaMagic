@@ -144,6 +144,34 @@ class NumberControllerSpec extends Specification {
             mockUser.profile.workspaces[0].myNumbers.size() == 0
     }
 
+    void "Test that the 'list_my_numbers' action returns the correct model"() {
+        when:"User, workspace and number exist"
+            mockUser.save flush: true
+            def workspace = mockUser.profile.workspaces.first()
+            number.workspace = workspace
+            number.save flush: true
+
+        and:"The 'list_my_numbers' action is called for a null or invalid wid"
+            request.method = 'GET'
+            controller.listMyNumbers(null)
+
+        then:"A 404 is returned"
+            response.status == 404
+
+        when:"The correct workspace id passed to the 'list_my_numbers' action"
+            response.reset()
+            controller.listMyNumbers(workspace.id)
+
+        then:"The model is correct"
+            response.json.numbers.size() == 1
+            response.json.numbers[0].id == number.id
+            response.json.numbers[0].upid == number.upid
+            response.json.numbers[0].workspace == workspace.title
+
+        and:"Workspace does not the number"
+            mockUser.profile.workspaces[0].myNumbers.size() == 1
+    }
+
     static loadExternalBeans = true
 
     @Before

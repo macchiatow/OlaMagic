@@ -16,10 +16,10 @@ class NumberMarshaller {
             properties << [id: u.id]
             properties << [upid: u.upid]
             if (u.workspace?.title){
-                properties << [workspace: u.workspace?.title]
+                properties << [workspace: u.workspace.title]
             }
             if (u.campaign?.description){
-                properties << [campaign: u.campaign?.description]
+                properties << [campaign: u.campaign.description]
             }
 
             return properties

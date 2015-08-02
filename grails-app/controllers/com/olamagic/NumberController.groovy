@@ -1,7 +1,6 @@
 package com.olamagic
 
 import com.olamagic.auth.SecUser
-import com.olamagic.join.UserNumber
 import grails.converters.JSON
 
 
@@ -15,31 +14,9 @@ class NumberController {
 
     static responseFormats = ['json']
 
-    def show(String upid){
-        def instance =  Number.findByUpid(upid)
-
-        if (instance == null) {
-            respond status: NOT_FOUND
-            return
-        }
-
-        respond instance
-    }
-
     def list(Integer max){
         params.max = Math.min(max ?: 10, 100)
         render ([numbers: Number.list(params)] as JSON)
-    }
-
-    def listWithUid(String uid){
-        def list = UserNumber.findAllBySecUser(SecUser.findByUid(uid)).number
-
-        request.withFormat {
-            json { render list as JSON }
-            '*'{
-                respond list, view: "listMyNumbers"
-            }
-        }
     }
 
     def buy(Long wid, String upid){
@@ -73,6 +50,17 @@ class NumberController {
         number.save flush: true
 
         render ([number: number] as JSON)
+    }
+
+    def listMyNumbers(Long wid){
+        def workspace = Workspace.findById(wid)
+
+        if (workspace == null) {
+            render status: NOT_FOUND
+            return
+        }
+
+        render ([numbers: workspace.myNumbers] as JSON)
     }
 
     @Transactional
