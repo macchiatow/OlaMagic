@@ -1,3 +1,4 @@
+import com.olamagic.marshaller.CallMarshaller
 import com.olamagic.marshaller.NumberMarshaller
 import com.olamagic.marshaller.SiteMarshaller
 import com.olamagic.marshaller.UserMarshaller
@@ -13,7 +14,8 @@ beans = {
                 new WorkspaceMarshaller(),
                 new UserMarshaller(),
                 new SiteMarshaller(),
-                new NumberMarshaller()
+                new NumberMarshaller(),
+                new CallMarshaller()
         ]
 
     }

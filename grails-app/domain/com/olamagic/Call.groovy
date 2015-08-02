@@ -9,5 +9,6 @@ class Call {
     static belongsTo = [number:Number]
 
     static constraints = {
+        aimed nullable: true
     }
 }

@@ -1,21 +1,30 @@
 package com.olamagic
 
-import static org.springframework.http.HttpStatus.CREATED
+import grails.converters.JSON
+
 import static org.springframework.http.HttpStatus.ACCEPTED
+import static org.springframework.http.HttpStatus.NOT_FOUND
 
 /**
  * Created by togrul on 6/26/15.
  */
 class CallController {
 
-    static responseFormats = ['json', 'xml']
+    static responseFormats = ['json']
 
-    def notifyCall(Call callInstance){
-        callInstance.number = Number.findByUpid(callInstance.number.upid)
+    def create(){
+        def call = new Call(request.JSON.call)
+        def number = Number.findByUpid(request.JSON.call.number.upid)
 
-        callInstance.save flush: true
+        if (number == null) {
+            render status: NOT_FOUND
+            return
+        }
 
-        respond callInstance, [status: CREATED]
+        call.number = number
+        call.save flush: true, failOnError: true
+
+        render ([call: call] as JSON)
     }
 
     def list(Integer max){
@@ -23,14 +32,7 @@ class CallController {
         respond Call.list(params), model:[numberInstanceCount: Number.count()]
     }
 
-    def listWithUpid(String upid){
-        def calls = Call.findAllByNumber(Number.findByUpid(upid))
-        println calls
-
-        respond calls, model:[callInstanceCount: calls.size()]
-    }
-
-    def deleteWithUpid(String upid){
+    def clear(String upid){
         Call.findAllByNumber(Number.findByUpid(upid))*.delete flush: true
 
         render status: ACCEPTED

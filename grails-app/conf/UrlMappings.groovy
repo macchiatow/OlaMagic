@@ -17,12 +17,12 @@ class UrlMappings {
         "/api/numbers"(controller: "number") { action = [GET: "list", POST: "create"] }
         "/api/numbers/$upid"(controller: "number") { action = [DELETE: "delete"] }
         "/api/numbers/$upid/release"(controller: "number") { action = [PUT: "release"] }
-        "/api/workspaces/$wid/numbers"(controller: "number") { action = [GET: "listWithWid"] }
+        "/api/workspaces/$wid/numbers"(controller: "number") { action = [GET: "listMyNumbers"] }
         "/api/workspaces/$wid/numbers/$upid/buy"(controller: "number") { action = [PUT: "buy"] }
 
         // Calls
-        "/api/numbers/$upid/calls"(controller: "call") { action = [GET: "list", POST: "notifyCall"] }
-        "/api/numbers/$upid/calls/$cid"(controller: "call") { action = [DELETE: "delete"] }
+        "/api/numbers/$upid/calls"(controller: "call") { action = [GET: "list", DELETE: "clear"] }
+        "/api/calls/"(controller: "call") { action = [POST: "notifyCall"] }
 
         // Sites
         "/api/workspaces/$wid/sites"(controller: "site") { action = [GET: "list", POST: "create"] }
