@@ -22,7 +22,7 @@ class UrlMappings {
 
         // Calls
         "/api/numbers/$upid/calls"(controller: "call") { action = [GET: "list", DELETE: "clear"] }
-        "/api/calls/"(controller: "call") { action = [POST: "notifyCall"] }
+        "/api/calls/"(controller: "call") { action = [POST: "create"] }
 
         // Sites
         "/api/workspaces/$wid/sites"(controller: "site") { action = [GET: "list", POST: "create"] }

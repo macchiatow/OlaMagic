@@ -67,6 +67,30 @@ class CallControllerSpec extends Specification {
             response.json.calls[1].id != null
     }
 
+    void "Test that the 'clear' action deletes all calls for a number"() {
+        when:"Number and two calls exist"
+            mockNumber.save flush: true
+            2.times { new Call(number: mockNumber).save(flush: true) }
+
+        then:"Calls exist"
+            Call.findAllByNumber(mockNumber).size == 2
+
+        when:"The 'list' action is called for a null or invalid wid"
+            request.method = 'DELETE'
+            controller.clear(null)
+
+        then:"A 404 is returned"
+            response.status == 404
+
+        when:"The correct upid passed to the 'list' action"
+            response.reset()
+            controller.clear(mockNumber.upid)
+
+        then:"The calls deleted"
+            response.status == 200
+            Call.findAllByNumber(mockNumber).size() == 0
+    }
+
     static loadExternalBeans = true
 
     @Before

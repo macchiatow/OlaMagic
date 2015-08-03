@@ -1,14 +1,18 @@
 package com.olamagic
 
 import grails.converters.JSON
+import org.springframework.http.HttpStatus
 
 import static org.springframework.http.HttpStatus.ACCEPTED
 import static org.springframework.http.HttpStatus.NOT_FOUND
+import static org.springframework.http.HttpStatus.OK
 
 /**
  * Created by togrul on 6/26/15.
  */
 class CallController {
+
+    static allowedMethods = [create: "POST", list: "GET", delete: "clear"]
 
     static responseFormats = ['json']
 
@@ -40,8 +44,15 @@ class CallController {
     }
 
     def clear(String upid){
-        Call.findAllByNumber(Number.findByUpid(upid))*.delete flush: true
+        def number = Number.findByUpid(upid)
 
-        render status: ACCEPTED
+        if (number == null) {
+            render status: NOT_FOUND
+            return
+        }
+
+        Call.findAllByNumber(number)*.delete flush: true
+
+        render status: OK
     }
 }
