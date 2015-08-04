@@ -12,9 +12,9 @@ class SiteMarshaller {
     void register(){
         JSON.registerObjectMarshaller(Site) { Site s ->
             return [
-                    details        : s.details,
-                    username       : s.name,
-                    class          : s.class
+            		id				: s.id,
+                    details        	: s.details,
+                    name       		: s.name,
             ]
         }
     }

@@ -26,7 +26,7 @@ class UrlMappings {
 
         // Sites
         "/api/workspaces/$wid/sites"(controller: "site") { action = [GET: "list", POST: "create"] }
-        "/api/workspaces/$wid/sites/$sid"(controller: "site") { action = [DELETE: "delete", PUT: "update"] }
+        "/api/sites/$sid"(controller: "site") { action = [DELETE: "delete", PUT: "update"] }
 
         // AdSources
         "/api/sites/$sid/ad_sources"(controller: "adSource") { action = [GET: "list", POST: "create"] }
