@@ -7,7 +7,7 @@ import org.junit.Before
 import spock.lang.Specification
 
 @TestFor(AdSourceController)
-@Mock([AdSource, Site, SecUser, Workspace, Profile])
+@Mock([AdSource, Site, SecUser, Workspace, Profile, Number])
 class AdSourceControllerSpec extends Specification {
 
     def mockUser = new SecUser(
@@ -25,6 +25,8 @@ class AdSourceControllerSpec extends Specification {
         name: 'One adSource',
         description: 'Just a description'
     )
+
+    def mockNumber = new Number(upid: '0931326201')
 
     void "Test the 'list' action returns the correct model"() {
         when:"A user instance is created"
@@ -158,6 +160,74 @@ class AdSourceControllerSpec extends Specification {
             response.json.adSource.id == mockAdSource.id
             response.json.adSource.description == mockAdSource.description
             response.json.adSource.name == mockAdSource.name
+    }
+
+    void "Test the 'addNumber' action returns the correct model"() {
+        when:"An adSource and a number instance created"
+            mockUser.save flush: true
+            def workspace = Workspace.first()
+            mockSite.workspace = workspace
+            mockNumber.workspace = workspace
+            mockAdSource.site = mockSite.save flush: true
+            mockAdSource.save flush: true
+            mockNumber.save flush: true
+
+        then:"One adSource and one number exist"
+            AdSource.count() == 1
+            Number.count() == 1
+
+        when:"The index action is executed with null object"
+            request.method = 'PUT'
+            response.format = 'json'
+            controller.addNumber(null, null)
+
+        then:"A 404 is returned"
+            response.status == 404
+
+        when:"The list action is executed with a valid request"
+            response.reset()
+            controller.addNumber(mockAdSource.id, mockNumber.upid)
+
+        then:"The model is correct"
+            response.status == 200
+            response.json.adSource.id == mockAdSource.id
+            response.json.adSource.description == mockAdSource.description
+            response.json.adSource.name == mockAdSource.name
+            response.json.adSource.numbers == [mockNumber.upid]
+    }
+
+    void "Test the 'removeNumber' action returns the correct model"() {
+        when:"An adSource and a number instance created"
+            mockUser.save flush: true
+            def workspace = Workspace.first()
+            mockSite.workspace = workspace
+            mockNumber.workspace = workspace
+            mockAdSource.site = mockSite.save flush: true
+            mockNumber.adSource = mockAdSource.save flush: true
+            mockNumber.save flush: true
+
+        then:"One adSource and one number exist"
+            AdSource.count() == 1
+            Number.count() == 1
+
+        when:"The index action is executed with null object"
+            request.method = 'PUT'
+            response.format = 'json'
+            controller.removeNumber(null, null)
+
+        then:"A 404 is returned"
+            response.status == 404
+
+        when:"The list action is executed with a valid request"
+            response.reset()
+            controller.removeNumber(mockAdSource.id, mockNumber.upid)
+
+        then:"The model is correct"
+            response.status == 200
+            response.json.adSource.id == mockAdSource.id
+            response.json.adSource.description == mockAdSource.description
+            response.json.adSource.name == mockAdSource.name
+            response.json.adSource.numbers == []
     }
 
     static loadExternalBeans = true

@@ -31,9 +31,9 @@ class UrlMappings {
         // AdSources
         "/api/sites/$sid/ad_sources"(controller: "adSource") { action = [GET: "list", POST: "create"] }
         "/api/ad_sources/$id"(controller: "adSource") { action = [DELETE: "delete", PUT: "update"] }
-        "/api/ad_sources/$aid/numbers"(controller: "adSource") { action = [GET: "list"] }
-        "/api/ad_sources/$aid/numbers/$upid/add"(controller: "adSource") { action = [POST: "list"] }
-        "/api/ad_sources/$aid/numbers/$upid/remove"(controller: "adSource") { action = [POST: "list"] }
+        "/api/ad_sources/$id/numbers"(controller: "adSource") { action = [GET: "listNumber"] }
+        "/api/ad_sources/$aid/numbers/$upid/add"(controller: "adSource") { action = [POST: "addNumber"] }
+        "/api/ad_sources/$aid/numbers/$upid/remove"(controller: "adSource") { action = [POST: "removeNumber"] }
 
         // Campaign
         "/api/sites/$sid/campaigns"(controller: "adSource") { action = [GET: "list", POST: "create"] }

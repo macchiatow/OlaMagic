@@ -1,3 +1,4 @@
+import com.olamagic.marshaller.AdSourceMarshaller
 import com.olamagic.marshaller.CallMarshaller
 import com.olamagic.marshaller.NumberMarshaller
 import com.olamagic.marshaller.SiteMarshaller
@@ -15,7 +16,8 @@ beans = {
                 new UserMarshaller(),
                 new SiteMarshaller(),
                 new NumberMarshaller(),
-                new CallMarshaller()
+                new CallMarshaller(),
+                new AdSourceMarshaller()
         ]
 
     }

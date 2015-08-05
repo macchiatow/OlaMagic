@@ -67,4 +67,45 @@ class AdSourceController {
         render ([adSource: adSource] as JSON)
     }
 
+    def listNumber(Long id) {
+        def adSource = AdSource.findById(id)
+
+        if (adSource == null) {
+            render status: NOT_FOUND
+            return
+        }
+
+        render ([numbers: adSource.numbers] as JSON)
+    }
+
+    def addNumber(Long aid, String upid) {
+        def adSource = AdSource.findById(aid)
+        def number = Number.findByUpidAndWorkspace(upid, adSource?.site?.workspace)
+
+        if (adSource == null || number == null) {
+            render status: NOT_FOUND
+            return
+        }
+
+        number.adSource = adSource
+        number.save flush: true
+
+        render ([adSource: adSource] as JSON)
+    }
+
+    def removeNumber(Long aid, String upid) {
+        def adSource = AdSource.findById(aid)
+        def number = adSource?.numbers?.find {it.upid == upid }
+
+        if (adSource == null || number == null) {
+            render status: NOT_FOUND
+            return
+        }
+
+        adSource.numbers.remove number
+        adSource.save flush: true
+
+        render ([adSource: adSource] as JSON)
+    }
+
 }
