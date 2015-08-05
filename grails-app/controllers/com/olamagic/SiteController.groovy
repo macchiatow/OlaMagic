@@ -3,11 +3,9 @@
  */
 package com.olamagic
 
-import com.olamagic.auth.SecUser
 import grails.transaction.Transactional
 import grails.converters.JSON
 
-import static org.springframework.http.HttpStatus.NOT_ACCEPTABLE
 import static org.springframework.http.HttpStatus.NOT_FOUND
 import static org.springframework.http.HttpStatus.OK
 

@@ -1,109 +1,70 @@
+/**
+ * Created by togrul on 7/10/15.
+ */
 package com.olamagic
 
-import com.olamagic.join.UserAdSource
-
-import static org.springframework.http.HttpStatus.*
 import grails.transaction.Transactional
+import grails.converters.JSON
 
-@Transactional(readOnly = true)
+import static org.springframework.http.HttpStatus.NOT_FOUND
+import static org.springframework.http.HttpStatus.OK
+
 class AdSourceController {
 
-    def springSecurityService
+    def list(Long sid){
+        def site = Site.findById(sid)
 
-    static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
+        if (site == null) {
+            render status: NOT_FOUND
+            return
+        }
 
-    def list(Integer max) {
-        params.max = Math.min(max ?: 10, 100)
-        def list = UserAdSource.findAllBySecUser(springSecurityService.currentUser)*.adSource.take(Math.min(max ?: 10, 100))
-        respond list, model:[adSourceInstanceCount: AdSource.count()]
-    }
-
-    def show(AdSource adSourceInstance) {
-        respond adSourceInstance
-    }
-
-    def create() {
-        respond new AdSource(params)
+        render ([adSources: site.adSources] as JSON)
     }
 
     @Transactional
-    def save(AdSource adSourceInstance) {
-        if (adSourceInstance == null) {
-            notFound()
+    def create(Long sid) {
+        def adSource =  new AdSource(request.JSON.adSource)
+        def site = Site.findById(sid)
+
+        if (site == null) {
+            render status: NOT_FOUND
             return
         }
 
-        if (adSourceInstance.hasErrors()) {
-            respond adSourceInstance.errors, view:'create'
-            return
-        }
+        adSource.site = site
 
-        adSourceInstance.save flush:true
-        UserAdSource.create springSecurityService.currentUser, adSourceInstance, true
-
-        request.withFormat {
-            form multipartForm {
-                flash.message = message(code: 'default.created.message', args: [message(code: 'adSource.label', default: 'AdSource'), adSourceInstance.id])
-                redirect adSourceInstance
-            }
-            '*' { respond adSourceInstance, [status: CREATED] }
-        }
-    }
-
-    def edit(AdSource adSourceInstance) {
-        respond adSourceInstance
+        adSource.save flush: true
+        render ([adSource: adSource] as JSON)
     }
 
     @Transactional
-    def update(AdSource adSourceInstance) {
-        if (adSourceInstance == null) {
-            notFound()
+    def delete(Long id) {
+        def adSource = AdSource.findById(id)
+
+        if (adSource == null) {
+            render status: NOT_FOUND
             return
         }
 
-        if (adSourceInstance.hasErrors()) {
-            respond adSourceInstance.errors, view:'edit'
-            return
-        }
-
-        adSourceInstance.save flush:true
-
-        request.withFormat {
-            form multipartForm {
-                flash.message = message(code: 'default.updated.message', args: [message(code: 'AdSource.label', default: 'AdSource'), adSourceInstance.id])
-                redirect adSourceInstance
-            }
-            '*'{ respond adSourceInstance, [status: OK] }
-        }
+        adSource.delete flush: true
+        render status: OK
     }
 
     @Transactional
-    def delete(AdSource adSourceInstance) {
+    def update(Long id) {
+        def adSource = AdSource.findById(id)
 
-        if (adSourceInstance == null) {
-            notFound()
+        if (adSource == null) {
+            render status: NOT_FOUND
             return
         }
 
-        UserAdSource.remove springSecurityService.currentUser, adSourceInstance, true
-        adSourceInstance.delete flush:true
+        adSource.description = request.JSON.adSource.description
+        adSource.name = request.JSON.adSource.name
 
-        request.withFormat {
-            form multipartForm {
-                flash.message = message(code: 'default.deleted.message', args: [message(code: 'AdSource.label', default: 'AdSource'), adSourceInstance.id])
-                redirect action:"index", method:"GET"
-            }
-            '*'{ render status: NO_CONTENT }
-        }
+        adSource.save flush: true
+        render ([adSource: adSource] as JSON)
     }
 
-    protected void notFound() {
-        request.withFormat {
-            form multipartForm {
-                flash.message = message(code: 'default.not.found.message', args: [message(code: 'adSource.label', default: 'AdSource'), params.id])
-                redirect action: "index", method: "GET"
-            }
-            '*'{ render status: NOT_FOUND }
-        }
-    }
 }
