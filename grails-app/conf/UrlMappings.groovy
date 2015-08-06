@@ -31,16 +31,16 @@ class UrlMappings {
         // AdSources
         "/api/sites/$sid/ad_sources"(controller: "adSource") { action = [GET: "list", POST: "create"] }
         "/api/ad_sources/$id"(controller: "adSource") { action = [DELETE: "delete", PUT: "update"] }
-        "/api/ad_sources/$id/numbers"(controller: "adSource") { action = [GET: "listNumber"] }
+        "/api/ad_sources/$id/numbers"(controller: "adSource") { action = [GET: "listNumbers"] }
         "/api/ad_sources/$aid/numbers/$upid/add"(controller: "adSource") { action = [POST: "addNumber"] }
         "/api/ad_sources/$aid/numbers/$upid/remove"(controller: "adSource") { action = [POST: "removeNumber"] }
 
         // Campaign
-        "/api/sites/$sid/campaigns"(controller: "adSource") { action = [GET: "list", POST: "create"] }
-        "/api/sites/$sid/campaigns/$caid"(controller: "adSource") { action = [DELETE: "delete", PUT: "update"] }
-        "/api/campaigns/$aid/numbers"(controller: "adSource") { action = [GET: "list"] }
-        "/api/campaigns/$aid/numbers/$upid/add"(controller: "adSource") { action = [POST: "list"] }
-        "/api/campaigns/$aid/numbers/$upid/remove"(controller: "adSource") { action = [POST: "list"] }
+        "/api/sites/$sid/campaigns"(controller: "campaign") { action = [GET: "list", POST: "create"] }
+        "/api/campaigns/$id"(controller: "campaign") { action = [DELETE: "delete", PUT: "update"] }
+        "/api/campaigns/$id/numbers"(controller: "campaign") { action = [GET: "listNumbers"] }
+        "/api/campaigns/$caid/numbers/$upid/add"(controller: "campaign") { action = [POST: "addNumber"] }
+        "/api/campaigns/$caid/numbers/$upid/remove"(controller: "campaign") { action = [POST: "removeNumber"] }
 
         // Reports
         "/api/reports"(controller: "report")

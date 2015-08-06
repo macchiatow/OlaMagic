@@ -8,7 +8,7 @@ class Campaign {
 
     static belongsTo = [site: Site]
 
-    static hasMany = [number: Number]
+    static hasMany = [numbers: Number]
 
     static constraints = {
     }

@@ -67,7 +67,7 @@ class AdSourceController {
         render ([adSource: adSource] as JSON)
     }
 
-    def listNumber(Long id) {
+    def listNumbers(Long id) {
         def adSource = AdSource.findById(id)
 
         if (adSource == null) {

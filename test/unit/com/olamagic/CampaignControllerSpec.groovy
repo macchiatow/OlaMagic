@@ -6,9 +6,9 @@ import grails.test.mixin.TestFor
 import org.junit.Before
 import spock.lang.Specification
 
-@TestFor(AdSourceController)
-@Mock([AdSource, Site, SecUser, Workspace, Profile, Number])
-class AdSourceControllerSpec extends Specification {
+@TestFor(CampaignController)
+@Mock([Campaign, Site, SecUser, Workspace, Profile, Number])
+class CampaignControllerSpec extends Specification {
 
     def mockUser = new SecUser(
         email: 'some@email.com',
@@ -21,8 +21,8 @@ class AdSourceControllerSpec extends Specification {
         details: 'Just a details'
     )
 
-    def mockAdSource = new AdSource(
-        name: 'One adSource',
+    def mockCampaign = new Campaign(
+        name: 'One campaign',
         description: 'Just a description'
     )
 
@@ -33,14 +33,14 @@ class AdSourceControllerSpec extends Specification {
             mockUser.save flush: true
             def workspace = Workspace.first()
             mockSite.workspace = workspace
-            mockAdSource.site = mockSite
+            mockCampaign.site = mockSite
             mockSite.save flush: true
-            mockAdSource.save flush: true
+            mockCampaign.save flush: true
 
-        then:"One adSource exist"
+        then:"One campaign exist"
             Workspace.count() == 1
             Site.count() == 1
-            AdSource.count() == 1
+            Campaign.count() == 1
 
         when:"The index action is executed with null object"
             request.method = 'GET'
@@ -56,10 +56,10 @@ class AdSourceControllerSpec extends Specification {
 
         then:"The model is correct"
             response.status == 200
-            response.json.adSources.size() == 1
-            response.json.adSources[0].id == mockAdSource.id
-            response.json.adSources[0].description == mockAdSource.description
-            response.json.adSources[0].name == mockAdSource.name
+            response.json.campaigns.size() == 1
+            response.json.campaigns[0].id == mockCampaign.id
+            response.json.campaigns[0].description == mockCampaign.description
+            response.json.campaigns[0].name == mockCampaign.name
     }
 
     void "Test the 'create' action correctly persists an instance"() {
@@ -73,22 +73,22 @@ class AdSourceControllerSpec extends Specification {
             request.contentType = JSON_CONTENT_TYPE
             request.method = 'POST'
             request.json = [
-                adSource : [
+                campaign : [
                     id: 999,     // trying to pass id should not effect
-                    description: mockAdSource.description,
-                    name: mockAdSource.name
+                    description: mockCampaign.description,
+                    name: mockCampaign.name
                 ]
             ]
             controller.create(mockSite.id)
 
         then:"An instance saved"
-            AdSource.count() == 1
-            mockSite.adSources.size() == 1
+            Campaign.count() == 1
+            mockSite.campaigns.size() == 1
 
         and:"Response model is correct"
-            response.json.adSource.id != null
-            response.json.adSource.description == mockAdSource.description
-            response.json.adSource.name == mockAdSource.name
+            response.json.campaign.id != null
+            response.json.campaign.description == mockCampaign.description
+            response.json.campaign.name == mockCampaign.name
     }
 
     void "Test that the 'delete' action deletes an instance if it exists"() {
@@ -105,18 +105,18 @@ class AdSourceControllerSpec extends Specification {
             mockUser.save flush: true
             def workspace = Workspace.first()
             mockSite.workspace = workspace
-            mockAdSource.site = mockSite
+            mockCampaign.site = mockSite
             mockSite.save flush: true
-            mockAdSource.save flush: true
+            mockCampaign.save flush: true
 
         then:"Site exists"   
-            AdSource.count() == 1
+            Campaign.count() == 1
 
-        when:"The adSource id is passed to the delete action"
-           controller.delete(mockAdSource.id)
+        when:"The campaign id is passed to the delete action"
+           controller.delete(mockCampaign.id)
 
         then:"The instance is deleted"
-            AdSource.count() == 0
+            Campaign.count() == 0
             response.status == 200
     }
 
@@ -141,40 +141,40 @@ class AdSourceControllerSpec extends Specification {
             mockUser.save flush: true
             def workspace = Workspace.first()
             mockSite.workspace = workspace
-            mockAdSource.site = mockSite
+            mockCampaign.site = mockSite
             mockSite.save flush: true
-            mockAdSource.save flush: true
+            mockCampaign.save flush: true
 
         and:"A valid domain instance is passed to the update action"
             response.reset()
             request.json = [
-                adSource : [
+                campaign : [
                     id: 999,     // trying to pass id should not effect
-                    description: mockAdSource.description,
-                    name: mockAdSource.name
+                    description: mockCampaign.description,
+                    name: mockCampaign.name
                 ]
             ]
-            controller.update(mockAdSource.id)
+            controller.update(mockCampaign.id)
 
         then:"The instance updated"
             response.status == 200
-            response.json.adSource.id == mockAdSource.id
-            response.json.adSource.description == mockAdSource.description
-            response.json.adSource.name == mockAdSource.name
+            response.json.campaign.id == mockCampaign.id
+            response.json.campaign.description == mockCampaign.description
+            response.json.campaign.name == mockCampaign.name
     }
 
     void "Test the 'addNumber' action returns the correct model"() {
-        when:"An adSource and a number instance created"
+        when:"An campaign and a number instance created"
             mockUser.save flush: true
             def workspace = Workspace.first()
             mockSite.workspace = workspace
             mockNumber.workspace = workspace
-            mockAdSource.site = mockSite.save flush: true
-            mockAdSource.save flush: true
+            mockCampaign.site = mockSite.save flush: true
+            mockCampaign.save flush: true
             mockNumber.save flush: true
 
-        then:"One adSource and one number exist"
-            AdSource.count() == 1
+        then:"One campaign and one number exist"
+            Campaign.count() == 1
             Number.count() == 1
 
         when:"The index action is executed with null object"
@@ -187,28 +187,28 @@ class AdSourceControllerSpec extends Specification {
 
         when:"The list action is executed with a valid request"
             response.reset()
-            controller.addNumber(mockAdSource.id, mockNumber.upid)
+            controller.addNumber(mockCampaign.id, mockNumber.upid)
 
         then:"The model is correct"
             response.status == 200
-            response.json.adSource.id == mockAdSource.id
-            response.json.adSource.description == mockAdSource.description
-            response.json.adSource.name == mockAdSource.name
-            response.json.adSource.numbers == [mockNumber.upid]
+            response.json.campaign.id == mockCampaign.id
+            response.json.campaign.description == mockCampaign.description
+            response.json.campaign.name == mockCampaign.name
+            response.json.campaign.numbers == [mockNumber.upid]
     }
 
     void "Test the 'removeNumber' action returns the correct model"() {
-        when:"An adSource and a number instance created"
+        when:"An campaign and a number instance created"
             mockUser.save flush: true
             def workspace = Workspace.first()
             mockSite.workspace = workspace
             mockNumber.workspace = workspace
-            mockAdSource.site = mockSite.save flush: true
-            mockNumber.adSource = mockAdSource.save flush: true
+            mockCampaign.site = mockSite.save flush: true
+            mockNumber.campaign = mockCampaign.save flush: true
             mockNumber.save flush: true
 
-        then:"One adSource and one number exist"
-            AdSource.count() == 1
+        then:"One campaign and one number exist"
+            Campaign.count() == 1
             Number.count() == 1
 
         when:"The index action is executed with null object"
@@ -221,14 +221,14 @@ class AdSourceControllerSpec extends Specification {
 
         when:"The list action is executed with a valid request"
             response.reset()
-            controller.removeNumber(mockAdSource.id, mockNumber.upid)
+            controller.removeNumber(mockCampaign.id, mockNumber.upid)
 
         then:"The model is correct"
             response.status == 200
-            response.json.adSource.id == mockAdSource.id
-            response.json.adSource.description == mockAdSource.description
-            response.json.adSource.name == mockAdSource.name
-            response.json.adSource.numbers == []
+            response.json.campaign.id == mockCampaign.id
+            response.json.campaign.description == mockCampaign.description
+            response.json.campaign.name == mockCampaign.name
+            response.json.campaign.numbers == []
     }
 
     static loadExternalBeans = true
