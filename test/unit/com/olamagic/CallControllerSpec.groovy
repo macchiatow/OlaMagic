@@ -52,8 +52,8 @@ class CallControllerSpec extends Specification {
             request.method = 'GET'
             controller.list(null)
 
-        then:"A 404 is returned"
-            response.status == 404
+        then:"An empty list is returned"
+            response.json.calls == []
 
         when:"The correct upid passed to the 'list' action"
             response.reset()

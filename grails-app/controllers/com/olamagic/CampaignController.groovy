@@ -13,13 +13,7 @@ class CampaignController {
 
     def list(Long sid){
         def site = Site.findById(sid)
-
-        if (site == null) {
-            render status: NOT_FOUND
-            return
-        }
-
-        render ([campaigns: site.campaigns] as JSON)
+        render ([campaigns: site?.campaigns?:[]] as JSON)
     }
 
     @Transactional
@@ -69,13 +63,7 @@ class CampaignController {
 
     def listNumbers(Long id) {
         def campaign = Campaign.findById(id)
-
-        if (campaign == null) {
-            render status: NOT_FOUND
-            return
-        }
-
-        render ([numbers: campaign.numbers] as JSON)
+        render ([numbers: campaign?.numbers?:[]] as JSON)
     }
 
     def addNumber(Long caid, String upid) {

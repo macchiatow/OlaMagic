@@ -33,12 +33,6 @@ class CallController {
 
     def list(String upid){
         def number = Number.findByUpid(upid)
-
-        if (number == null) {
-            render status: NOT_FOUND
-            return
-        }
-
         def calls = Call.findAllByNumber(number)
         render ([calls: calls] as JSON)
     }

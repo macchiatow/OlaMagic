@@ -47,8 +47,8 @@ class AdSourceControllerSpec extends Specification {
             response.format = 'json'
             controller.list(null)
 
-        then:"A 404 is returned"
-            response.status == 404
+        then:"An empty list is returned"
+            response.json.adSources == []
 
         when:"The list action is executed with a valid request"
             response.reset()
@@ -192,8 +192,8 @@ class AdSourceControllerSpec extends Specification {
             response.format = 'json'
             controller.listNumbers(null)
 
-        then:"A 404 is returned"
-            response.status == 404
+        then:"An empty list is returned"
+            response.json.numbers == []
 
         when:"The list action is executed with a valid request"
             response.reset()

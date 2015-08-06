@@ -13,13 +13,7 @@ class AdSourceController {
 
     def list(Long sid){
         def site = Site.findById(sid)
-
-        if (site == null) {
-            render status: NOT_FOUND
-            return
-        }
-
-        render ([adSources: site.adSources] as JSON)
+        render ([adSources: site?.adSources?:[]] as JSON)
     }
 
     @Transactional
@@ -69,13 +63,7 @@ class AdSourceController {
 
     def listNumbers(Long id) {
         def adSource = AdSource.findById(id)
-
-        if (adSource == null || adSource.numbers == null) {
-            render status: NOT_FOUND
-            return
-        }
-
-        render ([numbers: adSource.numbers] as JSON)
+        render ([numbers: adSource?.numbers?:[]] as JSON)
     }
 
     def addNumber(Long aid, String upid) {

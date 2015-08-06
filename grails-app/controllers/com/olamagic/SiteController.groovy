@@ -13,13 +13,7 @@ class SiteController {
 
     def list(Long wid){
         def workspace = Workspace.findById(wid)
-
-        if (workspace == null) {
-            render status: NOT_FOUND
-            return
-        }
-
-        render ([sites: workspace.sites] as JSON)
+        render ([sites: workspace?.sites?:[]] as JSON)
     }
 
 	@Transactional
