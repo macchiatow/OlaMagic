@@ -18,8 +18,11 @@ class NumberMarshaller {
             if (u.workspace?.title){
                 properties << [workspace: u.workspace.title]
             }
-            if (u.campaign?.description){
-                properties << [campaign: u.campaign.description]
+            if (u.campaign?.name){
+                properties << [campaign: u.campaign.name]
+            }
+            if (u.adSource?.name){
+                properties << [adSource: u.adSource.name]
             }
 
             return properties

@@ -69,7 +69,7 @@ class AdSourceControllerSpec extends Specification {
             mockSite.workspace = workspace
             mockSite.save flush: true
 
-        and:"The create action is executed with a valid request"
+        and:"The create action is executed with invalid request"
             request.contentType = JSON_CONTENT_TYPE
             request.method = 'POST'
             request.json = [
@@ -79,8 +79,16 @@ class AdSourceControllerSpec extends Specification {
                     name: mockAdSource.name
                 ]
             ]
-            controller.create(mockSite.id)
+            controller.create(null)
 
+
+        then:"A 404 is returned"
+            response.status == 404    
+
+        when:"Valid site id passed"
+            response.reset()
+            controller.create(mockSite.id) 
+    
         then:"An instance saved"
             AdSource.count() == 1
             mockSite.adSources.size() == 1
@@ -161,6 +169,41 @@ class AdSourceControllerSpec extends Specification {
             response.json.adSource.id == mockAdSource.id
             response.json.adSource.description == mockAdSource.description
             response.json.adSource.name == mockAdSource.name
+    }
+
+    void "Test the 'listNumbers' action returns the correct model"() {
+        when:"A user instance is created"
+            mockUser.save flush: true
+            def workspace = Workspace.first()
+            mockSite.workspace = workspace
+            mockNumber.workspace = workspace
+            mockAdSource.site = mockSite.save flush: true
+            mockNumber.adSource = mockAdSource.save flush: true
+            mockNumber.save flush: true
+
+        then:"One adSource exist"
+            Number.count() == 1
+            Workspace.count() == 1
+            Site.count() == 1
+            AdSource.count() == 1
+
+        when:"The index action is executed with null object"
+            request.method = 'GET'
+            response.format = 'json'
+            controller.listNumbers(null)
+
+        then:"A 404 is returned"
+            response.status == 404
+
+        when:"The list action is executed with a valid request"
+            response.reset()
+            controller.listNumbers(mockAdSource.id)
+
+        then:"The model is correct"
+            response.status == 200
+            response.json.numbers.size() == 1
+            response.json.numbers[0].id == mockNumber.id
+            response.json.numbers[0].upid == mockNumber.upid
     }
 
     void "Test the 'addNumber' action returns the correct model"() {

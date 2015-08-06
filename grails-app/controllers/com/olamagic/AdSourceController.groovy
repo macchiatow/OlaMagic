@@ -70,7 +70,7 @@ class AdSourceController {
     def listNumbers(Long id) {
         def adSource = AdSource.findById(id)
 
-        if (adSource == null) {
+        if (adSource == null || adSource.numbers == null) {
             render status: NOT_FOUND
             return
         }
