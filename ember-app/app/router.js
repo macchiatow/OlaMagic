@@ -6,16 +6,13 @@ var Router = Ember.Router.extend({
 });
 
 Router.map(function () {
-  this.route('dashboard', {path: '/dashboard'}, function () {
-    this.route('workspaces', function () {
-      this.route('settings');
-      this.route('access');
-    });
-  });
-
   this.route('dashboard', {path: '/dashboard/:uid'}, function () {
     this.route('pbx', function () {
       this.route('numbers', {path: '/numbers'});
+    });
+    this.route('workspaces', function () {
+      this.route('settings');
+      this.route('access');
     });
     this.route('reports', function () {
       this.route('report-one');
