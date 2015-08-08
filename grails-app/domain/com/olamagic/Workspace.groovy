@@ -7,7 +7,7 @@ import grails.converters.JSON
  */
 class Workspace {
 
-    String title = 'My workspace'
+    String title
 
     static hasOne = [owner: Profile]
 

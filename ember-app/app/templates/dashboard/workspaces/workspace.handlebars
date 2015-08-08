@@ -1,0 +1,109 @@
+<div class="sticky-header">
+
+    <div class="editable-table-component table-responsive" >
+        {{#each item in model}}
+            <ul class="list-group list-group-lg">
+            <li class="ember-view list-group-item"><div class="panel-section  ">
+                <div class="panel-description">
+                    <div class="panel-title">
+                        Name
+                    </div>
+
+                </div>
+
+                <div class="panel-content">
+                    <form role="form" class="app-rename edit-first">
+                        <div class="form-group">
+                            <input id="app-rename-input" class="ember-view ember-text-field form-control" type="text" value="{{item.title}}">
+                        </div>
+
+                        <div class="form-group">
+                            <button class="btn btn-primary  disabled">Rename</button>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+            </li>
+            <li class="ember-view list-group-item"><div class="panel-section  ">
+                <div class="panel-description">
+                    <div class="panel-title">
+                        <!---->      Info
+                        <!----><!---->    </div>
+
+                    <!---->  </div>
+
+                <div class="panel-content">
+                    <div class="ember-view">
+                        <dl class="dl-horizontal">
+                            <dt>Region</dt>
+                            <dd class="region">
+                                <i class="icon region-icon icon-region-eu"></i>
+                                Az
+                            </dd>
+                            <dt>Sites</dt>
+                            <dd>14</dd>
+                        <dt>Numbers</dt>
+                        <dd>44</dd>
+                        <dt>Ad Sources</dt>
+                        <dd>5</dd>
+                        <dt>Campaigns</dt>
+                        <dd>3</dd>
+                    </dl>
+                    </div>
+
+                </div>
+            </div>
+            </li>
+            <li class="ember-view list-group-item"><div class="panel-section app-transfer ">
+                <div class="panel-description">
+                    <div class="panel-title">
+                        <!---->      Transfer Ownership
+                        <!----><!---->    </div>
+
+                    <div class="panel-details">
+                        Transfer this app to your personal account or to an organization of which you are a member.
+                    </div>
+                </div>
+
+                <div class="panel-content">
+                    <!---->
+                    <div class="edit-first">
+                        <p>
+                            <select class="ember-view ember-select form-control"><option value="">Select a new owner…</option><optgroup id="ember1754" class="ember-view" label="Collaborators"><option id="ember1755" class="ember-view" value="xhero111@bk.ru">xhero111@bk.ru</option></optgroup>
+                            </select>
+                        </p>
+
+                        <p>
+                            <button class="ember-view btn btn-primary btn create-transfer" value="Transfer" disabled="">Transfer</button>
+                        </p>
+                    </div>
+
+
+
+                </div>
+            </div>
+            </li>
+            <li class="ember-view list-group-item"><div class="panel-section danger app-deletion ">
+                <div class="panel-description">
+                    <div class="panel-title">
+                        Delete workspace
+                    </div>
+                    <div class="panel-details">
+                        Deleting your app and its add-ons is irreversible.
+                    </div>
+                </div>
+
+                <div class="panel-content">
+                    <p>
+                        <button class="ember-view btn btn-danger delete-app" value="Delete app...">Delete workspace...</button>
+                    </p>
+
+                </div>
+            </div>
+            </li></ul>
+        {{/each}}
+
+    </div>
+
+</div>

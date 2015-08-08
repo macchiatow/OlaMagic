@@ -7,7 +7,7 @@ class UrlMappings {
         "/api/users/$id"(controller: "user") { action = [GET: "show", DELETE: "delete", PUT: "update"] }
 
         // Workspaces
-        "/api/users/$uid/workspaces"(controller: "workspace") { action = [GET: "list", POST: "create"] }
+        "/api/users/$uid/workspaces"(controller: "workspace") { action = [GET: "list", POST: "create", OPTIONS: "options"] }
         "/api/workspaces/$id"(controller: "workspace") { action = [UPDATE: "update", DELETE: "delete"] }
         "/api/users/$uid/workspaces/$wid/subscribe"(controller: "workspace") { action = [PUT: "subscribe"] }
         "/api/users/$uid/workspaces/$wid/unsubscribe"(controller: "workspace") { action = [PUT: "unsubscribe"] }
