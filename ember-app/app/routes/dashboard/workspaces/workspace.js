@@ -1,8 +1,7 @@
 import Ember from 'ember';
 
 export default Ember.Route.extend({
-  model: function() {
-    return this.modelFor('dashboard');
-  }
-
+    model: function(params) {
+        return this.store.findRecord('workspace', params.wid);
+    }
 });

@@ -26,10 +26,13 @@ class WorkspaceController {
             render status: NOT_ACCEPTABLE
             return
         }
+
+
         println request.JSON.workspace
         def workspace =  new Workspace(request.JSON.workspace)
         workspace.owner = Profile.findBySecUser(SecUser.findById(uid))
         workspace.save flush: true
+        println (workspace as JSON)
         render ([workspace: workspace] as JSON)
     }
 
@@ -61,7 +64,7 @@ class WorkspaceController {
         }
 
         workspace.delete flush: true
-        render status: OK
+        render '{}'
     }
 
 

@@ -1,7 +1,6 @@
 <div class="sticky-header">
 
     <div class="editable-table-component table-responsive" >
-        {{#each item in model}}
             <ul class="list-group list-group-lg">
             <li class="ember-view list-group-item"><div class="panel-section  ">
                 <div class="panel-description">
@@ -14,7 +13,7 @@
                 <div class="panel-content">
                     <form role="form" class="app-rename edit-first">
                         <div class="form-group">
-                            <input id="app-rename-input" class="ember-view ember-text-field form-control" type="text" value="{{item.id}}">
+                            <input id="app-rename-input" class="ember-view ember-text-field form-control" type="text" value="{{model.id}}">
                         </div>
 
                         <div class="form-group">
@@ -96,14 +95,12 @@
 
                 <div class="panel-content">
                     <p>
-                        <button class="ember-view btn btn-danger delete-app" value="Delete app...">Delete workspace...</button>
+                        <button {{action 'deleteWorkspace' model.id}} class="ember-view btn btn-danger delete-app" value="Delete app...">Delete workspace...</button>
                     </p>
 
                 </div>
             </div>
             </li></ul>
-        {{/each}}
-
     </div>
 
 </div>

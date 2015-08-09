@@ -25,5 +25,11 @@ export default DS.RESTAdapter.extend({
         console.log(this.uid);
 
         return this.host + '/' + this.namespace + '/' + this.uid + '/' + this.model
+    },
+    urlForDeleteRecord: function (id, modelName) {
+        var host =  Ember.get(this, 'host');
+        var namespace =  Ember.get(this, 'url');
+
+        return this.host + '/' + 'api' + '/' + this.model + '/' + id;
     }
 });
