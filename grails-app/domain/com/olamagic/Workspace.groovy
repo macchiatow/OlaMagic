@@ -7,7 +7,7 @@ import grails.converters.JSON
  */
 class Workspace {
 
-    String title
+    String title = "Workspace ${10000 + new Random().nextInt(89999)}"
 
     static hasOne = [owner: Profile]
 
