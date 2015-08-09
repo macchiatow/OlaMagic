@@ -8,7 +8,7 @@ export default Ember.Controller.extend({
             var self = this;
 
             var onSuccess = function(workspace) {
-                model.addObject(workspace);
+                model.addObject(workspace._internalModel);
                 self.transitionToRoute('dashboard.workspaces.workspace', workspace.id);
             };
 
