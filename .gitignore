@@ -35,3 +35,4 @@ h2
 /libpeerconnection.log
 npm-debug.log
 testem.log
+cobertura.ser
