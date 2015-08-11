@@ -7,11 +7,11 @@ export default Ember.Controller.extend({
     
     actions: {
         showMissionControl: function () {
-            this.set('navigatorVisible', (this.navigatorVisible == "") ? "navigator-visible" : "");
+            this.set('navigatorVisible', (this.navigatorVisible === "") ? "navigator-visible" : "");
         },
         
         showSiteControl: function () {
-            this.set('siteSectionVisible', (this.siteSectionVisible == "") ? "open" : "");
+            this.set('siteSectionVisible', (this.siteSectionVisible === "") ? "open" : "");
         },
         
         selectSite: function (value) {

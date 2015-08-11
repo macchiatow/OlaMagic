@@ -11,10 +11,14 @@ class WorkspaceMarshaller {
     void register(){
         JSON.registerObjectMarshaller(Workspace) { Workspace w ->
             return [
-                    id  : w.id,
-                    title: w.title,
-                    owner: w.owner.secUser.email,
-                    contributors : w.contributors?.secUser?.email?: []
+                    id              : w.id,
+                    title           : w.title,
+                    owner           : w.owner.secUser.email,
+                    contributors    : w.contributors?.secUser?.email?: [],
+                    numbersCount    : w.myNumbers?.size()?: 0,
+                    sitesCount      : w.sites?.size()?: 0,
+                    adSourcesCount  : w.sites?.adSources?.size()?: 0,
+                    campaignsCount  : w.sites?.campaigns?.size()?: 0
             ]
         }
     }
