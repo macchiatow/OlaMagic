@@ -17,9 +17,7 @@ export default Ember.Controller.extend({
                 self.store.query('workspace', {user: 1}).then(updateModel);
             };
 
-            this.store.createRecord('workspace', {
-                title: 'Rails is Omakase'
-            }).save().then(queryStore);
+            this.store.createRecord('workspace').save().then(queryStore);
 
         }
     }
