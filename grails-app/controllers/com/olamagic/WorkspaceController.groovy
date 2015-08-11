@@ -19,6 +19,11 @@ class WorkspaceController {
         render ([workspaces: workspaces] as JSON)
     }
 
+    def show(Long id) {
+        def workspace = Workspace.findAllById(id)
+        render ([workspace: workspace] as JSON)
+    }
+
     def create(Long uid){
         println request.JSON.workspace
 

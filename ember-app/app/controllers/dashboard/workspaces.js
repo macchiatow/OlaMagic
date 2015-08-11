@@ -4,17 +4,22 @@ export default Ember.Controller.extend({
 
     actions: {
         newWorkspace: function () {
-            var model = this.get('model')
             var self = this;
+            var _workspace;
 
-            var onSuccess = function(workspace) {
-                model.addObject(workspace._internalModel);
-                self.transitionToRoute('dashboard.workspaces.workspace', workspace.id);
+            var updateModel = function(model){
+                self.set('model', model);
+                self.transitionToRoute('dashboard.workspaces.workspace', _workspace.id);
+            }
+
+            var queryStore = function(workspace) {
+                _workspace = workspace;
+                self.store.query('workspace', {user: 1}).then(updateModel);
             };
 
             this.store.createRecord('workspace', {
                 title: 'Rails is Omakase'
-            }).save().then(onSuccess);
+            }).save().then(queryStore);
 
         }
     }

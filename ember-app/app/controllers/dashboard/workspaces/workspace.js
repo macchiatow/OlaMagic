@@ -3,14 +3,16 @@ import Ember from 'ember';
 export default Ember.Controller.extend({
 
     actions: {
-        deleteWorkspace: function (wid) {
-            var model = this.get('model')
+
+        deleteWorkspace: function (id) {
             var self = this;
 
-            this.store.findRecord('workspace', wid).then(function (workspace) {
+            var destroyRecord = function (workspace) {
                 self.transitionToRoute('dashboard.workspaces');
                 workspace.destroyRecord();
-            });
+            }
+
+            this.store.findRecord('workspace', id).then(destroyRecord);
 
         }
     }

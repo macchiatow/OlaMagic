@@ -31,5 +31,11 @@ export default DS.RESTAdapter.extend({
         var namespace =  Ember.get(this, 'url');
 
         return this.host + '/' + 'api' + '/' + this.model + '/' + id;
+    },
+    urlForFindRecord: function (id, modelName) {
+        var host =  Ember.get(this, 'host');
+        var namespace =  Ember.get(this, 'url');
+
+        return this.host + '/' + 'api' + '/' + this.model + '/' + id;
     }
 });
