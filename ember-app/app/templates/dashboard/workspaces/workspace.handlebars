@@ -13,7 +13,7 @@
                 <div class="panel-content">
                     <form role="form" class="app-rename edit-first">
                         <div class="form-group">
-                            <input id="app-rename-input" class="ember-view ember-text-field form-control" type="text" value="{{model.id}}">
+                            <input id="app-rename-input" class="ember-view ember-text-field form-control" type="text" value="{{model.title}}">
                         </div>
 
                         <div class="form-group">
@@ -66,10 +66,17 @@
                 </div>
 
                 <div class="panel-content">
-                    <!---->
                     <div class="edit-first">
                         <p>
-                            <select class="ember-view ember-select form-control"><option value="">Select a new owner…</option><optgroup id="ember1754" class="ember-view" label="Collaborators"><option id="ember1755" class="ember-view" value="xhero111@bk.ru">xhero111@bk.ru</option></optgroup>
+                            <select class="ember-view ember-select form-control">
+                                <option value="">Select a new owner…</option>
+                                <optgroup label="Collaborators">
+                                {{#each model.collaborators as |collaborator|}}
+                                    <option value="{{collaborator}}">
+                                        {{collaborator}}
+                                    </option>
+                                {{/each}}
+                                </optgroup>
                             </select>
                         </p>
 
