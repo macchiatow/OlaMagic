@@ -2,8 +2,10 @@ package com.olamagic
 import com.olamagic.auth.SecUser
 import com.olamagic.auth.SecUserSecRole
 import grails.transaction.Transactional
+import org.springframework.http.HttpStatus
 
 import static com.olamagic.util.JsonWrapper.getToJson
+import static org.springframework.http.HttpStatus.NOT_ACCEPTABLE
 import static org.springframework.http.HttpStatus.NOT_FOUND
 import static org.springframework.http.HttpStatus.OK
 
@@ -45,6 +47,11 @@ class UserController {
 
     @Transactional
     def create() {
+        if (request.JSON.user.email == null || request.JSON.user.password == null){
+            render status: NOT_ACCEPTABLE
+            return
+        }
+
         def userInstance = new SecUser()
 
         bindProperties(userInstance, request.JSON.user).saveWithAuthorities()

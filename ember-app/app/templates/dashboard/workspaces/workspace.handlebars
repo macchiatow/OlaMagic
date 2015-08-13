@@ -54,6 +54,40 @@
                 </div>
             </div>
             </li>
+            <li class="ember-view list-group-item"><div class="panel-section  ">
+                    <div class="panel-description">
+                        <div class="panel-title">
+                            Access
+                        </div>
+
+                    </div>
+
+                <div class="panel-content">
+                    <p class="ember-view branch-selection">
+                        <input id="app-rename-input" class="ember-view ember-text-field form-control" type="text">
+                        <button class="btn btn-sm btn-default edit-button edit-button" type="button">
+                            Add contributor
+                        </button>
+                    </p>
+
+                    <div class="ember-view domain-table">
+                        <form>
+                            <table class="table">
+                                <tbody>
+                                    {{#each model.contributors as |contributor|}}
+                                        <tr>
+                                            <th class="domain-list__content-column">{{contributor}}</th>
+                                        </tr>
+                                    {{/each}}
+                                </tbody>
+                            </table>
+                        </form>
+                    </div>
+
+                </div>
+
+                </div>
+            </li>
             <li class="ember-view list-group-item"><div class="panel-section app-transfer ">
                 <div class="panel-description">
                     <div class="panel-title">
@@ -71,9 +105,9 @@
                             <select class="ember-view ember-select form-control">
                                 <option value="">Select a new owner…</option>
                                 <optgroup label="Collaborators">
-                                {{#each model.collaborators as |collaborator|}}
-                                    <option value="{{collaborator}}">
-                                        {{collaborator}}
+                                {{#each model.contributors as |contributors|}}
+                                    <option value="{{contributors}}">
+                                        {{contributors}}
                                     </option>
                                 {{/each}}
                                 </optgroup>
