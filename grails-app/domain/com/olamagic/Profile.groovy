@@ -15,13 +15,6 @@ class Profile {
       	workspaces minSize: 1
     }
 
-    def beforeValidate() {
-        if (workspaces == null || workspaces.isEmpty()) {
-            def workspace = new Workspace(owner: this).save()
-            workspaces = [workspace]
-        }
-    }
-
     boolean equals(o) {
         if (this.is(o)) return true
         if (getClass() != o.class) return false

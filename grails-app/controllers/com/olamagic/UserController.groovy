@@ -46,8 +46,10 @@ class UserController {
     @Transactional
     def create() {
         def userInstance = new SecUser()
-
+        
         bindProperties(userInstance, request.JSON.user).saveWithAuthorities()
+        new Workspace(owner: userInstance.profile).save flush: true
+
         render toJson('user', userInstance)
     }
 
