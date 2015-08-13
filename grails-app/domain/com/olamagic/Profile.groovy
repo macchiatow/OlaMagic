@@ -9,7 +9,7 @@ class Profile {
 
     static belongsTo = [secUser: SecUser]
 
-    static hasMany = [workspaces: Workspace]
+    static hasMany = [workspaces: Workspace, sharedWorkspaces: Workspace]
 
     static constraints = {
       	workspaces minSize: 1
