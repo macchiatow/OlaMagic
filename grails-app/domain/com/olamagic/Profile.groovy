@@ -15,6 +15,12 @@ class Profile {
       	workspaces minSize: 1
     }
 
+    def afterInsert() {
+        Workspace.withNewSession{
+            new Workspace(owner: this).save flush: true
+        }
+    }
+
     boolean equals(o) {
         if (this.is(o)) return true
         if (getClass() != o.class) return false
@@ -29,4 +35,5 @@ class Profile {
     int hashCode() {
         return secUser.hashCode()
     }
+
 }

@@ -83,11 +83,8 @@ class WorkspaceController {
             return
         }
 
-        user.profile.workspaces << workspace
-        workspace.contributors?: (workspace.contributors = [])
-        workspace.contributors << user.profile
-
-        user.save flush: true
+        workspace.addToContributors(user.profile)
+        workspace.save flush: true
 
         render ([workspace: workspace] as JSON)
     }
