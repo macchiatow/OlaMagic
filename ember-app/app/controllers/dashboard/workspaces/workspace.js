@@ -14,6 +14,10 @@ export default Ember.Controller.extend({
 
             this.store.findRecord('workspace', id).then(destroyRecord);
 
+        },
+
+        addContributor: function (email) {
+            console.log(email);
         }
     }
 });

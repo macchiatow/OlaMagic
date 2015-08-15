@@ -27,6 +27,17 @@ class UserController {
         render toJson('user', userInstance)
     }
 
+    def lookup(String email) {
+        def userInstance = SecUser.findByEmail(email)
+
+        if (userInstance == null) {
+            render status: NOT_FOUND
+            return
+        }
+
+        render toJson('user', userInstance)
+    }
+
     def list(Integer max) {
         params.max = Math.min(max ?: 10, 100)
         render toJson('users', SecUser.list(params))
