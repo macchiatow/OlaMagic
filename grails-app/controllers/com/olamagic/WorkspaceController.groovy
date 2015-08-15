@@ -64,6 +64,10 @@ class WorkspaceController {
             return
         }
 
+        new LinkedList<>(workspace.contributors).each {
+            workspace.removeFromContributors(it)
+        }
+
         workspace.delete flush: true
         render '{}'
     }
@@ -103,10 +107,8 @@ class WorkspaceController {
             return
         }
 
-        user.profile.workspaces.remove workspace
-        workspace.contributors.remove user.profile
-
-        user.save flush: true
+        workspace.removeFromContributors(user.profile)
+        workspace.save flush: true
 
         render ([workspace: workspace] as JSON)
     }

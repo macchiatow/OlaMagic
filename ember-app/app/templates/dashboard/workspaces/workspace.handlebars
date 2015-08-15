@@ -77,6 +77,11 @@
                                     {{#each model.contributors as |contributor|}}
                                         <tr>
                                             <th class="domain-list__content-column">{{contributor}}</th>
+                                            <th>
+                                                <button {{action "removeContributor" contributor model.id}} class="btn btn-default btn-github btn-xs">
+                                                    x
+                                                </button>
+                                            </th>
                                         </tr>
                                     {{/each}}
                                 </tbody>

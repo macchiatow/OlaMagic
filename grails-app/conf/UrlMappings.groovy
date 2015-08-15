@@ -11,7 +11,7 @@ class UrlMappings {
         "/api/users/$uid/workspaces"(controller: "workspace") { action = [GET: "list", POST: "create", OPTIONS: "options"] }
         "/api/workspaces/$id"(controller: "workspace") { action = [GET: "show", UPDATE: "update", DELETE: "delete", OPTIONS: "options"] }
         "/api/users/$uid/workspaces/$wid/subscribe"(controller: "workspace") { action = [POST: "subscribe"] }
-        "/api/users/$uid/workspaces/$wid/unsubscribe"(controller: "workspace") { action = [PUT: "unsubscribe"] }
+        "/api/users/$uid/workspaces/$wid/unsubscribe"(controller: "workspace") { action = [POST: "unsubscribe"] }
         "/api/users/$uid/workspaces/$wid/change_owner"(controller: "workspace") { action = [PUT: "changeOwner"] }
 
         // Numbers
