@@ -65,7 +65,7 @@
                 <div class="panel-content">
                     <p class="ember-view branch-selection">
                         {{input type="text" value=newContributor}}
-                        <button {{action "addContributor" newContributor}}  class="btn btn-sm btn-default edit-button edit-button" type="button">
+                        <button {{action "addContributor" newContributor model.id}}  class="btn btn-sm btn-default edit-button edit-button" type="button">
                             Add contributor
                         </button>
                     </p>
