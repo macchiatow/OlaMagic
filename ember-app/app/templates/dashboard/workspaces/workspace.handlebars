@@ -13,11 +13,11 @@
                 <div class="panel-content">
                     <form role="form" class="app-rename edit-first">
                         <div class="form-group">
-                            <input id="app-rename-input" class="ember-view ember-text-field form-control" type="text" value="{{model.title}}">
+                            {{input type="text" class="ember-text-field form-control" action="renameEnable" on="key-press" value=model.title}}
                         </div>
 
                         <div class="form-group">
-                            <button class="btn btn-primary  disabled">Rename</button>
+                            <button {{action "renameWorkspace" model.title model.id}} class="btn btn-primary" disabled={{renameDisabled}}>Save</button>
                         </div>
                     </form>
 
@@ -100,7 +100,7 @@
                     </div>
 
                     <div class="panel-details">
-                        Transfer this app to your personal account or to an organization of which you are a member.
+                        Transfer this workspace to your personal account or to an organization of which you are a member.
                     </div>
                 </div>
 
@@ -133,13 +133,13 @@
                         Delete workspace
                     </div>
                     <div class="panel-details">
-                        Deleting your app and its add-ons is irreversible.
+                        Deleting your workspace and its add-ons is irreversible.
                     </div>
                 </div>
 
                 <div class="panel-content">
                     <p>
-                        <button {{action 'deleteWorkspace' model.id}} class="ember-view btn btn-danger delete-app" value="Delete app...">Delete workspace...</button>
+                        <button {{action 'deleteWorkspace' model.id}} class="ember-view btn btn-danger delete-app" value="Delete workspace...">Delete workspace...</button>
                     </p>
 
                 </div>

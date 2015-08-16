@@ -2,7 +2,20 @@ import Ember from 'ember';
 
 export default Ember.Controller.extend({
 
+    renameDisabled: true,
+
     actions: {
+        renameEnable: function () {
+            this.set('renameDisabled', false);
+        },
+
+        renameWorkspace: function (newTitle, id) {
+            var model = this.get('model');
+            model.set('title', newTitle);
+            model.save();
+
+            this.set('renameDisabled', true);
+        },
 
         deleteWorkspace: function (id) {
             var self = this;
