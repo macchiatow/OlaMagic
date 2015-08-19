@@ -18,6 +18,7 @@ class UserMarshaller {
                     enabled        : u.enabled,
                     passwordExpired: u.passwordExpired,
                     authorities    : u.authorities*.authority,
+                    workspaces     : u.profile.workspaces.id + u.profile.sharedWorkspaces.id
             ]
         }
     }
