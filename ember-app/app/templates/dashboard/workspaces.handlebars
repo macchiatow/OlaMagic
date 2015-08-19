@@ -5,7 +5,7 @@
 
     <div class="nav nav-tabs sub-nav app-nav">
 
-        {{#each model as |item|}}
+        {{#each model.workspaces as |item|}}
             <div class="sub-nav-item">
                 {{#link-to 'dashboard.workspaces.workspace' item.id}}
                     <i class="icon icon-sub-nav-settings"></i>
