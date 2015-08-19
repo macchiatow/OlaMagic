@@ -54,6 +54,9 @@
                 </div>
             </div>
             </li>
+
+            {{#if isOwner}}
+
             <li class="ember-view list-group-item"><div class="panel-section  ">
                     <div class="panel-description">
                         <div class="panel-title">
@@ -93,6 +96,7 @@
 
                 </div>
             </li>
+
             <li class="ember-view list-group-item"><div class="panel-section app-transfer ">
                 <div class="panel-description">
                     <div class="panel-title">
@@ -127,24 +131,48 @@
                 </div>
             </div>
             </li>
-            <li class="ember-view list-group-item"><div class="panel-section danger app-deletion ">
-                <div class="panel-description">
-                    <div class="panel-title">
-                        Delete workspace
+            <li class="ember-view list-group-item">
+                <div class="panel-section danger app-deletion ">
+                    <div class="panel-description">
+                        <div class="panel-title">
+                            Delete workspace
+                        </div>
+                        <div class="panel-details">
+                            Deleting your workspace and its add-ons is irreversible.
+                        </div>
                     </div>
-                    <div class="panel-details">
-                        Deleting your workspace and its add-ons is irreversible.
+
+                    <div class="panel-content">
+                        <p>
+                            <button {{action 'deleteWorkspace' model.id}} class="ember-view btn btn-danger delete-app" value="Delete workspace...">Delete workspace...</button>
+                        </p>
+
                     </div>
                 </div>
+            </li>
+            {{else}}
+                <li class="ember-view list-group-item">
+                    <div class="panel-section danger app-deletion ">
+                        <div class="panel-description">
+                            <div class="panel-title">
+                                Unsubscribe from workspace
+                            </div>
+                            <div class="panel-details">
+                                Deleting your workspace and its add-ons is irreversible.
+                            </div>
+                        </div>
 
-                <div class="panel-content">
-                    <p>
-                        <button {{action 'deleteWorkspace' model.id}} class="ember-view btn btn-danger delete-app" value="Delete workspace...">Delete workspace...</button>
-                    </p>
+                        <div class="panel-content">
+                            <p>
+                                <button {{action 'deleteWorkspace' model.id}} class="ember-view btn btn-danger delete-app" value="Delete workspace...">Delete workspace...</button>
+                            </p>
 
-                </div>
-            </div>
-            </li></ul>
+                        </div>
+                    </div>
+                </li>
+            {{/if}}
+
+            </ul>
     </div>
 
 </div>
