@@ -44,27 +44,6 @@ class SecUser implements Serializable {
 		SecUserSecRole.findAllBySecUser(this)*.secRole
 	}
 
-    def saveWithAuthorities(){
-        this.save()
-
-        this.authorities?.authority.findAll { !_authorities?.contains(it) }.each {
-            println "revoking $it"
-            SecUserSecRole.findBySecUserAndSecRole(this, SecRole.findByAuthority(it)).delete(flush: true)
-        }
-
-        _authorities?.findAll { !this.authorities?.authority.contains(it) }.each {
-            println "granding $it"
-            SecUserSecRole.create this, SecRole.findByAuthority(it), true
-        }
-    }
-
-    def beforeValidate() {
-        if (profile == null) {
-            profile = new Profile(secUser: this)
-        }
-        profile.validate()
-    }
-
 	def beforeInsert() {
 		encodePassword()
 	}

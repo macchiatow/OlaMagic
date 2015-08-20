@@ -1,12 +1,12 @@
 import Ember from 'ember';
 
 export default Ember.Controller.extend({
+    session: Ember.inject.service('session'),
 
     renameDisabled: true,
 
     isOwner: function() {
-        var owner = this.get('model').get('owner')
-        return owner == 'togrul1@web.de';
+        return  this.get('model.owner') == this.get('session.userId');
     }.property('model.id'),
 
     actions: {

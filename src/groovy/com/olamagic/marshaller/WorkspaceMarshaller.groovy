@@ -13,9 +13,9 @@ class WorkspaceMarshaller {
             return [
                     id              : w.id,
                     title           : w.title,
-                    owner           : w.owner.secUser.email,
-                    contributors    : w.contributors?.secUser?.email?: [],
-                    contributorIds  : w.contributors?.secUser?.id?: [],
+                    owner           : w.owner.id,
+                    contributors    :  [],
+                    contributorIds  :  [],
                     numbersCount    : w.myNumbers?.size()?: 0,
                     sitesCount      : w.sites?.size()?: 0,
                     adSourcesCount  : w.sites?.adSources?.size()?: 0,

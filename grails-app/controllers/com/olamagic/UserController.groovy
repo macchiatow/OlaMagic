@@ -63,9 +63,10 @@ class UserController {
             return
         }
 
-        def userInstance = new SecUser()
-
-        bindProperties(userInstance, request.JSON.user).saveWithAuthorities()
+        def userInstance = new SecUser(request.JSON.user)
+        userInstance.profile = new Profile()
+        userInstance.profile.addToWorkspaces(new Workspace())
+        userInstance.save flush: true
 
         render toJson('user', userInstance)
     }

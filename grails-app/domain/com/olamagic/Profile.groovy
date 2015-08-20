@@ -9,16 +9,10 @@ class Profile {
 
     static belongsTo = [secUser: SecUser]
 
-    static hasMany = [workspaces: Workspace, sharedWorkspaces: Workspace]
+    static hasMany = [workspaces: Workspace]
 
     static constraints = {
       	workspaces minSize: 1
-    }
-
-    def afterInsert() {
-        Workspace.withNewSession{
-            new Workspace(owner: this).save flush: true
-        }
     }
 
     boolean equals(o) {
