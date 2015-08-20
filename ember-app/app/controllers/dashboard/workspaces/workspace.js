@@ -49,7 +49,8 @@ export default Ember.Controller.extend({
             var self = this;
 
             var destroyRecord = function (workspace) {
-                self.transitionToRoute('dashboard.workspaces');
+                self.controllerFor('dashboard.workspaces').set('activeWorkspace', null);
+                self.transitionToRoute('dashboard.workspaces.all');
                 workspace.destroyRecord();
             }
 

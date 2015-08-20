@@ -9,6 +9,7 @@ Router.map(function () {
     this.route('dashboard', function () {
         this.route('numbers');
         this.route('workspaces', function () {
+            this.route('all', {path: '/all'});
             this.route('workspace', {path: '/:wid'});
         });
         this.route('reports', function () {

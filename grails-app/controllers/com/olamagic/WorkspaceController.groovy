@@ -68,9 +68,9 @@ class WorkspaceController {
             return
         }
 
-        new LinkedList<>(workspace.contributors).each {
+/*        new LinkedList<>(workspace.contributors).each {
             workspace.removeFromContributors(it)
-        }
+        }*/
 
         workspace.delete flush: true
         render '{}'
