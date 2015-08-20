@@ -27,16 +27,17 @@ class WorkspaceController {
         render ([workspace: workspace] as JSON)
     }
 
-    def create(Long uid){
-        if (request.JSON.workspace == null) {
+    def create(){
+        if (request.JSON.workspace == null || request.JSON.workspace.owner == null) {
             render status: NOT_ACCEPTABLE
             return
         }
 
-        def workspace =  new Workspace(request.JSON.workspace)
-        workspace.owner = Profile.findBySecUser(SecUser.findById(uid))
+        def workspace = new Workspace()
+        Profile.findById(request.JSON.workspace.owner).addToWorkspaces(workspace)
         workspace.title = workspace.title?: "Workspace ${10000 + new Random().nextInt(89999)}"
         workspace.save flush: true
+
         render ([workspace: workspace] as JSON)
     }
 

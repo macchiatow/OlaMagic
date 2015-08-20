@@ -2,8 +2,11 @@ import Ember from 'ember';
 
 export default Ember.Controller.extend({
 
+    session: Ember.inject.service('session'),
+
     actions: {
         newWorkspace: function () {
+            var userId = this.get('session.userId');
             var self = this;
             var _workspace;
 
@@ -14,10 +17,10 @@ export default Ember.Controller.extend({
 
             var queryStore = function(workspace) {
                 _workspace = workspace;
-                self.store.query('workspace', {user: 1}).then(updateModel);
+                self.store.find('user', userId, { reload: true }).then(updateModel);
             };
 
-            this.store.createRecord('workspace').save().then(queryStore);
+            this.store.createRecord('workspace', {owner: userId}).save().then(queryStore);
 
         }
     }
