@@ -3,6 +3,7 @@ import com.olamagic.auth.SecUser
 import com.olamagic.auth.SecUserSecRole
 import grails.transaction.Transactional
 import org.springframework.http.HttpStatus
+import grails.converters.JSON
 
 import static com.olamagic.util.JsonWrapper.getToJson
 import static org.springframework.http.HttpStatus.NOT_ACCEPTABLE
@@ -39,6 +40,10 @@ class UserController {
     }
 
     def list(Integer max) {
+        if (params.email) {
+                render ([users: SecUser.findAllByEmail(params.email)] as JSON)
+                return
+        }
         params.max = Math.min(max ?: 10, 100)
         render toJson('users', SecUser.list(params))
     }

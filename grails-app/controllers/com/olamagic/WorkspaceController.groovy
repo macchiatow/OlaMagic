@@ -68,10 +68,6 @@ class WorkspaceController {
             return
         }
 
-/*        new LinkedList<>(workspace.contributors).each {
-            workspace.removeFromContributors(it)
-        }*/
-
         workspace.delete flush: true
         render '{}'
     }
@@ -91,8 +87,7 @@ class WorkspaceController {
             return
         }
 
-        workspace.addToContributors(user.profile)
-        workspace.save flush: true
+        WorkspaceContributor.create workspace, user.profile, true
 
         render ([workspace: workspace] as JSON)
     }

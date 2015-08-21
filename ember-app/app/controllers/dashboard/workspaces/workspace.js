@@ -1,7 +1,10 @@
 import Ember from 'ember';
+import config from '../../../config/environment';
 
 export default Ember.Controller.extend({
     session: Ember.inject.service('session'),
+
+    host: config.API_HOST,
 
     renameDisabled: true,
 
@@ -27,7 +30,7 @@ export default Ember.Controller.extend({
             }
 
             var addContributor = function (user) {
-                $.post('http://localhost:8080/api/users/'+ uid +'/workspaces/'+ wid + '/unsubscribe', findNewModel);
+                $.post(self.get('host') + '/api/users/'+ uid +'/workspaces/'+ wid + '/unsubscribe', findNewModel);
             }
 
             var orFailGracefully = function () {
@@ -70,15 +73,16 @@ export default Ember.Controller.extend({
                 self.store.findRecord('workspace', wid, { reload: true }).then(refreshModel);
             }
 
-            var addContributor = function (user) {
-                $.post('http://localhost:8080/api/users/'+ user.id +'/workspaces/'+ wid +'/subscribe', findNewModel);
+            var addContributor = function (users) {
+                var uid = users.get('firstObject').id;
+                $.post(self.get('host') + '/api/users/'+ uid +'/workspaces/'+ wid +'/subscribe', findNewModel);
             }
 
             var orFailGracefully = function () {
                 console.log('email not found');
             }
 
-            this.store.findRecord('user', email).then(addContributor, orFailGracefully);
+            this.store.query('user', {email: email}).then(addContributor, orFailGracefully);
         },
 
         removeContributor: function (email, wid) {
@@ -93,7 +97,7 @@ export default Ember.Controller.extend({
             }
 
             var addContributor = function (user) {
-                $.post('http://localhost:8080/api/users/'+ user.id +'/workspaces/'+ wid +'/unsubscribe', findNewModel);
+                $.post(self.get('host') + '/api/users/' + user.id +'/workspaces/'+ wid +'/unsubscribe', findNewModel);
             }
 
             var orFailGracefully = function () {
