@@ -9,7 +9,7 @@ class UrlMappings {
 
         // Workspaces
         "/api/users/$uid/workspaces"(controller: "workspace") { action = [GET: "list", POST: "create", OPTIONS: "options"] }
-        "/api/workspaces"(controller: "workspace") { action = [POST: "create", , OPTIONS: "options"] }
+        "/api/workspaces"(controller: "workspace") { action = [POST: "create", OPTIONS: "options"] }
         "/api/workspaces/$id"(controller: "workspace") { action = [GET: "show", PUT: "update", DELETE: "delete", OPTIONS: "options"] }
         "/api/users/$uid/workspaces/$wid/subscribe"(controller: "workspace") { action = [POST: "subscribe"] }
         "/api/users/$uid/workspaces/$wid/unsubscribe"(controller: "workspace") { action = [POST: "unsubscribe"] }

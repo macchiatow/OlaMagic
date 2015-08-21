@@ -13,4 +13,8 @@ class Workspace {
 
     static hasMany = [myNumbers: Number, sites: Site]
 
+    Set<Profile> getContributors() {
+        WorkspaceContributor.findAllByWorkspace(this)*.profile
+    }
+
 }
