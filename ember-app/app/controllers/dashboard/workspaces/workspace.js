@@ -83,6 +83,32 @@ export default Ember.Controller.extend({
             }
 
             this.store.query('user', {email: user.get('email')}).then(addContributor, orFailGracefully);
+        },
+
+        unsubscribeContributor: function (wid) {
+            var self = this;
+            var _user;
+
+            var removeFromContributors = function(workspace) {
+                self.controllerFor('dashboard.workspaces').set('activeWorkspace', null);
+                self.transitionToRoute('dashboard.workspaces.all');
+                _user.get('workspacesContributing').removeObject(workspace);
+            }
+
+            var findWorkspace  = function () {
+                self.store.find('workspace', wid).then(removeFromContributors);
+            }
+
+            var unsubscribeContributor = function (user) {
+                _user = user;
+                $.post(self.get('host') + '/api/users/' + user.id +'/workspaces/'+ wid +'/unsubscribe', findWorkspace);
+            }
+
+            var orFailGracefully = function () {
+                console.log('email not found');
+            }
+
+            this.store.find('user', this.get('session.userId')).then(unsubscribeContributor, orFailGracefully);
         }
     }
 });

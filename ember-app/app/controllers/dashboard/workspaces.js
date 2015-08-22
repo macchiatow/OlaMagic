@@ -20,7 +20,9 @@ export default Ember.Controller.extend({
                 self.store.find('user', userId, { reload: true }).then(updateModel);
             };
 
-            this.store.createRecord('workspace', {owner: userId}).save().then(queryStore);
+            this.store.find('user', userId).then(function(user) {
+                self.store.createRecord('workspace', {owner: user}).save().then(queryStore);
+            })
 
         }
     }

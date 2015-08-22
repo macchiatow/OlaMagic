@@ -34,7 +34,7 @@ class WorkspaceController {
         }
 
         def workspace = new Workspace()
-        Profile.findById(request.JSON.workspace.owner).addToWorkspaces(workspace)
+        Profile.findById(request.JSON.workspace.owner).addToWorkspacesOwning(workspace)
         workspace.title = workspace.title?: "Workspace ${10000 + new Random().nextInt(89999)}"
         workspace.save flush: true
 

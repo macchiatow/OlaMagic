@@ -15,7 +15,6 @@ class WorkspaceMarshaller {
                     title           : w.title,
                     owner           : w.owner.id,
                     contributors    : w.contributors.id?: [],
-                    contributorIds  :  [],
                     numbersCount    : w.myNumbers?.size()?: 0,
                     sitesCount      : w.sites?.size()?: 0,
                     adSourcesCount  : w.sites?.adSources?.size()?: 0,
