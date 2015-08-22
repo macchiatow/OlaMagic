@@ -6,23 +6,18 @@ export default Ember.Controller.extend({
 
     host: config.API_HOST,
 
-    renameDisabled: true,
+    isModelNotChanged: function(){
+        return !this.get('model.isDirty');
+    }.property('model.isDirty'),
 
     isOwner: function() {
         return  this.get('model.owner.id') == this.get('session.userId');
     }.property('model'),
 
     actions: {
-        renameEnable: function () {
-            this.set('renameDisabled', false);
-        },
 
-        renameWorkspace: function (newTitle, id) {
-            var model = this.get('model');
-            model.set('title', newTitle);
-            model.save();
-
-            this.set('renameDisabled', true);
+        saveWorkspace: function () {
+            this.get('model').save();
         },
 
         deleteWorkspace: function (id) {
