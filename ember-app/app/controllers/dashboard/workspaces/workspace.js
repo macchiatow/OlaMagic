@@ -10,7 +10,7 @@ export default Ember.Controller.extend({
 
     isOwner: function() {
         return  this.get('model.owner.id') == this.get('session.userId');
-    }.property('model.id'),
+    }.property('model'),
 
     actions: {
         renameEnable: function () {

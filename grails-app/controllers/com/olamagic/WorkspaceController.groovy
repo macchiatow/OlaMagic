@@ -106,8 +106,7 @@ class WorkspaceController {
             return
         }
 
-        workspace.removeFromContributors(user.profile)
-        workspace.save flush: true
+        WorkspaceContributor.remove(workspace, user.profile, true)
 
         render ([workspace: workspace] as JSON)
     }
