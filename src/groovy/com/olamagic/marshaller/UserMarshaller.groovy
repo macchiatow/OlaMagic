@@ -11,15 +11,10 @@ class UserMarshaller {
     void register(){
         JSON.registerObjectMarshaller(SecUser) { SecUser u ->
             return [
-                    email          : u.email,
-                    id             : u.id,
-                    accountExpired : u.accountExpired,
-                    accountLocked  : u.accountLocked,
-                    enabled        : u.enabled,
-                    passwordExpired: u.passwordExpired,
-                    authorities    : u.authorities*.authority,
-                    workspacesOwning     : (u.profile.workspaces.id).sort { it },
-                    workspacesContributing: []
+                    id                      : u.profile.id,
+                    email                   : u.email,
+                    workspacesOwning        : u.profile.workspacesOwning.id.sort { it },
+                    workspacesContributing  : u.profile.workspacesContributing.id.sort { it }
             ]
         }
     }

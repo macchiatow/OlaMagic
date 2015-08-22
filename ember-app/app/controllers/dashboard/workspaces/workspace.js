@@ -9,35 +9,12 @@ export default Ember.Controller.extend({
     renameDisabled: true,
 
     isOwner: function() {
-        return  this.get('model.owner') == this.get('session.userId');
+        return  this.get('model.owner.id') == this.get('session.userId');
     }.property('model.id'),
 
     actions: {
         renameEnable: function () {
             this.set('renameDisabled', false);
-        },
-
-        unsubscribeWorkspace: function (uid, wid) {
-            var self = this;
-
-            var refreshModel = function(newModel) {
-                self.set('model', newModel);
-                self.set('newContributor', '');
-            }
-
-            var findNewModel  = function () {
-                self.store.findRecord('workspace', wid, { reload: true }).then(refreshModel);
-            }
-
-            var addContributor = function (user) {
-                $.post(self.get('host') + '/api/users/'+ uid +'/workspaces/'+ wid + '/unsubscribe', findNewModel);
-            }
-
-            var orFailGracefully = function () {
-                console.log('email not found');
-            }
-
-            this.store.findRecord('user', email).then(addContributor, orFailGracefully);
         },
 
         renameWorkspace: function (newTitle, id) {
@@ -85,7 +62,7 @@ export default Ember.Controller.extend({
             this.store.query('user', {email: email}).then(addContributor, orFailGracefully);
         },
 
-        removeContributor: function (email, wid) {
+        removeContributor: function (user, wid) {
             var self = this;
 
             var refreshModel = function(newModel) {
@@ -96,15 +73,16 @@ export default Ember.Controller.extend({
                 self.store.findRecord('workspace', wid, { reload: true }).then(refreshModel);
             }
 
-            var addContributor = function (user) {
-                $.post(self.get('host') + '/api/users/' + user.id +'/workspaces/'+ wid +'/unsubscribe', findNewModel);
+            var addContributor = function (users) {
+                var uid = users.get('firstObject').id;
+                $.post(self.get('host') + '/api/users/' + uid +'/workspaces/'+ wid +'/unsubscribe', findNewModel);
             }
 
             var orFailGracefully = function () {
                 console.log('email not found');
             }
 
-            this.store.findRecord('user', email).then(addContributor, orFailGracefully);
+            this.store.query('user', {email: user.get('email')}).then(addContributor, orFailGracefully);
         }
     }
 });

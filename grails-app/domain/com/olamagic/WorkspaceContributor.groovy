@@ -87,8 +87,8 @@ class WorkspaceContributor implements Serializable {
         profile validator: { Profile r, WorkspaceContributor ur ->
             if (ur.workspace == null || ur.workspace.id == null) return
             boolean existing = false
-            WorkspaceProfile.withNewSession {
-                existing = WorkspaceProfile.exists(ur.workspace.id, r.id)
+            WorkspaceContributor.withNewSession {
+                existing = WorkspaceContributor.exists(ur.workspace.id, r.id)
             }
             if (existing) {
                 return 'userRole.exists'

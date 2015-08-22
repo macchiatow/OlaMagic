@@ -79,7 +79,7 @@
                                 <tbody>
                                     {{#each model.contributors as |contributor|}}
                                         <tr>
-                                            <th class="domain-list__content-column">{{contributor}}</th>
+                                            <th class="domain-list__content-column">{{contributor.email}}</th>
                                             <th>
                                                 <button {{action "removeContributor" contributor model.id}} class="btn btn-default btn-github btn-xs">
                                                     x
@@ -116,7 +116,7 @@
                                 <optgroup label="Collaborators">
                                 {{#each model.contributors as |contributor index|}}
                                     <option value="{{index}}">
-                                        {{contributor}}
+                                        {{contributor.email}}
                                     </option>
                                 {{/each}}
                                 </optgroup>

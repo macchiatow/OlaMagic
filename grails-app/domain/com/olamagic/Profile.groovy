@@ -9,10 +9,14 @@ class Profile {
 
     static belongsTo = [secUser: SecUser]
 
-    static hasMany = [workspaces: Workspace]
+    static hasMany = [workspacesOwning: Workspace]
 
     static constraints = {
-      	workspaces minSize: 1
+        workspacesOwning minSize: 1
+    }
+
+    Set <Workspace> getWorkspacesContributing(){
+        WorkspaceContributor.findAllByProfile(this)*.workspace
     }
 
     boolean equals(o) {
