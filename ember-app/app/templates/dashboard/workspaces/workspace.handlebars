@@ -111,7 +111,7 @@
                 <div class="panel-content">
                     <form role="form" class="app-rename edit-first">
                         <p>
-                            <select class="ember-select form-control" {{action 'newOwnerChange' on='change'}}>
+                            <select class="ember-select form-control" {{action 'onNewOwnerSelected' on='change'}}>
                                 <option value="">Select a new owner…</option>
                                 <optgroup label="Contributors">
                                     {{#each model.contributors as |item|}}

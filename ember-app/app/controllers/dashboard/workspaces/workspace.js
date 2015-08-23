@@ -6,7 +6,7 @@ export default Ember.Controller.extend({
 
     host: config.API_HOST,
 
-    newOwner: "",
+    newOwnerSelect: false,
 
     isModelNotChanged: function(){
         return !this.get('model.hasDirtyAttributes');
@@ -17,13 +17,14 @@ export default Ember.Controller.extend({
     }.property('model'),
 
     isTransferDisabled: function(){
-        return this.get('newOwner') == '';
-    }.property('newOwner'),
+        this.set('newOwnerSelect', false);
+        return $('select')[0]== null || $('select')[0].selectedOptions[0].value == "";
+    }.property('newOwnerSelect', 'model'),
 
     actions: {
 
-        newOwnerChange() {
-            this.set('newOwner', $('select')[0].selectedOptions[0].value);
+        onNewOwnerSelected(){
+            this.set('newOwnerSelect', true);
         },
 
         saveWorkspace: function () {
