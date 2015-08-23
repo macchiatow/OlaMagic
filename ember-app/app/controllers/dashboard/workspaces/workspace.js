@@ -6,15 +6,25 @@ export default Ember.Controller.extend({
 
     host: config.API_HOST,
 
+    newOwner: "",
+
     isModelNotChanged: function(){
-        return !this.get('model.isDirty');
-    }.property('model.isDirty'),
+        return !this.get('model.hasDirtyAttributes');
+    }.property('model.hasDirtyAttributes'),
 
     isOwner: function() {
         return  this.get('model.owner.id') == this.get('session.userId');
     }.property('model'),
 
+    isTransferDisabled: function(){
+        return this.get('newOwner') == '';
+    }.property('newOwner'),
+
     actions: {
+
+        newOwnerChange() {
+            this.set('newOwner', $('select')[0].selectedOptions[0].value);
+        },
 
         saveWorkspace: function () {
             this.get('model').save();

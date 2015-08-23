@@ -109,24 +109,24 @@
                 </div>
 
                 <div class="panel-content">
-                    <div class="edit-first">
+                    <form role="form" class="app-rename edit-first">
                         <p>
-                            <select class="ember-view ember-select form-control">
+                            <select class="ember-select form-control" {{action 'newOwnerChange' on='change'}}>
                                 <option value="">Select a new owner…</option>
-                                <optgroup label="Collaborators">
-                                {{#each model.contributors as |contributor index|}}
-                                    <option value="{{index}}">
-                                        {{contributor.email}}
-                                    </option>
-                                {{/each}}
+                                <optgroup label="Contributors">
+                                    {{#each model.contributors as |item|}}
+                                        <option value="{{item.id}}" >
+                                            {{item.email}}
+                                        </option>
+                                    {{/each}}
                                 </optgroup>
                             </select>
                         </p>
 
-                        <p>
-                            <button class="ember-view btn btn-primary btn create-transfer" value="Transfer" disabled="">Transfer</button>
-                        </p>
-                    </div>
+                        <div class="form-group">
+                            <button class="btn btn-primary" disabled={{isTransferDisabled}}>Transfer</button>
+                        </div>
+                    </form>
 
                 </div>
             </div>
