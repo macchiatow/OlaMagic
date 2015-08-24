@@ -113,26 +113,28 @@ class WorkspaceController {
 
     def changeOwner(Long uid, Long wid) {
         def workspace = Workspace.findById(wid)
-        def newUser = SecUser.findById(uid)
+        def newUser = Profile.findById(uid)
 
         if (workspace == null || newUser == null) {
             render status: NOT_FOUND
             return
         }
 
-        if (workspace.owner == newUser.profile) {
+        if (workspace.owner == newUser) {
             render status: NOT_ACCEPTABLE
             return
         }
 
-        def oldUser = workspace.owner.secUser
+        def oldUser = workspace.owner
         
-        newUser.profile.workspaces.add workspace
-        oldUser.profile.workspaces.remove workspace
-        workspace.owner = newUser.profile
+        newUser.addToWorkspacesOwning workspace
+        oldUser.removeFromWorkspacesOwning workspace
+        workspace.owner = newUser
 
         newUser.save flush: true
         oldUser.save flush: true
+
+        WorkspaceContributor.remove workspace, newUser, true
 
         render ([workspace: workspace] as JSON)
     }

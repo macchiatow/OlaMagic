@@ -8,6 +8,8 @@ export default Ember.Controller.extend({
 
     newOwnerSelect: false,
 
+    newOwner: "",
+
     isModelNotChanged: function(){
         return !this.get('model.hasDirtyAttributes');
     }.property('model.hasDirtyAttributes'),
@@ -17,7 +19,8 @@ export default Ember.Controller.extend({
     }.property('model'),
 
     isTransferDisabled: function(){
-        return $('#new-owner-select option:selected').val() == "";
+        this.set('newOwner', $('#new-owner-select option:selected').val());
+        return this.get('newOwner') == "";
     }.property('newOwnerSelect', 'model'),
 
     actions: {
@@ -114,6 +117,20 @@ export default Ember.Controller.extend({
             }
 
             this.store.find('user', this.get('session.userId')).then(unsubscribeContributor, orFailGracefully);
+        },
+
+        changeOwner: function () {
+            var self = this;
+            var user = this.get('session.user');
+            var model = this.get('model');
+
+            var removeFromContributors = function() {
+                self.controllerFor('dashboard.workspaces').set('activeWorkspace', null);
+                self.transitionToRoute('dashboard.workspaces.all');
+                user.get('workspacesOwning').removeObject(model);
+            }
+
+            $.post(self.get('host') + '/api/users/' + this.get('newOwner') +'/workspaces/'+ this.get('model.id') +'/change_owner', removeFromContributors);
         }
     }
 });
