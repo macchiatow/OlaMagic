@@ -17,14 +17,13 @@ export default Ember.Controller.extend({
     }.property('model'),
 
     isTransferDisabled: function(){
-        this.set('newOwnerSelect', false);
-        return $('select')[0]== null || $('select')[0].selectedOptions[0].value == "";
+        return $('#new-owner-select option:selected').val() == "";
     }.property('newOwnerSelect', 'model'),
 
     actions: {
 
         onNewOwnerSelected(){
-            this.set('newOwnerSelect', true);
+            this.set('newOwnerSelect', !this.get('newOwnerSelect'));
         },
 
         saveWorkspace: function () {
