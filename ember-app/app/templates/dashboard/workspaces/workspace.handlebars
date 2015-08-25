@@ -17,7 +17,7 @@
                         </div>
 
                         <div class="form-group">
-                            <button {{action "saveWorkspace"}} class="btn btn-primary" disabled={{isModelNotChanged}}>Save</button>
+                            <button {{action "saveWorkspaceTitle"}} class="btn btn-primary" disabled={{isModelNotChanged}}>Save</button>
                         </div>
                     </form>
 
@@ -68,7 +68,7 @@
                 <div class="panel-content">
                     <p class="ember-view branch-selection">
                         {{input type="text" value=newContributor}}
-                        <button {{action "addContributor" newContributor model.id}}  class="btn btn-sm btn-default edit-button edit-button" type="button">
+                        <button {{action "addContributor" newContributor}}  class="btn btn-sm btn-default edit-button edit-button" type="button">
                             Add contributor
                         </button>
                     </p>
@@ -81,7 +81,7 @@
                                         <tr>
                                             <th class="domain-list__content-column">{{contributor.email}}</th>
                                             <th>
-                                                <button {{action "removeContributor" contributor model.id}} class="btn btn-default btn-github btn-xs">
+                                                <button {{action "removeContributor" contributor}} class="btn btn-default btn-github btn-xs">
                                                     x
                                                 </button>
                                             </th>
@@ -111,7 +111,7 @@
                 <div class="panel-content">
                     <form role="form" class="app-rename edit-first">
                         <p>
-                            <select id="new-owner-select" class="ember-select form-control" {{action 'onNewOwnerSelected' on='change'}}>
+                            <select id="new-owner-select" class="ember-select form-control" {{action 'selectNewOwner' on='change'}}>
                                 <option value="">Select a new owner…</option>
                                 <optgroup label="Contributors">
                                     {{#each model.contributors as |item|}}
@@ -144,7 +144,7 @@
 
                     <div class="panel-content">
                         <p>
-                            <button {{action 'deleteWorkspace' model.id}} class="ember-view btn btn-danger delete-app" value="Delete workspace...">Delete workspace...</button>
+                            <button {{action 'deleteWorkspace'}} class="ember-view btn btn-danger delete-app" value="Delete workspace...">Delete workspace...</button>
                         </p>
 
                     </div>
@@ -164,7 +164,7 @@
 
                         <div class="panel-content">
                             <p>
-                                <button {{action 'unsubscribeContributor' model.id}} class="ember-view btn btn-danger delete-app" value="Unsubscribe workspace...">Unsubscribe...</button>
+                                <button {{action 'unsubscribeFromWorkspace'}} class="ember-view btn btn-danger delete-app" value="Unsubscribe workspace...">Unsubscribe...</button>
                             </p>
 
                         </div>

@@ -3,47 +3,39 @@ import config from '../../../config/environment';
 
 export default Ember.Controller.extend({
     session: Ember.inject.service('session'),
-
     host: config.API_HOST,
-
-    newOwnerSelect: false,
-
-    newOwner: "",
+    newOwnerSelected: false,
 
     isModelNotChanged: function(){
         return !this.get('model.hasDirtyAttributes');
     }.property('model.hasDirtyAttributes'),
 
     isOwner: function() {
-        return  this.get('model.owner.id') == this.get('session.userId');
+        return  this.get('model.owner.id') == this.get('session.user.id');
     }.property('model'),
 
     isTransferDisabled: function(){
-        this.set('newOwner', $('#new-owner-select option:selected').val());
-        return this.get('newOwner') == "";
-    }.property('newOwnerSelect', 'model'),
+        return $('#new-owner-select option:selected').val() == "";
+    }.property('newOwnerSelected', 'model'),
 
     actions: {
 
-        onNewOwnerSelected(){
-            this.set('newOwnerSelect', !this.get('newOwnerSelect'));
+        selectNewOwner(){
+            this.set('newOwnerSelected', !this.get('newOwnerSelected'));
         },
 
-        saveWorkspace: function () {
+        saveWorkspaceTitle: function () {
             this.get('model').save();
         },
 
-        deleteWorkspace: function (id) {
+        deleteWorkspace: function () {
             var self = this;
+            var model = this.get('model');
 
-            var destroyRecord = function (workspace) {
-                self.controllerFor('dashboard.workspaces').set('activeWorkspace', null);
-                self.transitionToRoute('dashboard.workspaces.all');
+            this.store.findRecord('workspace', model.id).then(function (workspace) {
+                self._transitionToAll();
                 workspace.destroyRecord();
-            }
-
-            this.store.findRecord('workspace', id).then(destroyRecord);
-
+            });
         },
 
         addContributor: function (email) {
@@ -51,72 +43,65 @@ export default Ember.Controller.extend({
             var self = this;
             var model = this.get('model');
 
-            var refreshModel  = function () {
+            var updateModel  = function () {
                 self.set('newContributor', '');
                 model.get('contributors').addObject(user);
             }
 
-            var addContributor = function (users) {
+            var postAction = function (users) {
                 user = users.get('firstObject');
-                $.post(self.get('host') + '/api/users/' + user.id +'/workspaces/' + model.id + '/subscribe', refreshModel);
+                self._postWorkspaceAction(user.id, model.id, 'subscribe', updateModel);
             }
 
             var orFailGracefully = function () {
                 console.log('email not found');
             }
 
-            this.store.query('user', {email: email}).then(addContributor, orFailGracefully);
+            this.store.query('user', {email: email}).then(postAction, orFailGracefully);
         },
 
-        removeContributor: function (user, wid) {
-            var self = this;
+        removeContributor: function (user) {
+            var model = this.get('model');
 
-            var refreshModel = function(newModel) {
-                self.set('model', newModel);
-            }
-
-            var findNewModel  = function () {
-                self.store.findRecord('workspace', wid, { reload: true }).then(refreshModel);
-            }
-
-            var addContributor = function (users) {
-                var uid = users.get('firstObject').id;
-                $.post(self.get('host') + '/api/users/' + uid +'/workspaces/'+ wid +'/unsubscribe', findNewModel);
-            }
-
-            var orFailGracefully = function () {
-                console.log('email not found');
-            }
-
-            this.store.query('user', {email: user.get('email')}).then(addContributor, orFailGracefully);
+            this._postWorkspaceAction(user.id, model.id, 'unsubscribe', function () {
+                model.get('contributors').removeObject(user);
+            });
         },
 
-        unsubscribeContributor: function () {
+        unsubscribeFromWorkspace: function () {
             var self = this;
             var currentUser = this.get('session.user');
             var model = this.get('model');
 
-            var removeFromContributors = function() {
-                self.controllerFor('dashboard.workspaces').set('activeWorkspace', null);
-                self.transitionToRoute('dashboard.workspaces.all');
+            this._postWorkspaceAction(this.get('session.user.id'), model.id, 'unsubscribe', function() {
                 currentUser.get('workspacesContributing').removeObject(model);
-            }
-
-            $.post(this.get('host') + '/api/users/' + this.get('session.userId') +'/workspaces/'+ this.get('model.id') +'/unsubscribe', removeFromContributors);
+                self._transitionToAll();
+            })
         },
 
         changeOwner: function () {
             var self = this;
             var currentUser = this.get('session.user');
             var model = this.get('model');
+            var newOwner = $('#new-owner-select option:selected').val();
 
-            var removeFromContributors = function() {
-                self.controllerFor('dashboard.workspaces').set('activeWorkspace', null);
-                self.transitionToRoute('dashboard.workspaces.all');
+            this._postWorkspaceAction(newOwner, model.id, 'change_owner', function() {
                 currentUser.get('workspacesOwning').removeObject(model);
-            }
-
-            $.post(self.get('host') + '/api/users/' + this.get('newOwner') +'/workspaces/'+ this.get('model.id') +'/change_owner', removeFromContributors);
+                self._transitionToAll();
+            })
         }
+    },
+
+    //private API
+
+    _postWorkspaceAction: function (uid, wid, action, callback){
+        var host = this.get('host');
+        var url = [host, 'api', 'users', uid, 'workspaces', wid, action].join('/');
+        $.post(url, callback);
+    },
+
+    _transitionToAll: function (){
+        this.controllerFor('dashboard.workspaces').set('activeWorkspace', null);
+        this.transitionToRoute('dashboard.workspaces.all');
     }
 });
