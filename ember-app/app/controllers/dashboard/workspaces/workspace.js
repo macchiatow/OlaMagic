@@ -39,33 +39,28 @@ export default Ember.Controller.extend({
         },
 
         addContributor: function (email) {
-            var user;
             var self = this;
             var model = this.get('model');
 
-            var updateModel  = function () {
-                self.set('newContributor', '');
-                model.get('contributors').addObject(user);
-            }
-
-            var postAction = function (users) {
-                user = users.get('firstObject');
-                self._postWorkspaceAction(user.id, model.id, 'subscribe', updateModel);
-            }
-
-            var orFailGracefully = function () {
-                console.log('email not found');
-            }
-
-            this.store.query('user', {email: email}).then(postAction, orFailGracefully);
+            this.store.query('user', {email: email})
+                .then(function (users) {
+                    return self._postWorkspaceAction(user.id, model.id, 'subscribe', users.get('firstObject'));
+                })
+                .then(function (user) {
+                    self.set('newContributor', '');
+                    model.get('contributors').addObject(user);
+                })
+                .catch(function () {
+                    console.log('email not found');
+                });
         },
 
         removeContributor: function (user) {
             var model = this.get('model');
 
-            this._postWorkspaceAction(user.id, model.id, 'unsubscribe', function () {
+            this._postWorkspaceAction(user.id, model.id, 'unsubscribe').then(function() {
                 model.get('contributors').removeObject(user);
-            });
+            })
         },
 
         unsubscribeFromWorkspace: function () {
@@ -73,7 +68,7 @@ export default Ember.Controller.extend({
             var currentUser = this.get('session.user');
             var model = this.get('model');
 
-            this._postWorkspaceAction(this.get('session.user.id'), model.id, 'unsubscribe', function() {
+            this._postWorkspaceAction(this.get('session.user.id'), model.id, 'unsubscribe').then(function() {
                 currentUser.get('workspacesContributing').removeObject(model);
                 self._transitionToAll();
             })
@@ -85,7 +80,7 @@ export default Ember.Controller.extend({
             var model = this.get('model');
             var newOwner = $('#new-owner-select option:selected').val();
 
-            this._postWorkspaceAction(newOwner, model.id, 'change_owner', function() {
+            this._postWorkspaceAction(newOwner, model.id, 'change_owner').then(function() {
                 currentUser.get('workspacesOwning').removeObject(model);
                 self._transitionToAll();
             })
@@ -94,10 +89,12 @@ export default Ember.Controller.extend({
 
     //private API
 
-    _postWorkspaceAction: function (uid, wid, action, callback){
+    _postWorkspaceAction: function (uid, wid, action, succResult){
         var host = this.get('host');
         var url = [host, 'api', 'users', uid, 'workspaces', wid, action].join('/');
-        $.post(url, callback);
+        return new Ember.RSVP.Promise(function(resolve, reject) {
+            $.post(url).done(resolve(succResult)).fail(reject);
+        })
     },
 
     _transitionToAll: function (){
