@@ -21,25 +21,6 @@ class WorkspaceControllerSpec extends Specification {
         authorities: ['ROLE_USER']
     )
 
-    void "Test the 'list' action returns the correct model"() {
-        when:"A user instance is created"
-            mockUser.save flush: true
-
-        then:"One workspace is already created"
-            Workspace.count() == 1
-            mockUser.profile.workspaces.size() == 1
-
-        when:"The index action is executed"
-            request.method = 'GET'
-            response.format = 'json'
-            controller.list(mockUser.id)
-
-        then:"The model is correct"
-            response.status == 200
-            response.json.workspaces[0].id != null
-            response.json.workspaces[0].title != null
-    }
-
     void "Test the 'create' action correctly persists an instance"() {
         when:"Exists user"
             mockUser.save flush: true

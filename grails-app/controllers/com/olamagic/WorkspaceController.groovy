@@ -14,14 +14,6 @@ class WorkspaceController {
 
     static responseFormats = ['json']
 
-    def list(Long uid) {
-        def workspaces = Workspace.findAllByOwner(Profile.findBySecUser(SecUser.findById(uid))) +
-                Workspace.where {
-                    contributors { id == uid }
-                }
-        render ([workspaces: workspaces] as JSON)
-    }
-
     def show(Long id) {
         def workspace = Workspace.findAllById(id)
         render ([workspace: workspace] as JSON)
