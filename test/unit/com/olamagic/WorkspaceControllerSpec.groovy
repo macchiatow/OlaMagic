@@ -6,7 +6,7 @@ import org.junit.Before
 import spock.lang.Specification
 
 @TestFor(WorkspaceController)
-@Mock([SecUser, Workspace, Profile])
+@Mock([SecUser, Workspace, Profile, WorkspaceContributor])
 class WorkspaceControllerSpec extends Specification {
 
     def mockUser = new SecUser(
@@ -30,20 +30,20 @@ class WorkspaceControllerSpec extends Specification {
             request.json = [
                 workspace : [
                     id: 999,     // trying to pass id should not effect
-                    title: 'Another workspace'
+                    title: 'Another workspace',
+                    owner: mockUser.profile.id
                 ]
             ]
-            controller.create(mockUser.id)
+            controller.create()
 
         then:"An instance saved"
-            Workspace.count() == 2
-            mockUser.profile.workspaces.size() == 2
+            Workspace.count() == 1
+            mockUser.profile.workspacesOwning.size() == 1
 
         and:"Response model is correct"
             response.status == 200
             response.json.workspace.id != null
-            response.json.workspace.title == 'Another workspace'
-            response.json.workspace.owner == mockUser.email
+            response.json.workspace.owner == mockUser.profile.id
     }
 
     void "Test that the delete action deletes an instance if it exists"() {
@@ -262,5 +262,10 @@ class WorkspaceControllerSpec extends Specification {
     @Before
     void registerJsonMarshallers() {
         applicationContext.getBean('customObjectMarshallers').register()
+
+        mockUser.profile = new Profile()
+        mockUser.save()
     }
+
+
 }
