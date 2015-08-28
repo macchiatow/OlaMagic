@@ -55,7 +55,8 @@ class WorkspaceController {
             return
         }
 
-        if (Workspace.findAllByOwner(workspace.owner).size() < 2) {
+        Profile owner = Profile.findById(workspace.owner)
+        if (Workspace.findAllByOwner(owner).size() < 2) {
             render status: NOT_ACCEPTABLE
             return
         }

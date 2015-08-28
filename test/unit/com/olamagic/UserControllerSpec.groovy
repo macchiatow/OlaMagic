@@ -5,10 +5,12 @@ import com.olamagic.auth.SecUserSecRole
 import grails.test.mixin.Mock
 import grails.test.mixin.TestFor
 import org.junit.Before
+import spock.lang.Ignore
 import spock.lang.Specification
 
 import static com.olamagic.util.JsonWrapper.toJson
 
+@Ignore
 @TestFor(UserController)
 @Mock([SecUser, SecUserSecRole, SecRole, Profile, Workspace])
 class UserControllerSpec extends Specification {

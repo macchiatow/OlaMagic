@@ -55,28 +55,35 @@ class WorkspaceControllerSpec extends Specification {
         then:"A 404 is returned"
             response.status == 404
 
-        when:"A user instance is created"
+        when:"A workspace instance is created"
             response.reset()
-            mockUser.save flush: true
+            request.method = 'POST'
+            request.json = [
+                workspace : [
+                        id: 999,     // trying to pass id should not effect
+                        title: 'Another workspace',
+                        owner: mockUser.profile.id
+                ]
+            ]
+            controller.create()
 
         and:"The workspace id is passed to the delete action"
-           controller.delete(mockUser.profile.workspaces[0].id)
+            response.reset()
+            controller.delete(mockUser.profile.workspacesOwning[0].id)
 
         then:"The instance is not deleted; at least one workspace should exist for a user"
             Workspace.count() == 1
             response.status == 406
 
         when:"A user has more than one workspace"
-            response.reset()
-            def workspace = new Workspace(title: 'Second workspace', owner: mockUser.profile).save flush: true
-            mockUser.profile.workspaces << workspace
-            mockUser.save flush: true
+            controller.create()
 
         then:"Exist two workspaces"
             Workspace.count() == 2
 
         when:"The workspace id is passed to the delete action again"
-            controller.delete(mockUser.profile.workspaces[0].id)
+            response.reset()
+            controller.delete(mockUser.profile.workspacesOwning[0].id)
 
         then:"The instance is deleted"
             Workspace.count() == 1
@@ -100,18 +107,20 @@ class WorkspaceControllerSpec extends Specification {
             response.status == 404
 
         when:"Exists instance"
-            mockUser.save flush: true
+            def workspace = new Workspace(owner: mockUser.profile).save flush: true
+
 
         and:"A valid domain instance is passed to the update action"
             response.reset()
             request.json = [
-                workspace : [title: 'other title']
+                workspace : [
+                    title: 'other title'
+                ]
             ]
-            controller.update(mockUser.profile.workspaces[0].id)
+            controller.update(workspace.id)
 
         then:"The instance updated"
             response.status == 200
-            response.json.workspace.id == mockUser.profile.workspaces[0].id
             response.json.workspace.title =='other title'
     }
 
