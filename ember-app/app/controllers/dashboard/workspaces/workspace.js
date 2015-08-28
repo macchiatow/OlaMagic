@@ -44,7 +44,7 @@ export default Ember.Controller.extend({
 
             this.store.query('user', {email: email})
                 .then(function (users) {
-                    return self._postWorkspaceAction(user.id, model.id, 'subscribe', users.get('firstObject'));
+                    return self._postWorkspaceAction(users.get('firstObject.id'), model.id, 'subscribe', users.get('firstObject'));
                 })
                 .then(function (user) {
                     self.set('newContributor', '');
