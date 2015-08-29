@@ -68,19 +68,19 @@ class WorkspaceController {
 
     def subscribe(Long uid, Long wid) {
         def workspace = Workspace.findById(wid)
-        def user = SecUser.findById(uid)
+        def profile = Profile.findById(uid)
 
-        if (workspace == null || user == null) {
+        if (workspace == null || profile == null) {
             render status: NOT_FOUND
             return
         }
 
-        if (workspace.owner == user.profile) {
+        if (workspace.owner == profile) {
             render status: NOT_ACCEPTABLE
             return
         }
 
-        WorkspaceContributor.create workspace, user.profile, true
+        WorkspaceContributor.create workspace, profile, true
 
         render ([workspace: workspace] as JSON)
     }

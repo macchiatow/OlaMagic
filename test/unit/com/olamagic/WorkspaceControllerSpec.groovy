@@ -22,9 +22,7 @@ class WorkspaceControllerSpec extends Specification {
     )
 
     void "Test the 'create' action correctly persists an instance"() {
-        when:"Exists user"
-            mockUser.save flush: true
-        and:"The create action is executed with a valid request"
+        when:"The create action is executed with a valid request"
             request.contentType = JSON_CONTENT_TYPE
             request.method = 'POST'
             request.json = [
@@ -125,49 +123,43 @@ class WorkspaceControllerSpec extends Specification {
     }
 
     void "Test the 'subscribe' action returns the correct model"() {
-        when:"A user instance is created"
-            mockUser.save flush: true
-            mockOtherUser.save flush: true
-
-        then:"Two workspaces are already created"
-            Workspace.count() == 2
-            mockUser.profile.workspaces.size() == 1
-            mockOtherUser.profile.workspaces.size() == 1
-            !mockUser.profile.workspaces.first().equals(mockOtherUser.profile.workspaces.first())
-
         when:"Subscribe is called for a uid that doesn't exist"
             request.contentType = JSON_CONTENT_TYPE
             request.method = 'POST'
             response.format = 'json'
-            controller.subscribe(null, mockUser.profile.workspaces[0].id)    
+            def workspace = new Workspace()
+            mockUser.profile.addToWorkspacesOwning(workspace)
+            workspace.save flush: true
+            controller.subscribe(null, mockUser.profile.workspacesOwning[0].id)
 
         then:"The instance is not found"
             response.status == 404    
 
         when:"Subscribe is called for a wid that doesn't exist"
             response.reset()
-            controller.subscribe(mockOtherUser.id, null)    
+            controller.subscribe(mockOtherUser.profile.id, null)
 
         then:"The instance is not found"
             response.status == 404   
 
         when:"Subscribe is called for a uid that is workspace owner"
             response.reset()
-            controller.unsubscribe(mockUser.id, mockUser.profile.workspaces[0].id)
+            assert mockUser.profile.id == mockUser.profile.workspacesOwning[0].id
+            controller.subscribe(mockUser.profile.id, mockUser.profile.workspacesOwning[0].id)
 
         then:"The action is not accepted"
             response.status == 406                
 
         when:"Subscribe is called for valid uid and wid"
             response.reset()
-            controller.subscribe(mockOtherUser.id, mockUser.profile.workspaces[0].id)
+            controller.subscribe(mockOtherUser.profile.id, mockUser.profile.workspacesOwning[0].id)
 
         then:"The model is updated"
             response.status == 200
             response.json.workspace.id != null
             response.json.workspace.title != null
-            response.json.workspace.owner == mockUser.email
-            response.json.workspace.contributors == [mockOtherUser.email]
+            response.json.workspace.owner == mockUser.profile.id
+            response.json.workspace.contributors == [mockOtherUser.profile.id]
     }
 
     void "Test the 'unsubscribe' action returns the correct model"() {
@@ -273,7 +265,10 @@ class WorkspaceControllerSpec extends Specification {
         applicationContext.getBean('customObjectMarshallers').register()
 
         mockUser.profile = new Profile()
-        mockUser.save()
+        mockUser.save flush: true
+
+        mockOtherUser.profile = new Profile()
+        mockOtherUser.save flush: true
     }
 
 
