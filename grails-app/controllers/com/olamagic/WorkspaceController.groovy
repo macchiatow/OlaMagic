@@ -124,6 +124,13 @@ class WorkspaceController {
         oldUser.removeFromWorkspacesOwning workspace
         workspace.owner = newUser
 
+        if (oldUser.workspacesOwning.size() < 1){
+            def newWorkspace = new Workspace()
+            oldUser.addToWorkspacesOwning(newWorkspace)
+            newWorkspace.title = "Workspace ${10000 + new Random().nextInt(89999)}"
+            newWorkspace.save flush: true
+        }
+
         newUser.save flush: true
         oldUser.save flush: true
 

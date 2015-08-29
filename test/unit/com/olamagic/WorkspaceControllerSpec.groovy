@@ -35,8 +35,8 @@ class WorkspaceControllerSpec extends Specification {
             controller.create()
 
         then:"An instance saved"
-            Workspace.count() == 1
-            mockUser.profile.workspacesOwning.size() == 1
+            Workspace.count() == 3
+            mockUser.profile.workspacesOwning.size() == 2
 
         and:"Response model is correct"
             response.status == 200
@@ -53,39 +53,30 @@ class WorkspaceControllerSpec extends Specification {
         then:"A 404 is returned"
             response.status == 404
 
-        when:"A workspace instance is created"
-            response.reset()
-            request.method = 'POST'
-            request.json = [
-                workspace : [
-                        id: 999,     // trying to pass id should not effect
-                        title: 'Another workspace',
-                        owner: mockUser.profile.id
-                ]
-            ]
-            controller.create()
-
-        and:"The workspace id is passed to the delete action"
+        when:"The workspace id is passed to the delete action"
             response.reset()
             controller.delete(mockUser.profile.workspacesOwning[0].id)
 
         then:"The instance is not deleted; at least one workspace should exist for a user"
-            Workspace.count() == 1
+            mockUser.profile.workspacesOwning.size() == 1
             response.status == 406
 
         when:"A user has more than one workspace"
-            controller.create()
+            def newWorkspace = new Workspace()
+            mockUser.profile.addToWorkspacesOwning(newWorkspace)
+            newWorkspace.save flush: true
 
         then:"Exist two workspaces"
-            Workspace.count() == 2
+            mockUser.profile.workspacesOwning.size() == 2
 
         when:"The workspace id is passed to the delete action again"
             response.reset()
             controller.delete(mockUser.profile.workspacesOwning[0].id)
 
         then:"The instance is deleted"
-            Workspace.count() == 1
             response.status == 200
+            mockUser.profile.workspacesOwning.size() == 1
+
     }
 
     void "Test the update action performs an update on a valid domain instance"() {
@@ -127,9 +118,6 @@ class WorkspaceControllerSpec extends Specification {
             request.contentType = JSON_CONTENT_TYPE
             request.method = 'POST'
             response.format = 'json'
-            def workspace = new Workspace()
-            mockUser.profile.addToWorkspacesOwning(workspace)
-            workspace.save flush: true
             controller.subscribe(null, mockUser.profile.workspacesOwning[0].id)
 
         then:"The instance is not found"
@@ -163,23 +151,13 @@ class WorkspaceControllerSpec extends Specification {
     }
 
     void "Test the 'unsubscribe' action returns the correct model"() {
-        when:"A user instance is created"
-            mockUser.save flush: true
-            mockOtherUser.save flush: true
-
-        then:"Two workspaces are already created"
-            Workspace.count() == 2
-
-
-        when:"Subscribtion is created"
-            request.contentType = JSON_CONTENT_TYPE
+        when:"Subscription is created"
             request.method = 'POST'
-            response.format = 'json'
-            controller.subscribe(mockOtherUser.id, mockUser.profile.workspaces[0].id)    
+            controller.subscribe(mockOtherUser.id, mockUser.profile.workspacesOwning[0].id)
 
         then:"The model is updated"
-            response.json.workspace.owner == mockUser.email
-            response.json.workspace.contributors == [mockOtherUser.email]
+            response.json.workspace.owner == mockUser.profile.id
+            response.json.workspace.contributors == [mockOtherUser.profile.id]
 
         when:"Subscribe is called for a wid that doesn't exist"
             response.reset()
@@ -190,37 +168,30 @@ class WorkspaceControllerSpec extends Specification {
 
         when:"Subscribe is called for a uid that doesn't exist"
             response.reset()
-            controller.unsubscribe(null, mockUser.profile.workspaces[0].id)    
+            controller.unsubscribe(null, mockUser.profile.workspacesOwning[0].id)
 
         then:"The instance is not found"
             response.status == 404  
 
         when:"Unsubscribe is called for a uid that is workspace owner"
             response.reset()
-            controller.unsubscribe(mockUser.id, mockUser.profile.workspaces[0].id)      
+            controller.unsubscribe(mockUser.profile.id, mockUser.profile.workspacesOwning[0].id)
 
         then:"The action is not accepted"
             response.status == 406      
 
         when:"Unsubscribe is called for valid uid and wid"
             response.reset()
-            controller.unsubscribe(mockOtherUser.id, mockUser.profile.workspaces[0].id)  
+            controller.unsubscribe(mockOtherUser.profile.id, mockUser.profile.workspacesOwning[0].id)
 
         then:"The model is updated"
             response.json.workspace.id != null
             response.json.workspace.title != null
-            response.json.workspace.owner == mockUser.email
+            response.json.workspace.owner == mockUser.profile.id
             response.json.workspace.contributors == []   
     }
 
     void "Test the 'change_owner' action returns the correct model"() {
-        when:"A user instance is created"
-            mockUser.save flush: true
-            mockOtherUser.save flush: true
-
-        then:"Two workspaces are already created"
-            Workspace.count() == 2
-
         when:"ChangeOwner is called for a wid that doesn't exist"
             response.reset()
             controller.changeOwner(mockOtherUser.id, null)    
@@ -230,31 +201,33 @@ class WorkspaceControllerSpec extends Specification {
 
         when:"ChangeOwner is called for a uid that doesn't exist"
             response.reset()
-            controller.changeOwner(null, mockUser.profile.workspaces[0].id)    
+            controller.changeOwner(null, mockUser.profile.workspacesOwning[0].id)
 
         then:"The instance is not found"
             response.status == 404  
 
         when:"ChangeOwner is called for a uid that is workspace owner"
             response.reset()
-            controller.changeOwner(mockUser.id, mockUser.profile.workspaces[0].id)      
+            controller.changeOwner(mockUser.profile.id, mockUser.profile.workspacesOwning[0].id)
 
         then:"The action is not accepted"
             response.status == 406      
 
         when:"ChangeOwner is called for valid uid and wid"
             response.reset()
-            controller.changeOwner(mockOtherUser.id, mockUser.profile.workspaces[0].id)  
+            controller.changeOwner(mockOtherUser.profile.id, mockUser.profile.workspacesOwning[0].id)
 
         then:"The model is updated"
             response.json.workspace.id != null
             response.json.workspace.title != null
-            response.json.workspace.owner == mockOtherUser.email
+            response.json.workspace.owner == mockOtherUser.profile.id
             response.json.workspace.contributors == []  
 
         and:"New workspace created for user without one"
             Workspace.count() == 3
-            mockUser.profile.workspaces.size() == 1
+            mockUser.profile.workspacesOwning.size() == 1
+            mockOtherUser.profile.workspacesOwning.size() == 2
+
 
     }
 
@@ -266,9 +239,15 @@ class WorkspaceControllerSpec extends Specification {
 
         mockUser.profile = new Profile()
         mockUser.save flush: true
+        def workspace = new Workspace()
+        mockUser.profile.addToWorkspacesOwning(workspace)
+        workspace.save flush: true
 
         mockOtherUser.profile = new Profile()
         mockOtherUser.save flush: true
+        def otherWorkspace = new Workspace()
+        mockOtherUser.profile.addToWorkspacesOwning(otherWorkspace)
+        otherWorkspace.save flush: true
     }
 
 
