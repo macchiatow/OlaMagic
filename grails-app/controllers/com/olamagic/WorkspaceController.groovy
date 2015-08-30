@@ -61,6 +61,7 @@ class WorkspaceController {
             return
         }
 
+        owner.removeFromWorkspacesOwning(workspace)
         workspace.delete flush: true
         render '{}'
     }
