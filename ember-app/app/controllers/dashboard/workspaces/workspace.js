@@ -33,8 +33,11 @@ export default Ember.Controller.extend({
             var model = this.get('model');
 
             this.store.findRecord('workspace', model.id).then(function (workspace) {
-                self._transitionToAll();
-                workspace.destroyRecord();
+                workspace.destroyRecord().then(function () {
+                    self._transitionToAll();
+                }).catch(function () {
+                    workspace.rollbackAttributes();
+                });
             });
         },
 
