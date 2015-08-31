@@ -14,6 +14,10 @@ export default Ember.Controller.extend({
         return  this.get('model.owner.id') == this.get('session.user.id');
     }.property('model'),
 
+    isDeletable: function() {
+        return this.controllerFor('dashboard.workspaces').get('model.workspaces').length > 1
+    }.property('model'),
+
     isTransferDisabled: function(){
         return $('#new-owner-select option:selected').val() == "";
     }.property('newOwnerSelected', 'model'),

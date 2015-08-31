@@ -131,6 +131,7 @@
                 </div>
             </div>
             </li>
+            {{#if isDeletable}}
             <li class="ember-view list-group-item">
                 <div class="panel-section danger app-deletion ">
                     <div class="panel-description">
@@ -150,6 +151,7 @@
                     </div>
                 </div>
             </li>
+            {{/if}}
             {{else}}
                 <li class="ember-view list-group-item">
                     <div class="panel-section danger app-deletion ">
