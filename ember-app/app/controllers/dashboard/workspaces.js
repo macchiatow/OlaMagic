@@ -13,7 +13,7 @@ export default Ember.Controller.extend({
                 .then(function(workspace) {
                     user.get('workspacesOwning').addObject(workspace);
                     self.transitionToRoute('dashboard.workspaces.workspace', workspace.id);
-                })
+                });
         }
     }
 });

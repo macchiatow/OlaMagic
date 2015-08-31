@@ -30,7 +30,7 @@
             <form>
                 <table class="table editable-list domain-list">
                     <tbody>
-                    {{#each item in model}}
+                    {{#each model as |item|}}
                         <tr class="collaborator-item editable-item item-persisted">
                             <td >
                                 {{item.upid}}

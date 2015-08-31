@@ -11,15 +11,16 @@ export default Ember.Controller.extend({
     }.property('model.hasDirtyAttributes'),
 
     isOwner: function() {
-        return  this.get('model.owner.id') == this.get('session.user.id');
+        return  this.get('model.owner.id') === this.get('session.user.id');
     }.property('model'),
 
     isDeletable: function() {
-        return this.controllerFor('dashboard.workspaces').get('model.workspaces').length > 1
+        return this.controllerFor('dashboard.workspaces').get('model.workspaces').length > 1;
     }.property('model'),
 
     isTransferDisabled: function(){
-        return $('#new-owner-select option:selected').val() == "";
+        var selectedVal = Ember.$('#new-owner-select option:selected').val();
+        return selectedVal === undefined || selectedVal === "";
     }.property('newOwnerSelected', 'model'),
 
     actions: {
@@ -67,7 +68,7 @@ export default Ember.Controller.extend({
 
             this._postWorkspaceAction(user.id, model.id, 'unsubscribe').then(function() {
                 model.get('contributors').removeObject(user);
-            })
+            });
         },
 
         unsubscribeFromWorkspace: function () {
@@ -78,19 +79,19 @@ export default Ember.Controller.extend({
             this._postWorkspaceAction(this.get('session.user.id'), model.id, 'unsubscribe').then(function() {
                 currentUser.get('workspacesContributing').removeObject(model);
                 self._transitionToAll();
-            })
+            });
         },
 
         changeOwner: function () {
             var self = this;
             var currentUser = this.get('session.user');
             var model = this.get('model');
-            var newOwner = $('#new-owner-select option:selected').val();
+            var newOwner = Ember.$('#new-owner-select option:selected').val();
 
             this._postWorkspaceAction(newOwner, model.id, 'change_owner').then(function() {
                 currentUser.get('workspacesOwning').removeObject(model);
                 self._transitionToAll();
-            })
+            });
         }
     },
 
@@ -100,8 +101,8 @@ export default Ember.Controller.extend({
         var host = this.get('host');
         var url = [host, 'api', 'users', uid, 'workspaces', wid, action].join('/');
         return new Ember.RSVP.Promise(function(resolve, reject) {
-            $.post(url).done(resolve(succResult)).fail(reject);
-        })
+            Ember.$.post(url).done(resolve(succResult)).fail(reject);
+        });
     },
 
     _transitionToAll: function (){
