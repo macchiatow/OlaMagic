@@ -1,14 +1,11 @@
 package com.olamagic
 import com.olamagic.auth.SecUser
 import com.olamagic.auth.SecUserSecRole
-import grails.transaction.Transactional
-import org.springframework.http.HttpStatus
 import grails.converters.JSON
+import grails.transaction.Transactional
 
 import static com.olamagic.util.JsonWrapper.getToJson
-import static org.springframework.http.HttpStatus.NOT_ACCEPTABLE
-import static org.springframework.http.HttpStatus.NOT_FOUND
-import static org.springframework.http.HttpStatus.OK
+import static org.springframework.http.HttpStatus.*
 
 @Transactional(readOnly = true)
 class UserController {
@@ -68,12 +65,12 @@ class UserController {
             return
         }
 
-        def userInstance = new SecUser(request.JSON.user)
-        userInstance.profile = new Profile()
-        userInstance.profile.addToWorkspaces(new Workspace())
-        userInstance.save flush: true
+        def user = new SecUser(request.JSON.user)
+        user.profile = new Profile(secUser: user)
+        user.profile.addToWorkspacesOwning(new Workspace())
+        user.save()
 
-        render toJson('user', userInstance)
+        render ([user: user] as JSON)
     }
 
     @Transactional
