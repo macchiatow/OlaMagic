@@ -6,7 +6,7 @@ export default Ember.Controller.extend({
     actions: {
         newWorkspace: function () {
             var self = this;
-            var user = this.get('session.user');
+            var user = this.controllerFor('dashboard').model;
 
             this.store.createRecord('workspace', {owner: user})
                 .save()
