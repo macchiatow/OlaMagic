@@ -11,7 +11,6 @@ export default Ember.Controller.extend({
             this.store.createRecord('workspace', {owner: user})
                 .save()
                 .then(function(workspace) {
-                    user.get('workspacesOwning').addObject(workspace);
                     self.transitionToRoute('dashboard.workspaces.workspace', workspace.id);
                 });
         }
