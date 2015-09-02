@@ -73,7 +73,7 @@ export default Ember.Controller.extend({
 
         unsubscribeFromWorkspace: function () {
             var self = this;
-            var currentUser = this.get('session.user');
+            var currentUser = this.controllerFor('dashboard').model;
             var model = this.get('model');
 
             this._postWorkspaceAction(this.get('session.user.id'), model.id, 'unsubscribe').then(function() {
@@ -84,7 +84,7 @@ export default Ember.Controller.extend({
 
         changeOwner: function () {
             var self = this;
-            var currentUser = this.get('session.user');
+            var currentUser = this.controllerFor('dashboard').model;
             var model = this.get('model');
             var newOwner = Ember.$('#new-owner-select option:selected').val();
 
