@@ -7,6 +7,7 @@ module.exports = function(environment) {
     baseURL: '/',
     API_HOST: '/',
     locationType: 'auto',
+    cookieName: 'JSESSIONID',
     EmberENV: {
       FEATURES: {
         // Here you can enable experimental features on an ember canary build
@@ -44,6 +45,8 @@ module.exports = function(environment) {
   if (environment === 'production') {
 
   }
-
+    ENV['simple-auth'] = {
+        store: 'simple-auth-session-store:local-storage'
+    }
   return ENV;
 };

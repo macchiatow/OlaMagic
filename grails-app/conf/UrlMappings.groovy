@@ -59,6 +59,6 @@ class UrlMappings {
         "/dbconsole"(view: "/dbconsole")
 
         // Main
-        "/**"(view: "/index")
+        "/**"(controller:"index")
     }
 }

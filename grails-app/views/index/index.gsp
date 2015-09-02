@@ -1,3 +1,4 @@
+<g:set var="springSecurityService" bean="springSecurityService"/>
 <!DOCTYPE html>
 <html>
 <head>
@@ -15,9 +16,13 @@
 
 </head>
 <body>
-
-<script src="http://res.cloudinary.com/macchiatow/raw/upload/v1437733060/vendor.js"></script>
-<script src="http://res.cloudinary.com/macchiatow/raw/upload/v1437733057/ember-app.js"></script>
-
+<script>
+    ENV = {
+        currentUser :  {"email":"${user.email}",
+                        "id":"${user.profile.id}"}
+    }
+</script>
+<script src="http://localhost:8080/assets/vendor.js"></script>
+<script src="http://localhost:8080/assets/ember-app.js"></script>
 </body>
 </html>
