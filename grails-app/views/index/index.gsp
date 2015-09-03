@@ -19,10 +19,11 @@
 <script>
     ENV = {
         currentUser :  {"email":"${user.email}",
-                        "id":"${user.profile.id}"}
+                        "id":"${user.profile.id}",
+                        "isAdmin":"${user.authorities.authority.contains("ROLE_ADMIN")}"}
     }
 </script>
-<script src="http://localhost:8080/assets/vendor.js"></script>
-<script src="http://localhost:8080/assets/ember-app.js"></script>
+<script src="http://localhost:4200/assets/vendor.js"></script>
+<script src="http://localhost:4200/assets/ember-app.js"></script>
 </body>
 </html>
