@@ -116,6 +116,10 @@ log4j.main = {
             'net.sf.ehcache.hibernate'
 }
 
+// the Spring Security Rest plugin:
+grails.plugin.springsecurity.rest.login.endpointUrl='/oauth/login'
+grails.plugin.springsecurity.rest.logout.endpointUrl='/oauth/logout'
+
 // Added by the Spring Security Core plugin:
 grails.plugin.springsecurity.rejectIfNoRule = true
 grails.plugin.springsecurity.securityConfigType = "InterceptUrlMap"
@@ -124,8 +128,7 @@ grails.plugin.springsecurity.userLookup.authorityJoinClassName = 'com.olamagic.a
 grails.plugin.springsecurity.userLookup.usernamePropertyName = 'email'
 grails.plugin.springsecurity.authority.className = 'com.olamagic.auth.SecRole'
 grails.plugin.springsecurity.interceptUrlMap = [
-        '/login/**'      : ['permitAll'],
-        '/logout/**'     : ['permitAll'],
+        '/oauth/**'      : ['permitAll'],
         '/dbconsole/**'  : ['ROLE_ADMIN'],
         '/assets/**'     : ['permitAll'],
         '/**/js/**'      : ['permitAll'],
@@ -133,4 +136,8 @@ grails.plugin.springsecurity.interceptUrlMap = [
         '/**/images/**'  : ['permitAll'],
         '/**/favicon.ico': ['permitAll'],
         '/**'            : ['IS_AUTHENTICATED_FULLY'],
+]
+
+grails.plugin.springsecurity.filterChain.chainMap = [
+        '/**': 'JOINED_FILTERS,-exceptionTranslationFilter,-authenticationProcessingFilter,-securityContextPersistenceFilter,-rememberMeAuthenticationFilter',  // Stateless chain
 ]

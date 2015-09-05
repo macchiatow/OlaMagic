@@ -48,10 +48,6 @@ class UrlMappings {
         "/api/reports"(controller: "report")
         "/api/sites/$sid/reports/$rname"(controller: "report")
 
-        // Authentication
-        "/login/$action?"(controller: "login")
-        "/logout/$action?"(controller: "logout")
-
         // Errors
         "500"(view: '/error')
 
