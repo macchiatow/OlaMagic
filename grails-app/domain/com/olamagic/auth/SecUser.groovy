@@ -15,7 +15,7 @@ class SecUser implements Serializable {
 	boolean accountExpired
 	boolean accountLocked
 	boolean passwordExpired
-    List<String> _authorities
+    Date lastModified
 
     static hasOne = [profile: Profile]
 
@@ -45,10 +45,12 @@ class SecUser implements Serializable {
 	}
 
 	def beforeInsert() {
+        lastModified = new Date()
 		encodePassword()
 	}
 
 	def beforeUpdate() {
+        lastModified = new Date()
 		if (isDirty('password')) {
 			encodePassword()
 		}
@@ -58,7 +60,7 @@ class SecUser implements Serializable {
 		password = springSecurityService?.passwordEncoder ? springSecurityService.encodePassword(password) : password
 	}
 
-	static transients = ['springSecurityService', '_authorities']
+	static transients = ['springSecurityService']
 
 	static constraints = {
 		email blank: false, unique: true

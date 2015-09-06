@@ -54,7 +54,8 @@ class UserController {
             return
         }
 
-        bindProperties(userInstance, request.JSON.user).saveWithAuthorities()
+        userInstance.password = params.password
+        userInstance.save(flush: true)
         render toJson('user', userInstance)
     }
 
@@ -86,11 +87,5 @@ class UserController {
         userInstance.delete flush: true
 
         render status: OK
-    }
-
-    private bindProperties(def instance, def params) {
-        instance.properties = params
-        instance._authorities = params.authorities
-        instance
     }
 }

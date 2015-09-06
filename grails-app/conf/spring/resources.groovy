@@ -6,6 +6,7 @@ import com.olamagic.marshaller.SiteMarshaller
 import com.olamagic.marshaller.UserMarshaller
 import com.olamagic.marshaller.WorkspaceMarshaller
 import com.olamagic.util.ObjectMarshallers
+import grails.plugin.springsecurity.rest.token.storage.jwt.UserAwareJwtTokenStorageService
 
 // Place your Spring DSL code here
 beans = {
@@ -22,5 +23,9 @@ beans = {
                 new CampaignMarshaller()
         ]
 
+    }
+
+    tokenStorageService(UserAwareJwtTokenStorageService) {
+        jwtService = ref('jwtService')
     }
 }
