@@ -51,7 +51,7 @@ class UserAwareJwtTokenStorageService extends JwtTokenStorageService {
     }
 
     private verifyExpiration(Date expirationTime, String tokenValue){
-        if (expirationTime.before(new Date())) {
+        if (expirationTime?.before(new Date())) {
             throw new TokenNotFoundException("Token ${tokenValue} has expired")
         }
         log.debug "Successfully verified JWT expiration"
