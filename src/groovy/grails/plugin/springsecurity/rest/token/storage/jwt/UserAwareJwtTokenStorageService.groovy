@@ -21,6 +21,8 @@ import com.olamagic.auth.SecUser
 import grails.plugin.springsecurity.rest.JwtService
 import grails.plugin.springsecurity.rest.token.storage.TokenNotFoundException
 import groovy.util.logging.Slf4j
+import org.springframework.security.core.authority.SimpleGrantedAuthority
+import org.springframework.security.core.userdetails.User
 import org.springframework.security.core.userdetails.UserDetails
 
 import java.text.ParseException
@@ -36,12 +38,13 @@ class UserAwareJwtTokenStorageService extends JwtTokenStorageService {
     UserDetails loadUserByToken(String tokenValue) throws TokenNotFoundException {
         try {
             JWT jwt = jwtService.parse(tokenValue)
-            UserDetails userDetails = JwtService.deserialize(jwt.JWTClaimsSet.getCustomClaim('principal') as String)
 
             verifyExpiration(jwt.JWTClaimsSet.expirationTime, tokenValue)
-            verifyUserDetailsLastModified(userDetails, jwt.JWTClaimsSet.issueTime, tokenValue)
+            verifyUserDetailsLastModified(jwt, tokenValue)
 
-            return userDetails
+            def roles = jwt.JWTClaimsSet.getStringArrayClaim('roles')?.collect { new SimpleGrantedAuthority(it) }
+
+            return new User(jwt.JWTClaimsSet.subject, '[PROTECTED]', roles)
 
         } catch (ParseException pe) {
             throw new TokenNotFoundException("Token ${tokenValue} is not valid")
@@ -57,9 +60,9 @@ class UserAwareJwtTokenStorageService extends JwtTokenStorageService {
         log.debug "Successfully verified JWT expiration"
     }
 
-    private verifyUserDetailsLastModified(UserDetails userDetails, Date issueTime, String tokenValue){
+    private verifyUserDetailsLastModified(JWT jwt, String tokenValue){
         SecUser.withNewSession {
-            if (SecUser.findByEmail(userDetails.username).lastModified.after(issueTime)) {
+            if (SecUser.findByEmail(jwt.JWTClaimsSet.subject).lastModified.after(jwt.JWTClaimsSet.issueTime)) {
                 throw new TokenNotFoundException("Token ${tokenValue} issued before user details last modified")
             }
         }

@@ -103,6 +103,12 @@ log4j.main = {
     //    console name:'stdout', layout:pattern(conversionPattern: '%c{2} %m%n')
     //}
 
+    debug  'grails.plugin.springsecurity',
+            'grails.app.controllers.grails.plugin.springsecurity',
+            'grails.app.services.grails.plugin.springsecurity',
+            'org.pac4j',
+            'org.springframework.security'
+
     error 'org.codehaus.groovy.grails.web.servlet',        // controllers
             'org.codehaus.groovy.grails.web.pages',          // GSP
             'org.codehaus.groovy.grails.web.sitemesh',       // layouts
@@ -119,6 +125,8 @@ log4j.main = {
 // the Spring Security Rest plugin:
 grails.plugin.springsecurity.rest.login.endpointUrl='/oauth/login'
 grails.plugin.springsecurity.rest.logout.endpointUrl='/oauth/logout'
+grails.plugin.springsecurity.rest.token.storage.jwt.secret='PKOukFHr1oEsK9XbgJ5aVoB3YN8Fq5fP'
+grails.plugin.springsecurity.rest.token.storage.jwt.expiration=3600
 
 // Added by the Spring Security Core plugin:
 grails.plugin.springsecurity.rejectIfNoRule = true
@@ -128,14 +136,9 @@ grails.plugin.springsecurity.userLookup.authorityJoinClassName = 'com.olamagic.a
 grails.plugin.springsecurity.userLookup.usernamePropertyName = 'email'
 grails.plugin.springsecurity.authority.className = 'com.olamagic.auth.SecRole'
 grails.plugin.springsecurity.interceptUrlMap = [
-        '/oauth/**'      : ['permitAll'],
         '/dbconsole/**'  : ['ROLE_ADMIN'],
-        '/assets/**'     : ['permitAll'],
-        '/**/js/**'      : ['permitAll'],
-        '/**/css/**'     : ['permitAll'],
-        '/**/images/**'  : ['permitAll'],
-        '/**/favicon.ico': ['permitAll'],
-        '/**'            : ['IS_AUTHENTICATED_FULLY'],
+        '/api/**'        : ['IS_AUTHENTICATED_FULLY'],
+        '/**'            : ['permitAll']
 ]
 
 grails.plugin.springsecurity.filterChain.chainMap = [
