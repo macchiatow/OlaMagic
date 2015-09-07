@@ -1,0 +1,23 @@
+<div class="page-wrap gradient-primary">
+    <div class="container">
+        <h1 class="logo"><a href="https://www.olamagic.com" title="OlaMagic">OlaMagic</a></h1>
+        <div class="content">
+            <div class="panel" id="login">
+                <h3>Log in to your account</h3>
+                <form role="form">
+                    <div class="form-group">
+                        <label for="uid">Email address</label>
+                        <div class="input-icon icon-username"></div>
+                        {{input autofocus  class="form-control"  type="email" value=email}}
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <div class="input-icon icon-password"></div>
+                        {{input autocomplete="off" class="form-control password" type="password" value=password}}
+                    </div>
+                    <button {{action "login"}} class="btn btn-primary btn-lg btn-block" name="commit" tabindex="3" type="submit" value="Log In">Log In</button>
+                </form>
+                <a class="panel-footer" href="/signup/login">New to OlaMagic? &nbsp;<span>Sign Up</span></a></div>
+            <a href="/account/password/reset">Forgot your password?</a></div>
+    </div>
+</div>

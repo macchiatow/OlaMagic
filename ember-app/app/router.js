@@ -26,6 +26,7 @@ Router.map(function () {
         this.route('numbers');
         this.route('users');
     });
+    this.route('login');
 });
 
 export default Router;
