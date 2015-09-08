@@ -8,12 +8,23 @@ export default Ember.Controller.extend({
 
     actions: {
         login: function () {
+            var self = this
             this._postCredentials(this.get('email'), this.get('password'))
                 .then(function (response) {
                     localStorage.setItem('access_token', response.access_token);
                     localStorage.setItem('refresh_token', response.refresh_token);
                     localStorage.setItem('account', atob(response.access_token.split('.')[1]));
+                    self._transitionToDashboard()
                 })
+        }
+    },
+
+    _transitionToDashboard: function (){
+        var roles = JSON.parse(localStorage.getItem('account')).roles
+        if (roles.contains("ROLE_ADMIN")) {
+            this.transitionToRoute('admin');
+        } else {
+            this.transitionToRoute('dashboard');
         }
     },
 

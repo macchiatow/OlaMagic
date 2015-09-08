@@ -17,6 +17,7 @@
 package grails.plugin.springsecurity.rest.token.generation.jwt
 
 import com.nimbusds.jwt.JWTClaimsSet
+import com.olamagic.auth.SecUser
 import grails.plugin.springsecurity.rest.token.AccessToken
 import groovy.time.TimeCategory
 import groovy.util.logging.Slf4j
@@ -48,18 +49,23 @@ class ShortJwtTokenGenerator extends SignedJwtTokenGenerator {
 
     JWTClaimsSet generateClaims(UserDetails details, Integer expiration) {
         JWTClaimsSet claimsSet = new JWTClaimsSet()
+
         claimsSet.setSubject(details.username)
 
-        log.debug "Setting expiration to ${expiration}"
-        Date now = new Date()
-        claimsSet.setIssueTime(now)
+        claimsSet.setIssueTime(new Date())
+
         use(TimeCategory) {
-            claimsSet.setExpirationTime(now + expiration.seconds)
+            claimsSet.setExpirationTime(new Date() + expiration.seconds)
         }
 
         claimsSet.setCustomClaim('roles', details.authorities?.collect { it.authority })
 
+        SecUser.withNewSession {
+            claimsSet.setCustomClaim('id', SecUser.findByEmail(details.username).profileId)
+        }
+
         log.debug "Generated claim set: ${claimsSet.toJSONObject().toString()}"
+
         return claimsSet
     }
 
