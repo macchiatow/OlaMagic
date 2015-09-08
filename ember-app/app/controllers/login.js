@@ -23,6 +23,8 @@ export default Ember.Controller.extend({
         return new Ember.RSVP.Promise(function(resolve, reject) {
             Ember.$.ajax({
                 type: "POST",
+                contentType:"application/json; charset=utf-8",
+                dataType:"json",
                 url : url,
                 data: JSON.stringify({
                     username: username,
