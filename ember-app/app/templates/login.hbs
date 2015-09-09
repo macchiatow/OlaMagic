@@ -8,14 +8,14 @@
                     <div class="form-group">
                         <label for="uid">Email address</label>
                         <div class="input-icon icon-username"></div>
-                        {{input autofocus  class="form-control"  type="email" value=email}}
+                        {{input autofocus  class="form-control"  type="email" value=identification}}
                     </div>
                     <div class="form-group">
                         <label for="password">Password</label>
                         <div class="input-icon icon-password"></div>
                         {{input autocomplete="off" class="form-control password" type="password" value=password}}
                     </div>
-                    <button {{action "login"}} class="btn btn-primary btn-lg btn-block" name="commit" tabindex="3" type="submit" value="Log In">Log In</button>
+                    <button {{action "authenticate"}} class="btn btn-primary btn-lg btn-block" name="commit" tabindex="3" type="submit" value="Log In">Log In</button>
                 </form>
                 <a class="panel-footer" href="/signup/login">New to OlaMagic? &nbsp;<span>Sign Up</span></a></div>
             <a href="/account/password/reset">Forgot your password?</a></div>

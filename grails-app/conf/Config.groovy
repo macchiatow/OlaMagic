@@ -127,6 +127,8 @@ grails.plugin.springsecurity.rest.login.endpointUrl='/oauth/login'
 grails.plugin.springsecurity.rest.logout.endpointUrl='/oauth/logout'
 grails.plugin.springsecurity.rest.token.storage.jwt.secret='PKOukFHr1oEsK9XbgJ5aVoB3YN8Fq5fP'
 grails.plugin.springsecurity.rest.token.storage.jwt.expiration=3600
+grails.plugin.springsecurity.rest.login.useJsonCredentials = false
+grails.plugin.springsecurity.rest.login.useRequestParamsCredentials = true
 
 // Added by the Spring Security Core plugin:
 grails.plugin.springsecurity.rejectIfNoRule = true
