@@ -129,6 +129,10 @@ grails.plugin.springsecurity.rest.token.storage.jwt.secret='PKOukFHr1oEsK9XbgJ5a
 grails.plugin.springsecurity.rest.token.storage.jwt.expiration=3600
 grails.plugin.springsecurity.rest.login.useJsonCredentials = false
 grails.plugin.springsecurity.rest.login.useRequestParamsCredentials = true
+grails.plugin.springsecurity.rest.token.rendering.usernamePropertyName = 'email'
+grails.plugin.springsecurity.rest.token.rendering.tokenPropertyName = 'access_token'
+grails.plugin.springsecurity.rest.token.rendering.authoritiesPropertyName = 'roles'
+grails.plugin.springsecurity.rest.token.validation.useBearerToken=true
 
 // Added by the Spring Security Core plugin:
 grails.plugin.springsecurity.rejectIfNoRule = true

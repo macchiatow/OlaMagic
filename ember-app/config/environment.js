@@ -46,6 +46,7 @@ module.exports = function (environment) {
     }
 
     ENV['simple-auth'] = {
+        crossOriginWhitelist: [ENV.API_HOST],
         authorizer: 'simple-auth-authorizer:oauth2-bearer'
     };
 

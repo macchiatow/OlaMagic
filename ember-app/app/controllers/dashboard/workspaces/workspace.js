@@ -10,7 +10,7 @@ export default Ember.Controller.extend({
     }.property('model.hasDirtyAttributes'),
 
     isOwner: function() {
-        return  this.get('model.owner.id') == this.get('session.user.id');
+        return  this.get('model.owner.id') == this.get('session.secure.account.id');
     }.property('model'),
 
     isDeletable: function() {
