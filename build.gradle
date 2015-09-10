@@ -1,0 +1,33 @@
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath "org.grails:grails-gradle-plugin:2.2.0.RC1"
+    }
+}
+
+version "0.1"
+group "example"
+
+apply plugin: "grails"
+
+repositories {
+    grails.central() //creates a maven repo for the Grails Central repository (Core libraries and plugins)
+}
+
+grails {
+    grailsVersion = '2.5.0'
+    springLoadedVersion '1.2.4.RELEASE'
+}
+
+dependencies {
+    bootstrap "org.grails.plugins:tomcat:7.0.50" // No container is deployed by default, so add this
+    // plugins for the compile step
+    compile("org.grails.plugins:spring-security-rest:1.5.2") { exclude module: 'xml-apis' }
+    compile 'org.grails.plugins:cache:1.1.8'
+
+    // plugins needed at runtime but not for compilation
+    runtime ("org.grails.plugins:hibernate4:4.3.8.1") { exclude module: 'xml-apis' } // or ":hibernate:3.6.10.18"
+    runtime "org.grails.plugins:database-migration:1.4.0"
+}
