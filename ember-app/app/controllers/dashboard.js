@@ -17,6 +17,10 @@ export default Ember.Controller.extend({
         selectSite: function (value) {
           this.set('currentSite', value);
           this.set('isShowSiteControl', false);
+        },
+
+        invalidate: function() {
+            this.get('session').invalidate();
         }
     }
 });
