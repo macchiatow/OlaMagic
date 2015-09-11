@@ -3,16 +3,14 @@ import AuthenticatedRouteMixin from 'simple-auth/mixins/authenticated-route-mixi
 
 export default Ember.Route.extend(AuthenticatedRouteMixin, {
 
-    allowedAuthority: 'ROLE_ADMIN',
-
     beforeModel: function(transition) {
         this._super(transition);
-        this.validateAuthority();
-    },
+        var authorities = this.get('session.secure.account.roles');
 
-    validateAuthority: function(){
-        if(!this.get('session.secure.account.roles').contains(this.get('allowedAuthority'))){
-            this.transitionTo('authority-based-router');
+        if(authorities.contains('ROLE_ADMIN')){
+            this.transitionTo('admin');
+        } else if (authorities.contains('ROLE_NO_ROLES')){
+            this.transitionTo('dashboard');
         }
     }
 

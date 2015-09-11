@@ -27,6 +27,7 @@ Router.map(function () {
         this.route('users');
     });
     this.route('login');
+    this.route('authority-based-router');
 });
 
 export default Router;

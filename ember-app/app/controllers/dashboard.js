@@ -21,6 +21,7 @@ export default Ember.Controller.extend({
 
         invalidate: function() {
             this.get('session').invalidate();
+            this.set('navigatorVisible', "");
         }
     }
 });

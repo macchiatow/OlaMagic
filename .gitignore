@@ -9,7 +9,7 @@ target
 .project
 eclipse
 stacktrace.log
-/plugins
+/buildPlugins
 web-app/plugins
 web-app/WEB-INF/classes
 web-app/WEB-INF/tld/c.tld
