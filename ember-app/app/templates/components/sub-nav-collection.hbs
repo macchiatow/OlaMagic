@@ -1,0 +1,9 @@
+{{#each collection as |item|}}
+    <div class="sub-nav-item">
+        {{#link-to item-url item.id}}
+            <i class="icon icon-sub-nav-settings"></i>
+            {{item.title}}
+        {{/link-to}}
+    </div>
+{{/each}}
+{{yield}}

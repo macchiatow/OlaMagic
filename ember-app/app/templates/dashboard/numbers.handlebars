@@ -5,12 +5,7 @@
 
     <div class="nav nav-tabs sub-nav app-nav">
 
-        <div class="sub-nav-item">
-            <a id="ember852" href="/dashboard/numbers" class="ember-view active"> <i
-                    class="icon icon-sub-nav-settings"></i>
-                PBX
-            </a></div>
-
+        {{sub-nav-item title='PBX' url='dashboard.numbers'}}
 
     </div>
 
@@ -26,13 +21,13 @@
             </div>
         </div>
 
-        <div class="editable-table-component table-responsive" >
+        <div class="editable-table-component table-responsive">
             <form>
                 <table class="table editable-list domain-list">
                     <tbody>
                     {{#each model as |item|}}
                         <tr class="collaborator-item editable-item item-persisted">
-                            <td >
+                            <td>
                                 {{item.upid}}
                             </td>
 
@@ -44,7 +39,7 @@
                         </tr>
                     {{/each}}
 
-                    <tr class="ember-view domain-item editable-item item-added" id="ember2456">
+                    <tr class="domain-item editable-item item-added">
                         <td>
                             0931326201
                         </td>
@@ -53,21 +48,19 @@
 
 
                         <td class="action-cell text-right">
-                            <button data-ember-action="2459" class="btn-link undo-item" type="button">
+                            <button class="btn-link undo-item" type="button">
                                 <i class="icon icon-undo"></i>
                             </button>
                         </td>
 
                     </tr>
-                    <tr class="ember-view domain-item editable-item item-added item-new">
+                    <tr class=" domain-item editable-item item-added item-new">
                         <td>
-                            <div class="ember-view form-group"><input placeholder="yourdomain.com" class="ember-view ember-text-field form-control new-domain" type="text">
+                            <div class=" form-group"><input placeholder="yourdomain.com"
+                                                                      class=" ember-text-field form-control new-domain"
+                                                                      type="text">
 
                             </div>
-                        </td>
-
-                        <td>
-
                         </td>
 
                         <td class="action-cell text-right">
@@ -88,7 +81,6 @@
         </div>
 
     </div>
-
 
 
 </div>

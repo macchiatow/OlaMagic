@@ -4,20 +4,8 @@
 <div class="main-content">
 
     <div class="nav nav-tabs sub-nav app-nav">
-        <div class="sub-nav-item">
-            {{#link-to 'dashboard.analytics.adsources' }}
-                <i class="icon icon-sub-nav-resources"></i>
-                Ad Sources
-            {{/link-to}}
-        </div>
-
-        <div class="sub-nav-item">
-            {{#link-to 'dashboard.analytics.campaigns' }}
-                <i class="icon icon-sub-nav-resources"></i>
-                Campaigns
-            {{/link-to}}
-        </div>
-
+        {{sub-nav-item title='Ad Sources' url='dashboard.analytics'}}
+        {{sub-nav-item title='Campaigns' url='dashboard.analytics'}}
     </div>
 
     {{outlet}}

@@ -1,45 +1,28 @@
 <div class="sticky-header">
 
-    <div class="editable-table-component table-responsive" >
-            <ul class="list-group list-group-lg">
-            <li class="ember-view list-group-item"><div class="panel-section  ">
-                <div class="panel-description">
-                    <div class="panel-title">
-                        Name
+    <div class="editable-table-component table-responsive">
+        <ul class="list-group list-group-lg">
+            {{#workspace-panel-item title='Name'}}
+                <form role="form" class="app-rename edit-first">
+                    <div class="form-group">
+                        {{input type="text" class="ember-text-field form-control" value=model.title}}
                     </div>
 
-                </div>
-
-                <div class="panel-content">
-                    <form role="form" class="app-rename edit-first">
-                        <div class="form-group">
-                            {{input type="text" class="ember-text-field form-control" value=model.title}}
-                        </div>
-
-                        <div class="form-group">
-                            <button {{action "saveWorkspaceTitle"}} class="btn btn-primary" disabled={{isModelNotChanged}}>Save</button>
-                        </div>
-                    </form>
-
-                </div>
-            </div>
-            </li>
-            <li class="ember-view list-group-item"><div class="panel-section  ">
-                <div class="panel-description">
-                    <div class="panel-title">
-                        Info
+                    <div class="form-group">
+                        <button {{action "saveWorkspaceTitle"}} class="btn btn-primary"
+                                                                disabled={{isModelNotChanged}}>Save
+                        </button>
                     </div>
-
-                </div>
-
-                <div class="panel-content">
-                    <div class="ember-view">
-                        <dl class="dl-horizontal">
-                            <dt>Region</dt>
-                            <dd class="region">
-                                <i class="icon region-icon icon-region-eu"></i>
-                                Az
-                            </dd>
+                </form>
+            {{/workspace-panel-item}}
+            {{#workspace-panel-item title='Info'}}
+                <div class="ember-view">
+                    <dl class="dl-horizontal">
+                        <dt>Region</dt>
+                        <dd class="region">
+                            <i class="icon region-icon icon-region-eu"></i>
+                            Az
+                        </dd>
                         <dt>Sites</dt>
                         <dd>{{model.sitesCount}}</dd>
                         <dt>Numbers</dt>
@@ -49,26 +32,15 @@
                         <dt>Campaigns</dt>
                         <dd>{{model.campaignsCount}}</dd>
                     </dl>
-                    </div>
-
                 </div>
-            </div>
-            </li>
+            {{/workspace-panel-item}}
 
             {{#if isOwner}}
-
-            <li class="ember-view list-group-item"><div class="panel-section  ">
-                    <div class="panel-description">
-                        <div class="panel-title">
-                            Access
-                        </div>
-
-                    </div>
-
-                <div class="panel-content">
+                {{#workspace-panel-item title='Access'}}
                     <p class="ember-view branch-selection">
                         {{input type="text" value=newContributor}}
-                        <button {{action "addContributor" newContributor}}  class="btn btn-sm btn-default edit-button edit-button" type="button">
+                        <button {{action "addContributor" newContributor}}
+                                class="btn btn-sm btn-default edit-button edit-button" type="button">
                             Add contributor
                         </button>
                     </p>
@@ -77,45 +49,31 @@
                         <form>
                             <table class="table">
                                 <tbody>
-                                    {{#each model.contributors as |contributor|}}
-                                        <tr>
-                                            <th class="domain-list__content-column">{{contributor.email}}</th>
-                                            <th>
-                                                <button {{action "removeContributor" contributor}} class="btn btn-default btn-github btn-xs">
-                                                    x
-                                                </button>
-                                            </th>
-                                        </tr>
-                                    {{/each}}
+                                {{#each model.contributors as |contributor|}}
+                                    <tr>
+                                        <th class="domain-list__content-column">{{contributor.email}}</th>
+                                        <th>
+                                            <button {{action "removeContributor" contributor}}
+                                                    class="btn btn-default btn-github btn-xs">
+                                                x
+                                            </button>
+                                        </th>
+                                    </tr>
+                                {{/each}}
                                 </tbody>
                             </table>
                         </form>
                     </div>
-
-                </div>
-
-                </div>
-            </li>
-
-            <li class="ember-view list-group-item"><div class="panel-section app-transfer ">
-                <div class="panel-description">
-                    <div class="panel-title">
-                        Transfer Ownership
-                    </div>
-
-                    <div class="panel-details">
-                        Transfer this workspace to your personal account or to an organization of which you are a member.
-                    </div>
-                </div>
-
-                <div class="panel-content">
+                {{/workspace-panel-item}}
+                {{#workspace-panel-item title='Transfer Ownership'}}
                     <form role="form" class="app-rename edit-first">
                         <p>
-                            <select id="new-owner-select" class="ember-select form-control" {{action 'selectNewOwner' on='change'}}>
+                            <select id="new-owner-select"
+                                    class="ember-select form-control" {{action 'selectNewOwner' on='change'}}>
                                 <option value="">Select a new owner…</option>
                                 <optgroup label="Contributors">
                                     {{#each model.contributors as |item|}}
-                                        <option value="{{item.id}}" >
+                                        <option value="{{item.id}}">
                                             {{item.email}}
                                         </option>
                                     {{/each}}
@@ -124,57 +82,33 @@
                         </p>
 
                         <div class="form-group">
-                            <button {{action "changeOwner"}} class="btn btn-primary" disabled={{isTransferDisabled}}>Transfer</button>
+                            <button {{action "changeOwner"}} class="btn btn-primary"
+                                                             disabled={{isTransferDisabled}}>Transfer
+                            </button>
                         </div>
                     </form>
 
-                </div>
-            </div>
-            </li>
-            {{#if isDeletable}}
-            <li class="ember-view list-group-item">
-                <div class="panel-section danger app-deletion ">
-                    <div class="panel-description">
-                        <div class="panel-title">
-                            Delete workspace
-                        </div>
-                        <div class="panel-details">
-                            Deleting your workspace and its add-ons is irreversible.
-                        </div>
-                    </div>
-
-                    <div class="panel-content">
+                {{/workspace-panel-item}}
+                {{#if isDeletable}}
+                    {{#workspace-panel-item title='Delete workspace' details='Deleting your workspace and its add-ons is irreversible.'}}
                         <p>
-                            <button {{action 'deleteWorkspace'}} class="ember-view btn btn-danger delete-app" value="Delete workspace...">Delete workspace...</button>
+                            <button {{action 'deleteWorkspace'}} class="ember-view btn btn-danger delete-app"
+                                                                 value="Delete workspace...">Delete workspace...
+                            </button>
                         </p>
-
-                    </div>
-                </div>
-            </li>
-            {{/if}}
+                    {{/workspace-panel-item}}
+                {{/if}}
             {{else}}
-                <li class="ember-view list-group-item">
-                    <div class="panel-section danger app-deletion ">
-                        <div class="panel-description">
-                            <div class="panel-title">
-                                Unsubscribe from workspace
-                            </div>
-                            <div class="panel-details">
-                                Deleting your workspace and its add-ons is irreversible.
-                            </div>
-                        </div>
-
-                        <div class="panel-content">
-                            <p>
-                                <button {{action 'unsubscribeFromWorkspace'}} class="ember-view btn btn-danger delete-app" value="Unsubscribe workspace...">Unsubscribe...</button>
-                            </p>
-
-                        </div>
-                    </div>
-                </li>
+                {{#workspace-panel-item title='Unsubscribe from workspace' details='Deleting your workspace and its add-ons is irreversible.'}}
+                    <p>
+                        <button {{action 'unsubscribeFromWorkspace'}}
+                                class="ember-view btn btn-danger delete-app" value="Unsubscribe workspace...">
+                            Unsubscribe...
+                        </button>
+                    </p>
+                {{/workspace-panel-item}}
             {{/if}}
-
-            </ul>
+        </ul>
     </div>
 
 </div>

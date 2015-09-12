@@ -5,18 +5,11 @@
 
     <div class="nav nav-tabs sub-nav app-nav">
 
-        {{#each model.workspaces as |item|}}
+        {{#sub-nav-collection collection=model.workspaces item-url='dashboard.workspaces.workspace'}}
             <div class="sub-nav-item">
-                {{#link-to 'dashboard.workspaces.workspace' item.id}}
-                    <i class="icon icon-sub-nav-settings"></i>
-                    {{item.title}}
-                {{/link-to}}
+                <button class="btn btn-primary enabled" {{action 'newWorkspace'}}>+</button>
             </div>
-        {{/each}}
-
-        <div class="sub-nav-item">
-            <button class="btn btn-primary enabled" {{action 'newWorkspace'}}>+</button>
-        </div>
+        {{/sub-nav-collection}}
 
     </div>
 

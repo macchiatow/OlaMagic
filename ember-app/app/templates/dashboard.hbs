@@ -1,35 +1,19 @@
-<div class="dashboard-wrapper protected-app-resources">
-    <div class="app-wrapper ">
-        <div class="alert alert-danger text-center offline-status">
-            <p>There's a problem connecting…
-                <button class="btn btn-link">Refresh</button>
-            </p>
-        </div>
+{{#main-layout}}
 
-        <div class="flash-messages"></div>
+    {{workspace-control dashboardTitle='Dashboard' workspaces=model.workspaces}}
 
-        <div class="sidebar scrollable-container">
-            <div id="sidebar" class="sidebar-wrapper">
+    {{site-control}}
 
-
-              {{workspace-control dashboardTitle='Dashboard' workspaces=model.workspaces}}
-
-              {{site-control}}
-
-              {{nav-main}}
-
-            </div>
-
-        </div>
-
-        <div class="main-panel scrollable-container container-fluid snap-main-panel">
-
-          {{outlet}}
-
-        </div>
-
+    <div class="sidebar-container scrollable-content">
+        {{#nav-group title='Application'}}
+            {{nav-item title='Reports' url='dashboard.reports'}}
+            {{nav-item title='PBX' url='dashboard.numbers'}}
+            {{nav-item title='Analytics' url='dashboard.analytics'}}
+        {{/nav-group}}
+        {{#nav-group title='Settings'}}
+            {{nav-item title='Sites' url='dashboard.sites'}}
+            {{nav-item title='Workspaces' url='dashboard.workspaces.all'}}
+        {{/nav-group}}
     </div>
-
-</div>
-
-
+    
+{{/main-layout}}

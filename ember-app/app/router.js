@@ -23,8 +23,10 @@ Router.map(function () {
         this.route('sites');
     });
     this.route('admin', function () {
-        this.route('numbers');
-        this.route('users');
+        this.route('settings', function () {
+            this.route('numbers');
+            this.route('users');
+        })
     });
     this.route('login');
     this.route('authority-based-router');

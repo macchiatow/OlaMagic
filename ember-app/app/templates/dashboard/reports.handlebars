@@ -4,28 +4,9 @@
 <div class="main-content">
 
     <div class="nav nav-tabs sub-nav app-nav">
-        <div class="sub-nav-item">
-            {{#link-to 'dashboard.reports.report-one' }}
-                <i class="icon icon-sub-nav-resources"></i>
-                Report One
-            {{/link-to}}
-        </div>
-
-        <div class="sub-nav-item">
-            {{#link-to 'dashboard.reports.report-two' }}
-                <i class="icon icon-sub-nav-resources"></i>
-                Report Two
-            {{/link-to}}
-        </div>
-
-        <div class="sub-nav-item">
-            {{#link-to 'dashboard.reports.report-three' }}
-                <i class="icon icon-sub-nav-resources"></i>
-                Report Three
-            {{/link-to}}
-        </div>
-
-
+        {{sub-nav-item title='Report One' url='dashboard.reports.report-one'}}
+        {{sub-nav-item title='Report Two' url='dashboard.reports.report-two'}}
+        {{sub-nav-item title='Report Three' url='dashboard.reports.report-three'}}
     </div>
 
     {{outlet}}

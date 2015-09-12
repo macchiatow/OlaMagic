@@ -1,0 +1,30 @@
+<div class="dashboard-wrapper protected-app-resources">
+    <div class="app-wrapper ">
+        <div class="alert alert-danger text-center offline-status">
+            <p>There's a problem connecting…
+                <button class="btn btn-link">Refresh</button>
+            </p>
+        </div>
+
+        <div class="flash-messages"></div>
+
+        <div class="sidebar scrollable-container">
+            <div id="sidebar" class="sidebar-wrapper">
+
+                {{yield}}
+
+            </div>
+
+        </div>
+
+        <div class="main-panel scrollable-container container-fluid snap-main-panel">
+
+            {{outlet}}
+
+        </div>
+
+    </div>
+
+</div>
+
+

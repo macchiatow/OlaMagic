@@ -1,53 +1,9 @@
-<div class="dashboard-wrapper protected-app-resources"  >
-    <div class="app-wrapper ">
-        <div class="alert alert-danger text-center offline-status">
-            <p>There's a problem connecting…
-                <button class="btn btn-link">Refresh</button>
-            </p>
-        </div>
+{{#main-layout}}
 
-        <div class="flash-messages"></div>
+    {{workspace-control dashboardTitle='Admin'}}
 
-        <div class="sidebar scrollable-container">
-            <div id="sidebar" class="sidebar-wrapper">
-
-                {{workspace-control dashboardTitle='Admin'}}
-                <div class="sidebar-container scrollable-content" />
-
-            </div>
-
-        </div>
-
-        <div class="main-panel scrollable-container container-fluid snap-main-panel">
-
-            {{partial "snippets/top-nav"}}
-
-            <div class="main-content">
-
-                <div class="nav nav-tabs sub-nav app-nav">
-                    <div class="sub-nav-item">
-                        {{#link-to 'admin.numbers' }}
-                            <i class="icon icon-sub-nav-resources"></i>
-                            Numbers
-                        {{/link-to}}
-                    </div>
-
-                    <div class="sub-nav-item">
-                        {{#link-to 'admin.users' }}
-                            <i class="icon icon-sub-nav-resources"></i>
-                            Users
-                        {{/link-to}}
-                    </div>
-
-                </div>
-
-                {{outlet}}
-
-            </div>
-        </div>
-
+    <div class="sidebar-container scrollable-content">
+        {{nav-item title='Settings' url='admin.settings'}}
     </div>
 
-</div>
-
-
+{{/main-layout}}
