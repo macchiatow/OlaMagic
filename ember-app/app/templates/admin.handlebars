@@ -1,4 +1,4 @@
-<div class="dashboard-wrapper protected-app-resources {{isShowMissionControl}}:navigator-visible"  >
+<div class="dashboard-wrapper protected-app-resources"  >
     <div class="app-wrapper ">
         <div class="alert alert-danger text-center offline-status">
             <p>There's a problem connecting…
@@ -11,15 +11,8 @@
         <div class="sidebar scrollable-container">
             <div id="sidebar" class="sidebar-wrapper">
 
-
-                <div class="sidebar-container property-switcher fixed-top allow-if-delinquent">
-                    <a href="/"><i class="icon icon-logo dashboard-logo"></i>
-                        <h4 class="dashboard-logo-text">Admin Panel</h4>
-                    </a>
-
-                    <div class="navigator-toggle icon icon-navigator-toggle"></div>
-
-                </div>
+                {{workspace-control dashboardTitle='Admin'}}
+                <div class="sidebar-container scrollable-content" />
 
             </div>
 

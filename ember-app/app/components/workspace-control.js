@@ -7,8 +7,8 @@ export default Ember.Component.extend({
         open() {
             this.toggleProperty('navigatorVisible');
         },
-        signout() {
-            this.sendAction('action');
+        signOut() {
+            this.get('session').invalidate();
         }
     }
 
