@@ -10,21 +10,18 @@
 
         <div class="sidebar scrollable-container">
             <div id="sidebar" class="sidebar-wrapper">
-
                 {{yield}}
-
             </div>
-
         </div>
 
         <div class="main-panel scrollable-container container-fluid snap-main-panel">
-
-            {{outlet}}
-
+            {{menu-head title='Current workspace'}}
+            <div class="main-content">
+                {{outlet}}
+            </div>
         </div>
 
     </div>
-
 </div>
 
 
