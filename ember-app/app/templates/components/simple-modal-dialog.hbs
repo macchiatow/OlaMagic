@@ -15,9 +15,7 @@
                                 <label for="e-mail-address">Number</label>
 
                                 <div class="form-group">
-                                    <input class="form-control new-collaborator-email"
-                                           placeholder="+380931326201"
-                                           type="email"/>
+                                    {{yield}}
                                 </div>
                             </div>
                         </div>
@@ -25,7 +23,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button class="async-button default btn btn-primary" type="submit">
+                <button class="async-button default btn btn-primary" {{action "addNumber"}} >
                     {{save-button-title}}
                 </button>
             </div>

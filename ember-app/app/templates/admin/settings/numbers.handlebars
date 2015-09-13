@@ -4,7 +4,8 @@
         <div class="apps-header flex-grow-1 flex">
             <label for="apps-filter" class="icon icon-search">Search apps</label>
 
-            <input placeholder="Search Existing Numbers" class="ember-view form-control filter mousetrap" id="apps-filter" type="text">
+            <input placeholder="Search Existing Numbers" class="ember-view form-control filter mousetrap"
+                   id="apps-filter" type="text">
 
             <div class="ember-view feature-container feature-is-disabled" id="ember756"></div>
 
@@ -12,10 +13,9 @@
 
         <div class="pull-right">
 
-                {{simple-modal-dialog
-                    button-title='Add number'
-                    modal-title='Add number'
-                    save-button-title='Save'}}
+            {{#simple-modal-dialog button-title='Add number' modal-title='Add number' save-button-title='Save'}}
+                {{input class="form-control new-collaborator-email" placeholder="+380931326201" type="email"}}
+            {{/simple-modal-dialog}}
 
         </div>
     </div>
@@ -27,7 +27,7 @@
 
                 {{#each}}
                     <tr class="collaborator-item editable-item item-persisted">
-                        <td >
+                        <td>
                             {{upid}}
                         </td>
 
@@ -56,7 +56,9 @@
                 </tr>
                 <tr class="ember-view domain-item editable-item item-added item-new">
                     <td>
-                        <div class="ember-view form-group"><input placeholder="yourdomain.com" class="ember-view ember-text-field form-control new-domain" type="text">
+                        <div class="ember-view form-group"><input placeholder="yourdomain.com"
+                                                                  class="ember-view ember-text-field form-control new-domain"
+                                                                  type="text">
 
                         </div>
                     </td>
