@@ -12,6 +12,9 @@
 
         <div class="pull-right">
             {{#if isEditing}}
+
+                {{simple-modal-dialog}}
+
                 <button class="btn btn-sm btn-link cancel-edit-button" {{action "edit"}}
                         type="button">
                     Cancel
