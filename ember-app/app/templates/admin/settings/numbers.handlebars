@@ -13,7 +13,11 @@
 
         <div class="pull-right">
 
-            {{#simple-modal-dialog button-title='Add number' modal-title='Add number' save-button-title='Save'}}
+            {{#simple-modal-dialog
+                button-title='Add number'
+                modal-title='Add number'
+                save-button-title='Save'
+                save-action='addNumber'}}
                 {{input class="form-control new-collaborator-email" placeholder="+380931326201" type="email"}}
             {{/simple-modal-dialog}}
 
