@@ -70,8 +70,8 @@ class NumberController {
     }
 
     @Transactional
-    def delete(String upid){
-        def number = Number.findByUpid(upid)
+    def delete(Long id){
+        def number = Number.findById(id)
 
         if (number == null) {
             render status: NOT_FOUND
@@ -79,7 +79,7 @@ class NumberController {
         }
 
         number.delete flush:true
-        render status: OK
+        render '{}'
     }
 
 }
