@@ -61,31 +61,35 @@ class UserController {
 
     @Transactional
     def create() {
-        if (request.JSON.user.email == null || request.JSON.user.password == null){
+        def jsonUser = request.JSON.user
+
+        if (jsonUser.email == null){
             render status: NOT_ACCEPTABLE
             return
         }
 
-        def user = new SecUser(request.JSON.user)
+        jsonUser.password = jsonUser.password?:'123'
+
+        def user = new SecUser(jsonUser)
         user.profile = new Profile(secUser: user)
         user.profile.addToWorkspacesOwning(new Workspace())
-        user.save()
+        user.save(flush: true, failOnError: true)
 
         render ([user: user] as JSON)
     }
 
     @Transactional
     def delete(Long id) {
-        def userInstance = SecUser.findById(id)
+        def profile = Profile.findById(id)
 
-        if (userInstance == null) {
+        if (profile == null) {
             render status: NOT_FOUND
             return
         }
 
-        SecUserSecRole.findAllBySecUser(userInstance)*.delete flush: true
-        userInstance.delete flush: true
+        SecUserSecRole.findAllBySecUser(profile.secUser)*.delete flush: true
+        profile.secUser.delete flush: true
 
-        render status: OK
+        render '{}'
     }
 }

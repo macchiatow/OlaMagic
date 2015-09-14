@@ -15,6 +15,10 @@ class Profile {
         workspacesOwning minSize: 1
     }
 
+    static mapping = {
+        workspacesOwning cascade:'all-delete-orphan'
+    }
+
     Set <Workspace> getWorkspacesContributing(){
         WorkspaceContributor.findAllByProfile(this)*.workspace
     }

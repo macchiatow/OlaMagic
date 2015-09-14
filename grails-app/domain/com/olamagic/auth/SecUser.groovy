@@ -15,7 +15,7 @@ class SecUser implements Serializable {
 	boolean accountExpired
 	boolean accountLocked
 	boolean passwordExpired
-    Date lastModified
+    Date lastModified = new Date()
 
     static hasOne = [profile: Profile]
 
@@ -45,7 +45,6 @@ class SecUser implements Serializable {
 	}
 
 	def beforeInsert() {
-        lastModified = new Date()
 		encodePassword()
 	}
 
