@@ -4,8 +4,9 @@ export default Ember.Controller.extend({
 
     actions: {
 
-        addNumber: function (upid) {
-            this.store.createRecord('number', {upid: upid}).save();
+        addNumber: function () {
+            this.store.createRecord('number', {upid: this.get('upid')}).save();
+            this.set('upid','');
         }
     }
 });

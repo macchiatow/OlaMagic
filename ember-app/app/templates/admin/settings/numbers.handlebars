@@ -14,11 +14,11 @@
         <div class="pull-right">
 
             {{#simple-modal-dialog
-                button-title='Add number'
-                modal-title='Add number'
-                save-button-title='Save'
-                save-action='addNumber'}}
-                {{input class="form-control new-collaborator-email" placeholder="+380931326201" type="email"}}
+                    button-title='Add number'
+                    modal-title='Add number'
+                    save-button-title='Save'
+                    save-action='addNumber'}}
+                {{input class="form-control new-collaborator-email" value=upid placeholder="+380931326201"}}
             {{/simple-modal-dialog}}
 
         </div>
@@ -29,57 +29,20 @@
             <table class="table editable-list domain-list">
                 <tbody>
 
-                {{#each}}
-                    <tr class="collaborator-item editable-item item-persisted">
-                        <td>
-                            {{upid}}
+                {{#each model as |number|}}
+                    <tr class="collaborator-item">
+
+                        <td class="collaborator-info show-role ">
+                            <div class="email">{{number.upid}}</div>
                         </td>
 
-                        <td class="collaborator-info  show-role">
+                        <td class="action-cell"><!---->
+                            <button type="button" class="btn-link remove-item">
+                                <i class="icon icon-delete"></i>
+                            </button>
                         </td>
-
-                        <td class="action-cell"></td>
-
                     </tr>
                 {{/each}}
-
-                <tr class="ember-view domain-item editable-item item-added" id="ember2456">
-                    <td>
-                        0931326201
-                    </td>
-
-                    <td/>
-
-
-                    <td class="action-cell text-right">
-                        <button data-ember-action="2459" class="btn-link undo-item" type="button">
-                            <i class="icon icon-undo"></i>
-                        </button>
-                    </td>
-
-                </tr>
-                <tr class="ember-view domain-item editable-item item-added item-new">
-                    <td>
-                        <div class="ember-view form-group"><input placeholder="yourdomain.com"
-                                                                  class="ember-view ember-text-field form-control new-domain"
-                                                                  type="text">
-
-                        </div>
-                    </td>
-
-                    <td>
-
-                    </td>
-
-                    <td class="action-cell text-right">
-
-                        <button class="btn-link add-item" type="submit">
-                            <i class="icon icon-add"></i>
-                        </button>
-
-                    </td>
-
-                </tr>
 
                 </tbody>
 
