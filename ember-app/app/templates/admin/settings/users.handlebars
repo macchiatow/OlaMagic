@@ -43,10 +43,18 @@
                             <div class="email">{{user.email}}</div>
                         </td>
 
-                        <td class="action-cell"><!---->
-                            <button type="button" class="btn-link remove-item" {{action 'deleteUser' user.id}}>
-                                <i class="icon icon-delete"></i>
-                            </button>
+                        <td class="action-cell">
+
+                            {{#simple-modal-confirm-dialog
+                                modal-title='Delete user'
+                                record-name=user.email
+                                confirm-action-param=user.id
+                                confirm-action='deleteUser'
+                                confirm-button-title='Delete user ...'}}
+                                <p>Deleting user is irreversible. Enter user name
+                                    below to confirm you want to permanently delete it:</p>
+                                {{input class="form-control" autofocus="true" value=confirmEmail placeholder=user.email}}
+                            {{/simple-modal-confirm-dialog}}
                         </td>
                     </tr>
                 {{/each}}

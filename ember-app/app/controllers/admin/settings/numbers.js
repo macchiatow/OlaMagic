@@ -10,7 +10,7 @@ export default Ember.Controller.extend({
         },
 
         deleteNumber: function (id) {
-            this.store.findRecord('number', id).then(function (number) {
+            this.store.find('number', id).then(function (number) {
                 number.destroyRecord();
             });
         }

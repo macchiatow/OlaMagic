@@ -1,0 +1,38 @@
+{{#if show}}
+    {{#modal-dialog close="toggleModal" targetAttachment="center" translucentOverlay=true}}
+        <div class="modal-box">
+            <div class="modal-content">
+                <div class="modal-header clearfix">
+                    <button type="button" class="close" {{action "toggleModal"}}>
+                        ×
+                    </button>
+                    <h4 class="modal-title">{{modal-title}}
+                        {{#if record-name}}
+                            <small>({{record-name}})</small>
+                        {{/if}}
+
+                    </h4>
+                </div>
+
+                <div class="modal-body">
+                    <div class="collaborator-edit">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                {{yield}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <span class="btn btn-default cancel" {{action "toggleModal"}}>Cancel</span>
+                <input class="ember-view ember-text-field btn btn-danger" type="submit" {{action "confirm"}} value={{confirm-button-title}}>
+            </div>
+        </div>
+    {{/modal-dialog}}
+{{/if}}
+
+<button type="button" class="btn-link remove-item" {{action 'toggleModal'}}>
+    <i class="icon icon-delete"></i>
+</button>

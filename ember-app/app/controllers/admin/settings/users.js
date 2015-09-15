@@ -13,8 +13,13 @@ export default Ember.Controller.extend({
         },
 
         deleteUser: function (id) {
-            this.store.findRecord('user', id).then(function (user) {
-                user.destroyRecord();
+            var self = this;
+            this.store.find('user', id).then(function (user) {
+                if (user.get('email') === self.get('confirmEmail')){
+                    user.destroyRecord();
+                }
+            }).finally(function(){
+                self.set('confirmEmail', '')
             });
         }
     }

@@ -18505,6 +18505,8 @@ h2 {
     padding: 10px;
     z-index: 50;
     position: fixed;
+    max-width: 400px;
+    min-width: 300px;
 }
 
 .ember-modal-overlay.translucent {
