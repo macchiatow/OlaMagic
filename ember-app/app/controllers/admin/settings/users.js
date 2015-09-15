@@ -6,8 +6,9 @@ export default Ember.Controller.extend({
 
         createUser: function () {
             this.store.createRecord('user',
-                {email: this.get('email'), password:this.get('password')})
-                .save();
+                {email: this.get('email'),
+                    password:this.get('password'),
+                    isAdmin:this.get('isAdmin')}).save();
             this.set('email','');
             this.set('password','');
         },

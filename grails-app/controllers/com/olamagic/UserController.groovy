@@ -1,4 +1,6 @@
 package com.olamagic
+
+import com.olamagic.auth.SecRole
 import com.olamagic.auth.SecUser
 import com.olamagic.auth.SecUserSecRole
 import grails.converters.JSON
@@ -74,6 +76,16 @@ class UserController {
         user.profile = new Profile(secUser: user)
         user.profile.addToWorkspacesOwning(new Workspace())
         user.save(flush: true, failOnError: true)
+
+        SecRole secRole;
+        if (jsonUser.isAdmin){
+            secRole = SecRole.findByAuthority('ROLE_ADMIN')
+        } else {
+            secRole = SecRole.findByAuthority('ROLE_USER')
+        }
+
+        SecUserSecRole.create user, secRole, true
+
 
         render ([user: user] as JSON)
     }

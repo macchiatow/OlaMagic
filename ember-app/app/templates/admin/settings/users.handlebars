@@ -22,9 +22,9 @@
                 <div class="form-group">
                     {{input class="form-control new-collaborator-email" value=email placeholder="user@domain.com"}}
                 </div>
-                <label for="e-mail-address">Password</label>
+                <label for="e-mail-address">Admin</label>
                 <div class="form-group">
-                    {{input class="form-control new-collaborator-email" value=password placeholder="*********"}}
+                    {{input type="checkbox" checked=isAdmin}}
                 </div>
             {{/simple-modal-dialog}}
 
