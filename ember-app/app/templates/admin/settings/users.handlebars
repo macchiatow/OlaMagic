@@ -19,13 +19,46 @@
             save-button-title='Save'
             save-action='createUser'}}
                 <label for="e-mail-address">Email</label>
+
                 <div class="form-group">
-                    {{input class="form-control new-collaborator-email" value=email placeholder="user@domain.com"}}
+                    {{input class="form-control new-collaborator-email" value=userObject.email placeholder="user@domain.com"}}
                 </div>
-                <label for="e-mail-address">Admin</label>
+                <label for="password">Password</label>
+
                 <div class="form-group">
-                    {{input type="checkbox" checked=isAdmin}}
+                    {{input class="form-control new-collaborator-email" value=userObject.password placeholder="*********"}}
                 </div>
+                <div>
+                    <label>
+                        {{input type="checkbox" checked=userObject.enabled}}
+                        Enabled
+                    </label>
+                </div>
+                <div>
+                    <label>
+                        {{input type="checkbox" checked=userObject.isAdmin}}
+                        Admin
+                    </label>
+                </div>
+                <div>
+                    <label>
+                        {{input type="checkbox" checked=userObject.accountExpired}}
+                        Account expired
+                    </label>
+                </div>
+                <div>
+                    <label>
+                        {{input type="checkbox" checked=userObject.accountLocked}}
+                        Account locked
+                    </label>
+                </div>
+                <div>
+                    <label>
+                        {{input type="checkbox" checked=userObject.passwordExpired}}
+                        Password expired
+                    </label>
+                </div>
+
             {{/simple-modal-dialog}}
 
         </div>
@@ -46,11 +79,11 @@
                         <td class="action-cell">
 
                             {{#simple-modal-confirm-dialog
-                                modal-title='Delete user'
-                                record-name=user.email
-                                confirm-action-param=user.id
-                                confirm-action='deleteUser'
-                                confirm-button-title='Delete user ...'}}
+                            modal-title='Delete user'
+                            record-name=user.email
+                            confirm-action-param=user.id
+                            confirm-action='deleteUser'
+                            confirm-button-title='Delete user ...'}}
                                 <p>Deleting user is irreversible. Enter user name
                                     below to confirm you want to permanently delete it:</p>
                                 {{input class="form-control" autofocus="true" value=confirmEmail placeholder=user.email}}

@@ -2,15 +2,13 @@ import Ember from 'ember';
 
 export default Ember.Controller.extend({
 
+    userObject: {},
+
     actions: {
 
         createUser: function () {
-            this.store.createRecord('user',
-                {email: this.get('email'),
-                    password:this.get('password'),
-                    isAdmin:this.get('isAdmin')}).save();
-            this.set('email','');
-            this.set('password','');
+            this.store.createRecord('user', this.get('userObject')).save();
+            this.set('userObject', {});
         },
 
         deleteUser: function (id) {
