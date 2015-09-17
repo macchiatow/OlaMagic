@@ -42,7 +42,7 @@ class UserController {
 
     def list(Integer max) {
         if (params.email) {
-            render([users: SecUser.createCriteria().list({ like("email", "${params.email}%") })] as JSON)
+            render([users: SecUser.createCriteria().list({ like("email", "%${params.email}%") })] as JSON)
             return
         }
         params.max = Math.min(max ?: 10, 100)

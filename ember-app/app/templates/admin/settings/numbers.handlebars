@@ -4,8 +4,8 @@
         <div class="apps-header flex-grow-1 flex">
             <label for="apps-filter" class="icon icon-search">Search apps</label>
 
-            <input placeholder="Search Existing Numbers" class="ember-view form-control filter mousetrap"
-                   id="apps-filter" type="text">
+            {{input placeholder="Search Existing Numbers" class="ember-view form-control filter mousetrap"
+                   id="apps-filter" key-up="queryEmail" value=searchNumber}}
 
             <div class="ember-view feature-container feature-is-disabled" id="ember756"></div>
 

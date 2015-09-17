@@ -15,6 +15,10 @@ class NumberController {
     static responseFormats = ['json']
 
     def list(Integer max){
+        if (params.upid) {
+            render([numbers: Number.createCriteria().list({ like("upid", "%${params.upid}%") })] as JSON)
+            return
+        }
         params.max = Math.min(max ?: 10, 100)
         render ([numbers: Number.list(params)] as JSON)
     }
