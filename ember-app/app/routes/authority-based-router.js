@@ -9,8 +9,10 @@ export default Ember.Route.extend(AuthenticatedRouteMixin, {
 
         if(authorities.contains('ROLE_ADMIN')){
             this.transitionTo('admin');
-        } else if (authorities.contains('ROLE_NO_ROLES')){
+        } else if (authorities.contains('ROLE_USER')){
             this.transitionTo('dashboard');
+        } else {
+            this.get('session').invalidate();
         }
     }
 
