@@ -8,7 +8,8 @@ import grails.transaction.Transactional
 import org.codehaus.groovy.grails.web.json.JSONObject
 
 import static com.olamagic.util.JsonWrapper.getToJson
-import static org.springframework.http.HttpStatus.*
+import static org.springframework.http.HttpStatus.NOT_ACCEPTABLE
+import static org.springframework.http.HttpStatus.NOT_FOUND
 
 @Transactional(readOnly = true)
 class UserController {
@@ -41,8 +42,8 @@ class UserController {
 
     def list(Integer max) {
         if (params.email) {
-                render ([users: SecUser.findAllByEmail(params.email)] as JSON)
-                return
+            render([users: SecUser.createCriteria().list({ like("email", "${params.email}%") })] as JSON)
+            return
         }
         params.max = Math.min(max ?: 10, 100)
         render toJson('users', SecUser.list(params))
@@ -57,13 +58,13 @@ class UserController {
             return
         }
 
-        def jsonUser = request.JSON.user.findAll {k,v -> !JSONObject.NULL.equals(v)}
+        def jsonUser = request.JSON.user.findAll { k, v -> !JSONObject.NULL.equals(v) }
         bindData(user, jsonUser, [exclude: ['workspacesContributing', 'email']])
 
         def adminRole = SecRole.findByAuthority('ROLE_ADMIN')
         def userRole = SecRole.findByAuthority('ROLE_USER')
 
-        if (jsonUser.isAdmin && !user.authorities.contains(adminRole)){
+        if (jsonUser.isAdmin && !user.authorities.contains(adminRole)) {
             SecUserSecRole.create user, adminRole, true
             SecUserSecRole.findBySecUserAndSecRole(user, userRole)*.delete()
         } else if (!jsonUser.isAdmin && user.authorities.contains(adminRole)) {
@@ -72,19 +73,19 @@ class UserController {
         }
 
         user.save(flush: true)
-        render ([user: user] as JSON)
+        render([user: user] as JSON)
     }
 
     @Transactional
     def create() {
         def jsonUser = request.JSON.user
 
-        if (jsonUser.email == null){
+        if (jsonUser.email == null) {
             render status: NOT_ACCEPTABLE
             return
         }
 
-        jsonUser.password = jsonUser.password?:'123'
+        jsonUser.password = jsonUser.password ?: '123'
 
         def user = new SecUser(jsonUser)
         user.profile = new Profile(secUser: user)
@@ -92,7 +93,7 @@ class UserController {
         user.save(flush: true, failOnError: true)
 
         SecRole secRole;
-        if (jsonUser.isAdmin){
+        if (jsonUser.isAdmin) {
             secRole = SecRole.findByAuthority('ROLE_ADMIN')
         } else {
             secRole = SecRole.findByAuthority('ROLE_USER')
@@ -101,7 +102,7 @@ class UserController {
         SecUserSecRole.create user, secRole, true
 
 
-        render ([user: user] as JSON)
+        render([user: user] as JSON)
     }
 
     @Transactional

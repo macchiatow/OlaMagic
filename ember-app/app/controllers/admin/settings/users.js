@@ -29,6 +29,25 @@ export default Ember.Controller.extend({
             }).finally(function () {
                 self.set('confirmEmail', '')
             });
+        },
+
+        queryEmail: function () {
+            if (!this.get('unfilteredModel')){
+                this.set('unfilteredModel', this.get('model'));
+            };
+
+            var self = this;
+
+            if (this.get('searchEmail').length > 0){
+                this.store
+                    .query('user', {email: this.get('searchEmail')})
+                    .then(function (model) {
+                        self.set('model', model);
+                    });
+            } else {
+                this.set('model', this.get('unfilteredModel'));
+            }
+
         }
     }
 });
