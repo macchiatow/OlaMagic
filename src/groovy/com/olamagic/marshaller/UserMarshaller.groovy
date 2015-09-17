@@ -8,14 +8,21 @@ import grails.converters.JSON
  */
 class UserMarshaller {
 
-    void register(){
+    void register() {
+
         JSON.registerObjectMarshaller(SecUser) { SecUser u ->
             return [
-                    id                      : u.profile.id,
-                    email                   : u.email,
-                    workspacesOwning        : u.profile.workspacesOwning.id.sort { it },
-                    workspacesContributing  : u.profile.workspacesContributing.id.sort { it }
+                    id                    : u.profile.id,
+                    email                 : u.email,
+                    isAdmin               : u.admin,
+                    enabled               : u.enabled,
+                    accountExpired        : u.accountExpired,
+                    accountLocked         : u.accountLocked,
+                    passwordExpired       : u.passwordExpired,
+                    workspacesOwning      : u.profile.workspacesOwning.id.sort { it },
+                    workspacesContributing: u.profile.workspacesContributing.id.sort { it }
             ]
         }
+
     }
 }

@@ -8,7 +8,7 @@ export default Ember.Component.extend({
         },
 
         save: function () {
-            this.sendAction('save-action');
+            this.sendAction('save-action', this.get('param'));
             this.toggleProperty('show');
         }
     }

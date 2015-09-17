@@ -44,6 +44,10 @@ class SecUser implements Serializable {
 		SecUserSecRole.findAllBySecUser(this)*.secRole
 	}
 
+    boolean isAdmin(){
+        SecUserSecRole.findBySecUserAndSecRole(this, SecRole.findByAuthority('ROLE_ADMIN'))
+    }
+
 	def beforeInsert() {
 		encodePassword()
 	}

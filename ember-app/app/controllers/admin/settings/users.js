@@ -11,6 +11,10 @@ export default Ember.Controller.extend({
             this.set('userObject', {});
         },
 
+        updateUser: function (param) {
+            param.save();
+        },
+
         deleteUser: function (id) {
             var self = this;
             this.store.find('user', id).then(function (user) {

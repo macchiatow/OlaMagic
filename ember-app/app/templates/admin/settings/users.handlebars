@@ -78,6 +78,60 @@
 
                         <td class="action-cell">
 
+                            {{#simple-modal-dialog
+                            button-title='New user'
+                            modal-title='New user'
+                            icon='icon-edit'
+                            param=user
+                            save-button-title='Update'
+                            save-action='updateUser'}}
+                                <label for="e-mail-address">Email</label>
+
+                                <div class="form-group">
+                                    {{input class="form-control new-collaborator-email" value=user.email placeholder="user@domain.com" disabled=true}}
+                                </div>
+                                <label for="password">Password</label>
+
+                                <div class="form-group">
+                                    {{input class="form-control new-collaborator-email" value=user.password placeholder="*********"}}
+                                </div>
+                                <div>
+                                    <label>
+                                        {{input type="checkbox" checked=user.enabled}}
+                                        Enabled
+                                    </label>
+                                </div>
+                                <div>
+                                    <label>
+                                        {{input type="checkbox" checked=user.isAdmin}}
+                                        Admin
+                                    </label>
+                                </div>
+                                <div>
+                                    <label>
+                                        {{input type="checkbox" checked=user.accountExpired}}
+                                        Account expired
+                                    </label>
+                                </div>
+                                <div>
+                                    <label>
+                                        {{input type="checkbox" checked=user.accountLocked}}
+                                        Account locked
+                                    </label>
+                                </div>
+                                <div>
+                                    <label>
+                                        {{input type="checkbox" checked=user.passwordExpired}}
+                                        Password expired
+                                    </label>
+                                </div>
+
+                            {{/simple-modal-dialog}}
+
+                        </td>
+
+                        <td class="action-cell">
+
                             {{#simple-modal-confirm-dialog
                             modal-title='Delete user'
                             record-name=user.email

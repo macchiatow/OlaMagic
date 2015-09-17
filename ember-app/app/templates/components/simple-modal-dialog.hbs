@@ -27,6 +27,12 @@
     {{/modal-dialog}}
 {{/if}}
 
-<button class="btn btn-default pull-right add-button" {{action "toggleModal"}} type="button">
-    {{button-title}}
-</button>
+{{#if icon}}
+    <button class="btn-link remove-item" {{action "toggleModal"}} type="button">
+        <i class="icon {{icon}}"></i>
+    </button>
+{{else}}
+    <button class="btn btn-default pull-right add-button" {{action "toggleModal"}} type="button">
+        {{button-title}}
+    </button>
+{{/if}}
