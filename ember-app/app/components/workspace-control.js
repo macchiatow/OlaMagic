@@ -9,6 +9,10 @@ export default Ember.Component.extend({
         },
         signOut() {
             this.get('session').invalidate();
+        },
+        activateWorkspace(workspace) {
+            this.get('active-workspace').activate(workspace);
+            this.send('open');
         }
     }
 
