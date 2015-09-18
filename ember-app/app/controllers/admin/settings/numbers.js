@@ -7,24 +7,33 @@ export default Ember.Controller.extend({
     actions: {
 
         addNumber: function () {
-            this.store.createRecord('number', this.get('numberObject')).save();
-            this.set('numberObject', {});
+            var self = this;
+
+            this.store.createRecord('number', this.get('numberObject'))
+                .save().then(function () {
+                    self.set('numberObject', {});
+                    self.send('query');
+                });
         },
 
         deleteNumber: function (id) {
+            var self = this;
+
             this.store.find('number', id).then(function (number) {
-                number.destroyRecord();
+                number.destroyRecord().then(function () {
+                    self.send('query');
+                });
             });
         },
 
-        queryEmail: function () {
+        query: function () {
             if (!this.get('unfilteredModel')){
                 this.set('unfilteredModel', this.get('model'));
             };
 
             var self = this;
 
-            if (this.get('searchNumber').length > 0){
+            if (this.get('searchNumber') && this.get('searchNumber').length > 0){
                 this.store
                     .query('number', {upid: this.get('searchNumber')})
                     .then(function (model) {
