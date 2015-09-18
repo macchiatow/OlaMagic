@@ -4,7 +4,7 @@ export default Ember.Controller.extend({
 
     activeWorkspaceTitle: function(){
         return this.get('active-workspace.workspace.title')
-    }.property('active-workspace.workspace'),
+    }.property('active-workspace.workspace.id'),
 
     actions: {
 

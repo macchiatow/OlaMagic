@@ -1,7 +1,7 @@
 export default {
 
     name: 'active-workspace',
-    after: "store",
+    after: ['ember-data'],
 
     initialize: function (container, application) {
         application.inject('component', 'active-workspace', 'service:active-workspace');
