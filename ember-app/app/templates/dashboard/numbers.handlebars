@@ -24,16 +24,17 @@
         <form>
             <table class="table editable-list domain-list">
                 <tbody>
-                {{#each myNumbers as |item|}}
+                {{#each myNumbers as |number|}}
                     <tr class="collaborator-item editable-item item-persisted">
                         <td>
-                            {{item.upid}}
+                            {{number.upid}}
                         </td>
 
-                        <td class="collaborator-info  show-role">
+                        <td class="action-cell">
+                            <button type="button" class="btn-link remove-item" {{action 'releaseNumber' number}}>
+                                <i class="icon icon-delete"></i>
+                            </button>
                         </td>
-
-                        <td class="action-cell"></td>
 
                     </tr>
                 {{/each}}

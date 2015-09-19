@@ -41,15 +41,24 @@ class NumberController {
     @Transactional
     def update(Long id){
         def number = Number.findById(id)
-        def workspace = Workspace.findById(request.JSON.number.owner)
 
         if (number == null) {
             render status: NOT_FOUND
             return
         }
 
-        number.workspace = workspace;
-        workspace.addToMyNumbers(number)
+        def workspace
+
+        if (request.JSON.number.owner){
+            workspace = Workspace.findById(request.JSON.number.owner)
+            number.workspace = workspace;
+            workspace.addToMyNumbers(number)
+        } else {
+            workspace = number.workspace
+            workspace.removeFromMyNumbers(number)
+            number.workspace = null;
+        }
+
         number.save flush: true
         workspace.save flush: true
 
