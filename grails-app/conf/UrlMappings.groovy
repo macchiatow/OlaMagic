@@ -17,10 +17,7 @@ class UrlMappings {
 
         // Numbers
         "/api/numbers"(controller: "number") { action = [GET: "list", POST: "create"] }
-        "/api/numbers/$id"(controller: "number") { action = [DELETE: "delete"] }
-        "/api/numbers/$upid/release"(controller: "number") { action = [PUT: "release"] }
-        "/api/workspaces/$wid/numbers"(controller: "number") { action = [GET: "listMyNumbers"] }
-        "/api/workspaces/$wid/numbers/$upid/buy"(controller: "number") { action = [PUT: "buy"] }
+        "/api/numbers/$id"(controller: "number") { action = [GET: "show", DELETE: "delete", PUT: "update"] }
 
         // Calls
         "/api/numbers/$upid/calls"(controller: "call") { action = [GET: "list", DELETE: "clear"] }

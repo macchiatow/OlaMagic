@@ -6,19 +6,25 @@
     <div class="group-header">
         <h5>Numbers</h5>
 
-        <div class="pull-right">
-            <button class="btn btn-sm btn-default edit-button edit-button"
-                    type="button">
-                Edit
-            </button>
-        </div>
+        {{#simple-modal-dialog
+        button-title='Buy number'
+        modal-title='Buy number'
+        save-button-title='Buy'
+        save-action='buyNumber'}}
+            {{view "select" class="ember-select form-control"
+                content=availableNumbers
+                optionLabelPath="content.upid"
+                value=selectedNumber
+            }}
+        {{/simple-modal-dialog}}
+
     </div>
 
     <div class="editable-table-component table-responsive">
         <form>
             <table class="table editable-list domain-list">
                 <tbody>
-                {{#each model as |item|}}
+                {{#each myNumbers as |item|}}
                     <tr class="collaborator-item editable-item item-persisted">
                         <td>
                             {{item.upid}}
@@ -31,41 +37,6 @@
 
                     </tr>
                 {{/each}}
-
-                <tr class="domain-item editable-item item-added">
-                    <td>
-                        0931326201
-                    </td>
-
-                    <td/>
-
-
-                    <td class="action-cell text-right">
-                        <button class="btn-link undo-item" type="button">
-                            <i class="icon icon-undo"></i>
-                        </button>
-                    </td>
-
-                </tr>
-                <tr class=" domain-item editable-item item-added item-new">
-                    <td>
-                        <div class=" form-group"><input placeholder="yourdomain.com"
-                                                        class=" ember-text-field form-control new-domain"
-                                                        type="text">
-
-                        </div>
-                    </td>
-
-                    <td class="action-cell text-right">
-
-                        <button class="btn-link add-item" type="submit">
-                            <i class="icon icon-add"></i>
-                        </button>
-
-                    </td>
-
-                </tr>
-
                 </tbody>
 
             </table>

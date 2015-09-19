@@ -19,52 +19,41 @@ class NumberController {
             render([numbers: Number.createCriteria().list({ like("upid", "%${params.upid}%") })] as JSON)
             return
         }
+        if(params.availableOnly){
+            render([numbers: Number.findAllByWorkspaceIsNull()] as JSON)
+            return
+        }
         params.max = Math.min(max ?: 10, 100)
         render ([numbers: Number.list(params)] as JSON)
     }
 
-    def buy(Long wid, String upid){
-        def number = Number.findByUpidAndWorkspaceIsNull(upid)
-        def workspace = Workspace.findById(wid)
-
-        if (number == null || workspace == null) {
-            render status: NOT_FOUND
-            return
-        }
-
-        number.workspace = workspace
-
-        number.save flush: true
-
-        render ([number: number] as JSON)
-    }
-
-    def release(String upid){
-        def number = Number.findByUpid(upid)
+    def show(Long id) {
+        def number = Number.findById(id)
 
         if (number == null) {
             render status: NOT_FOUND
             return
         }
 
-        def workspace = number.workspace
-        workspace.myNumbers.remove number
-        number.workspace = null
-
-        number.save flush: true
-
         render ([number: number] as JSON)
     }
 
-    def listMyNumbers(Long wid){
-        def workspace = Workspace.findById(wid)
+    @Transactional
+    def update(Long id){
+        def number = Number.findById(id)
+        def workspace = Workspace.findById(request.JSON.number.owner)
 
-        if (workspace == null) {
+        if (number == null) {
             render status: NOT_FOUND
             return
         }
 
-        render ([numbers: workspace.myNumbers] as JSON)
+        number.workspace = workspace;
+        workspace.addToMyNumbers(number)
+        number.save flush: true
+        workspace.save flush: true
+
+        render ([number: number] as JSON)
     }
 
     @Transactional
