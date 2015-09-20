@@ -36,6 +36,10 @@ export default Ember.Controller.extend({
             });
         },
 
+        cancelUpdateUser: function (param) {
+            param.rollback();
+        },
+
         query: function () {
             if (!this.get('unfilteredModel')){
                 this.set('unfilteredModel', this.get('model'));

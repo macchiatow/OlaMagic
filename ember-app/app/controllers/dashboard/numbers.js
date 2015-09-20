@@ -16,11 +16,20 @@ export default Ember.Controller.extend({
             var selectedNumber = this.get('selectedNumber');
             selectedNumber.set('owner', workspace);
             selectedNumber.save();
+            this.set('selectedNumber', {});
         },
 
         releaseNumber: function(number){
             number.set('owner', '');
             number.save();
+        },
+
+        updateNumber: function (param) {
+            param.save();
+        },
+
+        cancelUpdateNumber: function (param) {
+            param.rollback();
         }
 
     }

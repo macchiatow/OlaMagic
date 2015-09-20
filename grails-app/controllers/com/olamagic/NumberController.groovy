@@ -56,9 +56,11 @@ class NumberController {
         } else {
             workspace = number.workspace
             workspace.removeFromMyNumbers(number)
+            number.forwardTo = null;
             number.workspace = null;
         }
 
+        number.forwardTo = request.JSON.number.forwardTo
         number.save flush: true
         workspace.save flush: true
 

@@ -10,6 +10,11 @@ export default Ember.Component.extend({
         save: function () {
             this.sendAction('save-action', this.get('param'));
             this.toggleProperty('show');
+        },
+
+        rollback: function () {
+            this.sendAction('rollback-action', this.get('param'));
+            this.toggleProperty('show');
         }
     }
 });

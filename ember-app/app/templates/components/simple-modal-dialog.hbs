@@ -1,9 +1,9 @@
 {{#if show}}
-    {{#modal-dialog close="toggleModal" targetAttachment="center" translucentOverlay=true}}
+    {{#modal-dialog close="rollback" targetAttachment="center" translucentOverlay=true}}
         <div class="modal-box">
             <div class="modal-content">
                 <div class="modal-header clearfix">
-                    <button type="button" class="close" {{action "toggleModal"}}>
+                    <button type="button" class="close" {{action "rollback"}}>
                         ×
                     </button>
                     <h4 class="modal-title">{{modal-title}}</h4>

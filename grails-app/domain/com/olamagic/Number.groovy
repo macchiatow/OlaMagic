@@ -4,6 +4,8 @@ class Number {
 
     String upid
 
+    String forwardTo
+
     Workspace workspace
 
     AdSource adSource
