@@ -20,8 +20,7 @@ class UrlMappings {
         "/api/numbers/$id"(controller: "number") { action = [GET: "show", DELETE: "delete", PUT: "update"] }
 
         // Calls
-        "/api/numbers/$upid/calls"(controller: "call") { action = [GET: "list", DELETE: "clear"] }
-        "/api/calls/"(controller: "call") { action = [POST: "create"] }
+        "/api/calls/"(controller: "call") { action = [GET: "list", POST: "create"] }
 
         // Sites
         "/api/workspaces/$wid/sites"(controller: "site") { action = [GET: "list", POST: "create"] }

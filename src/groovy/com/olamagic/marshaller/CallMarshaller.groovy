@@ -10,14 +10,10 @@ class CallMarshaller {
 
     void register(){
         JSON.registerObjectMarshaller(Call) {
-            def properties = [:]
-
-            properties << [id: it.id]
-            properties << [date: it.date]
-            properties << [duration: it.duration]
-            properties << [upid: it.number.upid]
-
-            return properties
+            return [
+                    date: it.date,
+                    duration: it.duration,
+                    upid: it.number.upid]
         }
     }
 }

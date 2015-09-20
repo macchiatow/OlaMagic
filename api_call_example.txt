@@ -53,3 +53,8 @@ curl -H "Content-Type: application/json" -X POST -d '{"upid":"0944444"}' http://
 
 -- release number
 curl -H "Content-Type: application/json" -X DELETE http://localhost:8080/OlaMagic/dashboard/numbers/0944444
+
+
+
+-- auth: get token
+curl -i -X POST -d 'username=cmeisters@gmail.com&password=123' http://localhost:8080/oauth/login

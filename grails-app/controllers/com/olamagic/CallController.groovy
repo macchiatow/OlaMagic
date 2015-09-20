@@ -1,12 +1,8 @@
 package com.olamagic
-
 import grails.converters.JSON
-import org.springframework.http.HttpStatus
 
-import static org.springframework.http.HttpStatus.ACCEPTED
 import static org.springframework.http.HttpStatus.NOT_FOUND
 import static org.springframework.http.HttpStatus.OK
-
 /**
  * Created by togrul on 6/26/15.
  */
