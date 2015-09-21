@@ -11,16 +11,20 @@
                                     </span>
 
                 <div class="media-body sidebar-user-email">
-                    <h5 class="media-heading"  >
-                        {{selectedSite}}  Site
+                    <h5 class="media-heading">
+                        {{#if selectedSite}}
+                            {{selectedSite.name}}
+                        {{else}}
+                            {{activeSite.name}} Site
+                        {{/if}}
                         <i class="icon icon-caret"></i>
                     </h5>
                 </div>
             </a>
             <ul class="dropdown-menu user-menu list-group">
-
-                <li><a href="#" {{action "selectSite" "macchiatow.org"}}>macchiatow.org</a></li>
-                <li><a href="#" {{action "selectSite" "dobromed-m.ru"}}>dobromed-m.ru</a></li>
+                {{#each availableSites as |site|}}
+                    <li><a href="#" {{action "selectSite" site}}>{{site.name}}</a></li>
+                {{/each}}
             </ul>
         </div>
     </div>

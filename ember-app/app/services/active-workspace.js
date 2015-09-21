@@ -5,6 +5,10 @@ export default Ember.Service.extend({
         this.set('workspace', workspace);
     },
 
+    activateSite(site) {
+        this.set('activeSite', site);
+    },
+
     clean() {
         localStorage.removeItem('/workspace/id');
         this._reset();

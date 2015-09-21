@@ -5,6 +5,10 @@ export default Ember.Component.extend({
         return this.get('open')?'open':'';
     }.property('open'),
 
+    activeSite: function() {
+        this.get('active-workspace.activeSite')
+    }.property('active-workspace.activeSite'),
+
     actions: {
         open() {
             this.toggleProperty('open');
@@ -13,6 +17,7 @@ export default Ember.Component.extend({
         selectSite: function (site) {
             this.set('selectedSite', site);
             this.toggleProperty('open');
+            this.get('active-workspace').activateSite(site);
         }
     }
 

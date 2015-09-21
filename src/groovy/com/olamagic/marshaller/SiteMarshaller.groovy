@@ -13,7 +13,6 @@ class SiteMarshaller {
         JSON.registerObjectMarshaller(Site) { Site s ->
             return [
             		id				: s.id,
-                    details        	: s.details,
                     name       		: s.name,
             ]
         }

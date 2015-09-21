@@ -6,6 +6,10 @@ export default Ember.Controller.extend({
         return this.get('active-workspace.workspace.title')
     }.property('active-workspace.workspace.id'),
 
+    availableSites: function(){
+        return this.get('active-workspace.workspace.sites')
+    }.property('active-workspace.workspace.sites.@each'),
+
     actions: {
 
     }

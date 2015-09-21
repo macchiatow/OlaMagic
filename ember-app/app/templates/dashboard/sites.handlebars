@@ -2,4 +2,71 @@
     {{sub-nav-item title='Sites' url='dashboard.sites'}}
 </div>
 
-{{outlet}}
+
+<div class="sticky-header">
+    <div class="group-header">
+        <h5>Sites</h5>
+
+        {{#simple-modal-dialog
+        button-title='Add site'
+        modal-title='Add new site'
+        save-button-title='Save'
+        save-action='addSite'}}
+            <label for="password">URL</label>
+
+            <div class="form-group">
+                {{input class="form-control new-collaborator-email" value=siteName placeholder="dobromed.ru"}}
+            </div>
+
+        {{/simple-modal-dialog}}
+
+    </div>
+
+    <div class="editable-table-component table-responsive">
+        <form>
+            <table class="table editable-list domain-list">
+                <tbody>
+                {{#each mySites as |site|}}
+                    <tr class="collaborator-item editable-item item-persisted">
+                        <td>
+                            {{site.name}}
+                        </td>
+
+                        <td>
+                            {{site.details}}
+                        </td>
+
+                        <td class="action-cell">
+
+                            {{#simple-modal-dialog
+                            button-title='update site'
+                            modal-title='Update site'
+                            save-button-title='Update'
+                            save-action='updateSite'
+                            rollback-action='cancelUpdateSite'
+                            icon='icon-edit'
+                            param=site}}
+                                <label for="e-mail-address">URL</label>
+
+                                <div class="form-group">
+                                    {{input class="form-control new-collaborator-email" value=site.name}}
+                                </div>
+                            {{/simple-modal-dialog}}
+
+                        </td>
+                        <td class="action-cell">
+                            <button type="button" class="btn-link remove-item" {{action 'removeSite' site}}>
+                                <i class="icon icon-delete"></i>
+                            </button>
+                        </td>
+
+                    </tr>
+                {{/each}}
+                </tbody>
+
+            </table>
+
+        </form>
+    </div>
+
+</div>

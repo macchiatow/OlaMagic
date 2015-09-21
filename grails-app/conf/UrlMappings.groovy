@@ -23,8 +23,8 @@ class UrlMappings {
         "/api/calls/"(controller: "call") { action = [GET: "list", POST: "create"] }
 
         // Sites
-        "/api/workspaces/$wid/sites"(controller: "site") { action = [GET: "list", POST: "create"] }
-        "/api/sites/$sid"(controller: "site") { action = [DELETE: "delete", PUT: "update"] }
+        "/api/sites/"(controller: "site") { action = [GET: "list", POST: "create"] }
+        "/api/sites/$id"(controller: "site") { action = [GET: "show", DELETE: "delete", PUT: "update"] }
 
         // AdSources
         "/api/sites/$sid/ad_sources"(controller: "adSource") { action = [GET: "list", POST: "create"] }

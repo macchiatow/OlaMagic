@@ -16,10 +16,15 @@ class SiteController {
         render ([sites: workspace?.sites?:[]] as JSON)
     }
 
+    def show(Long id) {
+        def site = Site.findById(id)
+        render ([site: site] as JSON)
+    }
+
 	@Transactional
-    def create(Long wid) {
+    def create() {
         def site =  new Site(request.JSON.site)
-        def workspace = Workspace.findById(wid)
+        def workspace = Workspace.findById(request.JSON.site.workspace)
 
         if (workspace == null) {
             render status: NOT_FOUND
@@ -27,13 +32,16 @@ class SiteController {
         }
 
         site.workspace = workspace
+        workspace.addToSites(site)
 
         site.save flush: true
+        workspace.save flush: true
+
         render ([site: site] as JSON)
     }
 
     @Transactional
-    def delete(Long id) {
+    def delete(Long id){
         def site = Site.findById(id)
 
         if (site == null) {
@@ -41,8 +49,8 @@ class SiteController {
             return
         }
 
-        site.delete flush: true
-        render status: OK
+        site.delete flush:true
+        render '{}'
     }
 
     @Transactional
