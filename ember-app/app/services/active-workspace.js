@@ -6,11 +6,13 @@ export default Ember.Service.extend({
     },
 
     activateSite(site) {
+        localStorage.setItem('/site/id', site.id);
         this.set('activeSite', site);
     },
 
     clean() {
         localStorage.removeItem('/workspace/id');
+        localStorage.removeItem('/site/id');
         this._reset();
     },
 
@@ -33,6 +35,15 @@ export default Ember.Service.extend({
                 }).then(function(workspace){
                     self.activate(workspace);
                 });
+        };
+
+        if (localStorage.getItem('/site/id')) {
+            this.get('store').find('site', localStorage.getItem('/site/id'))
+                .then(function (site) {
+                    self.activateSite(site);
+                })
+        } else {
+            this.activateSite(this.get('workspace.sites.firstObject'));
         }
     }
 

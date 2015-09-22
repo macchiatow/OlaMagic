@@ -6,7 +6,7 @@ export default Ember.Component.extend({
     }.property('open'),
 
     activeSite: function() {
-        this.get('active-workspace.activeSite')
+        return this.get('active-workspace.activeSite');
     }.property('active-workspace.activeSite'),
 
     actions: {
