@@ -14,6 +14,7 @@ class SiteMarshaller {
             return [
             		id				: s.id,
                     name       		: s.name,
+                    adsources       : s.adSources?.id?: []
             ]
         }
     }

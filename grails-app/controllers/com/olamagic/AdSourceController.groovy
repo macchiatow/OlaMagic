@@ -11,89 +11,57 @@ import static org.springframework.http.HttpStatus.OK
 
 class AdSourceController {
 
-    def list(Long sid){
-        def site = Site.findById(sid)
-        render ([adSources: site?.adSources?:[]] as JSON)
+    def show(Long id) {
+        render ([adsource: AdSource.findById(id)] as JSON)
     }
 
     @Transactional
-    def create(Long sid) {
-        def adSource =  new AdSource(request.JSON.adSource)
-        def site = Site.findById(sid)
+    def create() {
+        def adsource = new AdSource(request.JSON.adsource)
+        def site = Site.findById(request.JSON.adsource.site)
 
         if (site == null) {
             render status: NOT_FOUND
             return
         }
 
-        adSource.site = site
+        adsource.site = site
+        site.addToAdSources(adsource)
 
-        adSource.save flush: true
-        render ([adSource: adSource] as JSON)
+        adsource.save flush: true, failOnError: true
+        site.save flush: true, failOnError: true
+
+        render ([adsource: adsource] as JSON)
     }
 
-    @Transactional
-    def delete(Long id) {
-        def adSource = AdSource.findById(id)
 
-        if (adSource == null) {
+    @Transactional
+    def delete(Long id){
+        def adsource = AdSource.findById(id)
+
+        if (adsource == null) {
             render status: NOT_FOUND
             return
         }
 
-        adSource.delete flush: true
-        render status: OK
+        adsource.delete flush:true
+        render '{}'
     }
 
     @Transactional
     def update(Long id) {
-        def adSource = AdSource.findById(id)
+        def adsource = AdSource.findById(id)
 
-        if (adSource == null) {
+        if (adsource == null) {
             render status: NOT_FOUND
             return
         }
 
-        adSource.description = request.JSON.adSource.description
-        adSource.name = request.JSON.adSource.name
+        adsource.type = request.JSON.adsource.type
+        adsource.name = request.JSON.adsource.name
 
-        adSource.save flush: true
-        render ([adSource: adSource] as JSON)
-    }
-
-    def listNumbers(Long id) {
-        def adSource = AdSource.findById(id)
-        render ([numbers: adSource?.numbers?:[]] as JSON)
-    }
-
-    def addNumber(Long aid, String upid) {
-        def adSource = AdSource.findById(aid)
-        def number = Number.findByUpidAndWorkspace(upid, adSource?.site?.workspace)
-
-        if (adSource == null || number == null) {
-            render status: NOT_FOUND
-            return
-        }
-
-        number.adSource = adSource
-        number.save flush: true
-
-        render ([adSource: adSource] as JSON)
-    }
-
-    def removeNumber(Long aid, String upid) {
-        def adSource = AdSource.findById(aid)
-        def number = adSource?.numbers?.find {it.upid == upid }
-
-        if (adSource == null || number == null) {
-            render status: NOT_FOUND
-            return
-        }
-
-        adSource.numbers.remove number
-        adSource.save flush: true
-
-        render ([adSource: adSource] as JSON)
+        adsource.save flush: true
+        render ([adsource: adsource] as JSON)
     }
 
 }

@@ -27,11 +27,8 @@ class UrlMappings {
         "/api/sites/$id"(controller: "site") { action = [GET: "show", DELETE: "delete", PUT: "update"] }
 
         // AdSources
-        "/api/sites/$sid/ad_sources"(controller: "adSource") { action = [GET: "list", POST: "create"] }
-        "/api/ad_sources/$id"(controller: "adSource") { action = [DELETE: "delete", PUT: "update"] }
-        "/api/ad_sources/$id/numbers"(controller: "adSource") { action = [GET: "listNumbers"] }
-        "/api/ad_sources/$aid/numbers/$upid/add"(controller: "adSource") { action = [POST: "addNumber"] }
-        "/api/ad_sources/$aid/numbers/$upid/remove"(controller: "adSource") { action = [POST: "removeNumber"] }
+        "/api/adsources"(controller: "adSource") { action = [GET: "list", POST: "create"] }
+        "/api/adsources/$id"(controller: "adSource") { action = [GET: "show", DELETE: "delete", PUT: "update"] }
 
         // Campaign
         "/api/sites/$sid/campaigns"(controller: "campaign") { action = [GET: "list", POST: "create"] }

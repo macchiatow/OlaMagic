@@ -4,7 +4,7 @@ class AdSource {
 
     String name
 
-    String description
+    Integer type
 
     static belongsTo = [site: Site]
 

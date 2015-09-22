@@ -17,9 +17,10 @@ Router.map(function () {
             this.route('report-two');
             this.route('report-three');
         });
-        this.route('campaigns');
-        this.route('adsources');
-        this.route('analytics');
+        this.route('analytics', function () {
+            this.route('campaigns');
+            this.route('adsources');
+        });
         this.route('sites');
     });
     this.route('admin', function () {

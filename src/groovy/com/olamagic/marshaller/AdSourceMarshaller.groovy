@@ -13,9 +13,9 @@ class AdSourceMarshaller {
         JSON.registerObjectMarshaller(AdSource) { AdSource a ->
             return [
                     id				: a.id,
-                    description     : a.description,
                     name       		: a.name,
-                    numbers         : a.numbers?.upid?: []
+                    type            : a.type,
+                    numbers         : a.numbers?.id?: []
             ]
         }
     }
