@@ -1,0 +1,63 @@
+<div class="sticky-header">
+    <div class="group-header">
+        <h5>Campaign</h5>
+
+        {{#simple-modal-dialog
+        button-title='Add campaign'
+        modal-title='Add campaign'
+        save-button-title='Save'
+        save-action='addCampaign'}}
+            <label for="password">Name</label>
+
+            <div class="form-group">
+                {{input class="form-control new-collaborator-email" value=campaignName placeholder="Campaign name"}}
+            </div>
+
+        {{/simple-modal-dialog}}
+
+    </div>
+
+    <div class="editable-table-component table-responsive">
+        <form>
+            <table class="table editable-list domain-list">
+                <tbody>
+                {{#each myCampaigns as |campaign|}}
+                    <tr class="collaborator-item editable-item item-persisted">
+                        <td>
+                            {{campaign.name}}
+                        </td>
+
+                        <td class="action-cell">
+
+                            {{#simple-modal-dialog
+                            button-title='update campaign'
+                            modal-title='Update campaign'
+                            save-button-title='Update'
+                            save-action='updateCampaign'
+                            rollback-action='cancelUpdateCampaign'
+                            icon='icon-edit'
+                            param=campaign}}
+                                <label for="e-mail-address">Name</label>
+
+                                <div class="form-group">
+                                    {{input class="form-control new-collaborator-email" value=campaign.name}}
+                                </div>
+                            {{/simple-modal-dialog}}
+
+                        </td>
+                        <td class="action-cell">
+                            <button type="button" class="btn-link remove-item" {{action 'removeCampaign' campaign}}>
+                                <i class="icon icon-delete"></i>
+                            </button>
+                        </td>
+
+                    </tr>
+                {{/each}}
+                </tbody>
+
+            </table>
+
+        </form>
+    </div>
+
+</div>

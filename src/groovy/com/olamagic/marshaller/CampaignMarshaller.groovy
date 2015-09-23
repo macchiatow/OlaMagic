@@ -13,9 +13,8 @@ class CampaignMarshaller {
         JSON.registerObjectMarshaller(Campaign) { Campaign a ->
             return [
                     id				: a.id,
-                    description     : a.description,
                     name       		: a.name,
-                    numbers         : a.numbers?.upid?: []
+                    numbers         : a.numbers?.id?: []
             ]
         }
     }

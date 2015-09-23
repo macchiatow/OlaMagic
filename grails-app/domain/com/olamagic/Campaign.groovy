@@ -4,8 +4,6 @@ class Campaign {
 
     String name
 
-    String description
-
     static belongsTo = [site: Site]
 
     static hasMany = [numbers: Number]

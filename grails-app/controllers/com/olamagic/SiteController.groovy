@@ -62,7 +62,6 @@ class SiteController {
             return
         }
 
-        site.details = request.JSON.site.details
         site.name = request.JSON.site.name
 
         site.save flush: true
