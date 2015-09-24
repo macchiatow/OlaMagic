@@ -27,6 +27,26 @@
                 {{input class="form-control new-collaborator-email" value=selectedNumber.forwardTo placeholder="+994551326201"}}
             </div>
 
+            <label for="password">Site</label>
+
+            <div class="form-group">
+                {{view "select" class="ember-select form-control"
+                content=availableSites
+                optionLabelPath="content.name"
+                value=selectedSite
+                }}
+            </div>
+
+            <label for="password">Ad Source</label>
+
+            <div class="form-group">
+                {{view "select" class="ember-select form-control"
+                content=selectedSite.adsources
+                optionLabelPath="content.name"
+                value=selectedAdsource
+                }}
+            </div>
+
         {{/simple-modal-dialog}}
 
     </div>
@@ -66,6 +86,26 @@
 
                                 <div class="form-group">
                                     {{input class="form-control new-collaborator-email" value=number.forwardTo placeholder="+994551326201"}}
+                                </div>
+
+                                <label for="password">Site</label>
+
+                                <div class="form-group">
+                                    {{view "select" class="ember-select form-control"
+                                    content=availableSites
+                                    optionLabelPath="content.name"
+                                    value=selectedSite
+                                    }}
+                                </div>
+
+                                <label for="password">Ad Source</label>
+
+                                <div class="form-group">
+                                    {{view "select" class="ember-select form-control"
+                                    content=selectedSite.adsources
+                                    optionLabelPath="content.name"
+                                    value=number.adsource
+                                    }}
                                 </div>
 
                             {{/simple-modal-dialog}}

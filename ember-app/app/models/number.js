@@ -3,5 +3,6 @@ import DS from 'ember-data';
 export default DS.Model.extend({
     upid: DS.attr('string'),
     forwardTo: DS.attr('string'),
-    owner: DS.belongsTo('workspace', {async: true})
+    owner: DS.belongsTo('workspace', {async: true}),
+    adsource: DS.belongsTo('adsource', {async: true})
 });
