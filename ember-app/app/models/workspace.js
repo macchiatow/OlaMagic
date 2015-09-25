@@ -8,6 +8,5 @@ export default DS.Model.extend({
     sites: DS.hasMany('site', { async: true }),
     numbersCount: DS.attr('number'),
     sitesCount: DS.attr('number'),
-    adSourcesCount: DS.attr('number'),
-    campaignsCount: DS.attr('number')
+    adSourcesCount: DS.attr('number')
 });

@@ -18,7 +18,6 @@ Router.map(function () {
             this.route('report-three');
         });
         this.route('analytics', function () {
-            this.route('campaigns');
             this.route('adsources');
         });
         this.route('sites');
