@@ -19,6 +19,7 @@ class Number {
     static constraints = {
         upid unique: true, nullable: false
         workspace nullable: true
+        forwardTo nullable: true
         adSource nullable: true
         campaign nullable: true
     }
