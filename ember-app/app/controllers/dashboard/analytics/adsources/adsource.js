@@ -12,9 +12,14 @@ export default Ember.Controller.extend({
         return !this.get('model.hasDirtyAttributes');
     }.property('model.hasDirtyAttributes'),
 
-    myNumbers: function(){
-        return this.get('active-workspace.workspace.numbers');
-    }.property('active-workspace.workspace.numbers.@each'),
+    unassignedNumbers: function(){
+        var workspace = this.get('active-workspace.workspace.id');
+        return this.store.query('number', {workspace: workspace, adsource: ''});
+    }.property('numbersChanged'),
+
+    isAddButtonDisabled: function(){
+        return this.get('selectedNumber') == null;
+    }.property('selectedNumber'),
 
     actions: {
         addAdsource: function(){
@@ -40,11 +45,22 @@ export default Ember.Controller.extend({
         },
 
         assignNumber: function(){
+            var self = this;
             var selectedNumber = this.get('selectedNumber');
-            var selectedAdsource = this.get('model.id');
-            selectedNumber.set('adsource', selectedAdsource);
-            selectedNumber.save();
-            this.set('selectedNumber', {});
+            selectedNumber.set('adsource', this.get('model'));
+            selectedNumber.save().then(function(){
+                self.toggleProperty('numbersChanged');
+                self.set('selectedNumber', null);
+            });
+        },
+
+        unassignNumber: function(number){
+            var self = this;
+            number.set('adsource', null);
+            number.save().then(function(){
+                self.toggleProperty('numbersChanged');
+                self.set('selectedNumber', null);
+            });
         }
 
     }

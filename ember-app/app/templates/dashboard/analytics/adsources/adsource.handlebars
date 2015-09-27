@@ -36,26 +36,26 @@
 
                                     <td class="action-cell">
                                         <button type="button"
-                                                class="btn-link remove-item" {{action 'removeAdsource' adsource}}>
+                                                class="btn-link remove-item" {{action 'unassignNumber' number}}>
                                             <i class="icon icon-delete"></i>
                                         </button>
                                     </td>
                                 </tr>
                             {{/each}}
-                            <tr>
+                            <tr class="collaborator-item editable-item item-persisted">
                                 <td>
                                     <div class="form-group">
                                         {{view "select" class="ember-select form-control"
-                                        content=myNumbers
+                                        content=unassignedNumbers
+                                        prompt="Select number to add..."
                                         optionValuePath="content"
                                         optionLabelPath="content.upid"
                                         value=selectedNumber}}
                                     </div>
+
                                 </td>
-                                <td >
-                                    <button {{action "assignNumber"}} class="btn btn-primary"
-                                                                        >Save
-                                    </button>
+                                <td class="action-cell">
+                                    <button {{action "assignNumber"}} class="btn btn-primary" disabled={{isAddButtonDisabled}}>Add</button>
                                 </td>
                             </tr>
                             </tbody>

@@ -19,8 +19,13 @@ class NumberController {
             render([numbers: Number.createCriteria().list({ like("upid", "%${params.upid}%") })] as JSON)
             return
         }
+        if (params.workspace && !params.adsource){
+            def workspace = Workspace.findById(params.workspace)
+            render([numbers: Number.findAllByWorkspaceAndAdSourceIsNull(workspace)] as JSON)
+            return
+        }
         if(params.availableOnly){
-            render([numbers: Number.findAllByWorkspaceIsNull()] as JSON)
+            render([numbers: Number.findAllByWorkspaceIsNullAndAdSourceIsNull()] as JSON)
             return
         }
         params.max = Math.min(max ?: 10, 100)
@@ -48,6 +53,7 @@ class NumberController {
         }
 
         def workspace
+        def adSource
 
         if (request.JSON.number.owner){
             workspace = Workspace.findById(request.JSON.number.owner)
@@ -60,9 +66,19 @@ class NumberController {
             number.workspace = null;
         }
 
+        if (request.JSON.number.adsource){
+            adSource = AdSource.findById(request.JSON.number.adsource)
+            number.adSource = adSource;
+            adSource.addToNumbers(number)
+        } else {
+            adSource = number.adSource
+            adSource.removeFromNumbers(number)
+        }
+
         number.forwardTo = request.JSON.number.forwardTo
         number.save flush: true
         workspace.save flush: true
+        adSource.save flush: true
 
         render ([number: number] as JSON)
     }
