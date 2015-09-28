@@ -34,31 +34,15 @@
                 {{#each myAdsources as |adsource|}}
                     <tr class="collaborator-item editable-item item-persisted">
                         <td>
+                        {{#link-to 'dashboard.analytics.adsources.adsource' adsource.id class="sidebar-nav-heading org"}}
                             {{adsource.name}}
+                        {{/link-to}}
                         </td>
 
                         <td>
                             {{adsource.type}}
                         </td>
 
-                        <td class="action-cell">
-
-                            {{#simple-modal-dialog
-                            button-title='update ad source'
-                            modal-title='Update ad source'
-                            save-button-title='Update'
-                            save-action='updateAdsource'
-                            rollback-action='cancelUpdateAdsource'
-                            icon='icon-edit'
-                            param=adsource}}
-                                <label for="e-mail-address">Name</label>
-
-                                <div class="form-group">
-                                    {{input class="form-control new-collaborator-email" value=adsource.name}}
-                                </div>
-                            {{/simple-modal-dialog}}
-
-                        </td>
                         <td class="action-cell">
                             <button type="button" class="btn-link remove-item" {{action 'removeAdsource' adsource}}>
                                 <i class="icon icon-delete"></i>

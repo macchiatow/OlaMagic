@@ -1,9 +1,12 @@
-<div class="nav nav-tabs sub-nav app-nav">
-    {{#sub-nav-collection collection=model.workspaces item-url='dashboard.workspaces.workspace'}}
-        <div class="sub-nav-item">
-            <button class="btn btn-primary enabled" {{action 'newWorkspace'}}>+</button>
-        </div>
-    {{/sub-nav-collection}}
-</div>
+{{menu-head title=active-workspace.workspace.title}}
+<div class="main-content">
+    <div class="nav nav-tabs sub-nav app-nav">
+        {{#sub-nav-collection collection=model.workspaces item-url='dashboard.workspaces.workspace'}}
+            <div class="sub-nav-item">
+                <button class="btn btn-primary enabled" {{action 'newWorkspace'}}>+</button>
+            </div>
+        {{/sub-nav-collection}}
+    </div>
 
-{{outlet}}
+    {{outlet}}
+</div>

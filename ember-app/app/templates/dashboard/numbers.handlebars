@@ -1,129 +1,132 @@
-<div class="nav nav-tabs sub-nav app-nav">
-    {{sub-nav-item title='PBX' url='dashboard.numbers'}}
-</div>
-
-<div class="sticky-header">
-    <div class="group-header">
-        <h5>Numbers</h5>
-
-        {{#simple-modal-dialog
-        button-title='Buy number'
-        modal-title='Buy number'
-        save-button-title='Buy'
-        save-action='buyNumber'}}
-            <label for="e-mail-address">Available numbers</label>
-
-            <div class="form-group">
-                {{view "select" class="ember-select form-control"
-                content=availableNumbers
-                optionLabelPath="content.upid"
-                value=selectedNumber
-                }}
-            </div>
-
-            <label for="password">Forward to</label>
-
-            <div class="form-group">
-                {{input class="form-control new-collaborator-email" value=selectedNumber.forwardTo placeholder="+994551326201"}}
-            </div>
-
-            <label for="password">Site</label>
-
-            <div class="form-group">
-                {{view "select" class="ember-select form-control"
-                content=availableSites
-                optionLabelPath="content.name"
-                value=selectedSite
-                }}
-            </div>
-
-            <label for="password">Ad Source</label>
-
-            <div class="form-group">
-                {{view "select" class="ember-select form-control"
-                content=selectedSite.adsources
-                optionLabelPath="content.name"
-                value=selectedAdsource
-                }}
-            </div>
-
-        {{/simple-modal-dialog}}
-
+{{menu-head title=active-workspace.workspace.title}}
+<div class="main-content">
+    <div class="nav nav-tabs sub-nav app-nav">
+        {{sub-nav-item title='PBX' url='dashboard.numbers'}}
     </div>
 
-    <div class="editable-table-component table-responsive">
-        <form>
-            <table class="table editable-list domain-list">
-                <tbody>
-                {{#each myNumbers as |number|}}
-                    <tr class="collaborator-item editable-item item-persisted">
-                        <td>
-                            {{number.upid}}
-                        </td>
+    <div class="sticky-header">
+        <div class="group-header">
+            <h5>Numbers</h5>
 
-                        <td>
-                            {{#if  number.forwardTo}}
-                                forwards to {{number.forwardTo}}
-                            {{/if}}
-                        </td>
+            {{#simple-modal-dialog
+            button-title='Buy number'
+            modal-title='Buy number'
+            save-button-title='Buy'
+            save-action='buyNumber'}}
+                <label for="e-mail-address">Available numbers</label>
 
-                        <td class="action-cell">
+                <div class="form-group">
+                    {{view "select" class="ember-select form-control"
+                    content=availableNumbers
+                    optionLabelPath="content.upid"
+                    value=selectedNumber
+                    }}
+                </div>
 
-                            {{#simple-modal-dialog
-                            button-title='update forwarding'
-                            modal-title='Update forwarding'
-                            save-button-title='Update'
-                            save-action='updateNumber'
-                            rollback-action='cancelUpdateNumber'
-                            icon='icon-edit'
-                            param=number}}
-                                <label for="e-mail-address">Number</label>
+                <label for="password">Forward to</label>
 
-                                <div class="form-group">
-                                    {{input class="form-control new-collaborator-email" value=number.upid disabled=true}}
-                                </div>
-                                <label for="password">Forward to</label>
+                <div class="form-group">
+                    {{input class="form-control new-collaborator-email" value=selectedNumber.forwardTo placeholder="+994551326201"}}
+                </div>
 
-                                <div class="form-group">
-                                    {{input class="form-control new-collaborator-email" value=number.forwardTo placeholder="+994551326201"}}
-                                </div>
+                <label for="password">Site</label>
 
-                                <label for="password">Site</label>
+                <div class="form-group">
+                    {{view "select" class="ember-select form-control"
+                    content=availableSites
+                    optionLabelPath="content.name"
+                    value=selectedSite
+                    }}
+                </div>
 
-                                <div class="form-group">
-                                    {{view "select" class="ember-select form-control"
-                                    content=availableSites
-                                    optionLabelPath="content.name"
-                                    value=selectedSite
-                                    }}
-                                </div>
+                <label for="password">Ad Source</label>
 
-                                <label for="password">Ad Source</label>
+                <div class="form-group">
+                    {{view "select" class="ember-select form-control"
+                    content=selectedSite.adsources
+                    optionLabelPath="content.name"
+                    value=selectedAdsource
+                    }}
+                </div>
 
-                                <div class="form-group">
-                                    {{view "select" class="ember-select form-control"
-                                    content=selectedSite.adsources
-                                    optionLabelPath="content.name"
-                                    value=number.adsource
-                                    }}
-                                </div>
+            {{/simple-modal-dialog}}
 
-                            {{/simple-modal-dialog}}
+        </div>
 
-                        </td>
-                        <td class="action-cell">
-                            <button type="button" class="btn-link remove-item" {{action 'releaseNumber' number}}>
-                                <i class="icon icon-delete"></i>
-                            </button>
-                        </td>
+        <div class="editable-table-component table-responsive">
+            <form>
+                <table class="table editable-list domain-list">
+                    <tbody>
+                    {{#each myNumbers as |number|}}
+                        <tr class="collaborator-item editable-item item-persisted">
+                            <td>
+                                {{number.upid}}
+                            </td>
 
-                    </tr>
-                {{/each}}
-                </tbody>
+                            <td>
+                                {{#if  number.forwardTo}}
+                                    forwards to {{number.forwardTo}}
+                                {{/if}}
+                            </td>
 
-            </table>
+                            <td class="action-cell">
 
-        </form>
+                                {{#simple-modal-dialog
+                                button-title='update forwarding'
+                                modal-title='Update forwarding'
+                                save-button-title='Update'
+                                save-action='updateNumber'
+                                rollback-action='cancelUpdateNumber'
+                                icon='icon-edit'
+                                param=number}}
+                                    <label for="e-mail-address">Number</label>
+
+                                    <div class="form-group">
+                                        {{input class="form-control new-collaborator-email" value=number.upid disabled=true}}
+                                    </div>
+                                    <label for="password">Forward to</label>
+
+                                    <div class="form-group">
+                                        {{input class="form-control new-collaborator-email" value=number.forwardTo placeholder="+994551326201"}}
+                                    </div>
+
+                                    <label for="password">Site</label>
+
+                                    <div class="form-group">
+                                        {{view "select" class="ember-select form-control"
+                                        content=availableSites
+                                        optionLabelPath="content.name"
+                                        value=selectedSite
+                                        }}
+                                    </div>
+
+                                    <label for="password">Ad Source</label>
+
+                                    <div class="form-group">
+                                        {{view "select" class="ember-select form-control"
+                                        content=selectedSite.adsources
+                                        optionLabelPath="content.name"
+                                        value=number.adsource
+                                        }}
+                                    </div>
+
+                                {{/simple-modal-dialog}}
+
+                            </td>
+                            <td class="action-cell">
+                                <button type="button" class="btn-link remove-item" {{action 'releaseNumber' number}}>
+                                    <i class="icon icon-delete"></i>
+                                </button>
+                            </td>
+
+                        </tr>
+                    {{/each}}
+                    </tbody>
+
+                </table>
+
+            </form>
+        </div>
+
     </div>
-
 </div>

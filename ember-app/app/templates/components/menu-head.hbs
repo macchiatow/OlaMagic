@@ -5,6 +5,14 @@
 
     <div class="section-content ">
         <div class="app-header flex-grow-1 flex">
+            {{#if backLinkTitle}}
+                <div class="flex">
+                    {{#link-to backLinkUri class='back-link'}}
+                        <i class="icon icon-back"></i>
+                        <span class="back-context">{{backLinkTitle}}</span>
+                    {{/link-to}}
+                </div>
+            {{/if}}
 
             <div class="app-name-container flex-grow-1">
                 <span class="app-name">{{title}}</span>

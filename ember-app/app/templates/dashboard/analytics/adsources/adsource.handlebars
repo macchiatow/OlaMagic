@@ -1,71 +1,76 @@
-<div class="sticky-header">
+{{menu-head title=active-workspace.workspace.title backLinkTitle='Adsources' backLinkUri='dashboard.analytics.adsources'}}
+<div class="main-content">
+    <div class="sticky-header">
 
-    <div class="editable-table-component table-responsive">
-        <ul class="list-group list-group-lg">
-            {{#workspace-panel-item title='Name and type'}}
-                <form role="form" class="app-rename edit-first">
+        <div class="editable-table-component table-responsive">
+            <ul class="list-group list-group-lg">
+                {{#workspace-panel-item title='Name and type'}}
+                    <form role="form" class="app-rename edit-first">
+                        <div class="form-group">
+                            {{input type="text" class="ember-text-field form-control" value=model.name}}
+                        </div>
+                    </form>
+                    <form role="form" class="app-rename edit-first">
+                        <div class="form-group">
+                            {{view "select" class="ember-select form-control"
+                            content=availableTypes
+                            optionValuePath="content.id"
+                            optionLabelPath="content.title"
+                            value=model.type}}
+                        </div>
+                    </form>
                     <div class="form-group">
-                        {{input type="text" class="ember-text-field form-control" value=model.name}}
+                        <button {{action "updateAdsource"}} class="btn btn-primary"
+                                                            disabled={{isModelNotChanged}}>Save
+                        </button>
                     </div>
-                </form>
-                <form role="form" class="app-rename edit-first">
-                    <div class="form-group">
-                        {{view "select" class="ember-select form-control"
-                        content=availableTypes
-                        optionValuePath="content.id"
-                        optionLabelPath="content.title"
-                        value=model.type}}
-                    </div>
-                </form>
-                <div class="form-group">
-                    <button {{action "updateAdsource"}} class="btn btn-primary"
-                                                        disabled={{isModelNotChanged}}>Save
-                    </button>
-                </div>
-            {{/workspace-panel-item}}
-            {{#workspace-panel-item title='Numbers'}}
-                <div class="editable-table-component table-responsive">
-                    <form>
-                        <table class="table editable-list domain-list">
-                            <tbody>
-                            {{#each model.numbers as |number|}}
+                {{/workspace-panel-item}}
+                {{#workspace-panel-item title='Numbers'}}
+                    <div class="editable-table-component table-responsive">
+                        <form>
+                            <table class="table editable-list domain-list">
+                                <tbody>
+                                {{#each model.numbers as |number|}}
+                                    <tr class="collaborator-item editable-item item-persisted">
+                                        <td>
+                                            {{number.upid}}
+                                        </td>
+
+                                        <td class="action-cell">
+                                            <button type="button"
+                                                    class="btn-link remove-item" {{action 'unassignNumber' number}}>
+                                                <i class="icon icon-delete"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                {{/each}}
                                 <tr class="collaborator-item editable-item item-persisted">
                                     <td>
-                                        {{number.upid}}
-                                    </td>
+                                        <div class="form-group">
+                                            {{view "select" class="ember-select form-control"
+                                            content=unassignedNumbers
+                                            prompt="Select number to add..."
+                                            optionValuePath="content"
+                                            optionLabelPath="content.upid"
+                                            value=selectedNumber}}
+                                        </div>
 
+                                    </td>
                                     <td class="action-cell">
-                                        <button type="button"
-                                                class="btn-link remove-item" {{action 'unassignNumber' number}}>
-                                            <i class="icon icon-delete"></i>
-                                        </button>
+                                        <button {{action "assignNumber"}} class="btn btn-primary" disabled={{isAddButtonDisabled}}>Add</button>
                                     </td>
                                 </tr>
-                            {{/each}}
-                            <tr class="collaborator-item editable-item item-persisted">
-                                <td>
-                                    <div class="form-group">
-                                        {{view "select" class="ember-select form-control"
-                                        content=unassignedNumbers
-                                        prompt="Select number to add..."
-                                        optionValuePath="content"
-                                        optionLabelPath="content.upid"
-                                        value=selectedNumber}}
-                                    </div>
+                                </tbody>
+                            </table>
 
-                                </td>
-                                <td class="action-cell">
-                                    <button {{action "assignNumber"}} class="btn btn-primary" disabled={{isAddButtonDisabled}}>Add</button>
-                                </td>
-                            </tr>
-                            </tbody>
-                        </table>
+                        </form>
+                    </div>
+                {{/workspace-panel-item}}
 
-                    </form>
-                </div>
-            {{/workspace-panel-item}}
+            </ul>
+        </div>
 
-        </ul>
     </div>
 
 </div>
+
