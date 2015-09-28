@@ -9,12 +9,14 @@
 
         <ul>
             {{#each workspaces as |workspace|}}
-                <li class="active">
-                    <a {{action 'activateWorkspace' workspace}}>
-                        <i class="icon icon-property-dashboard-active"></i>
-                        <span class="icon-label">{{workspace.title}}</span>
-                    </a>
-                </li>
+                {{#if (not-eq active-workspace.workspace workspace)}}
+                    <li class="active">
+                        <a {{action 'activateWorkspace' workspace}}>
+                            <i class="icon icon-property-dashboard-active"></i>
+                            <span class="icon-label">{{workspace.title}}</span>
+                        </a>
+                    </li>
+                {{/if}}
             {{/each}}
             <li class="active">
                 <a {{action 'signOut'}}>

@@ -43,6 +43,12 @@
                             {{adsource.type}}
                         </td>
 
+                        <td>
+                            {{#each adsource.numbers as |number|}}
+                                {{number.upid}}
+                            {{/each}}
+                        </td>
+
                         <td class="action-cell">
                             <button type="button" class="btn-link remove-item" {{action 'removeAdsource' adsource}}>
                                 <i class="icon icon-delete"></i>

@@ -3,6 +3,7 @@ export default Ember.Service.extend({
     activate(workspace) {
         localStorage.setItem('/workspace/id', workspace.id);
         this.set('workspace', workspace);
+        this.activateSite(workspace.get('sites.firstObject'));
     },
 
     activateSite(site) {
