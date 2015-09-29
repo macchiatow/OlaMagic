@@ -35,8 +35,7 @@ class UrlMappings {
         "/api/campaigns/$id"(controller: "campaign") { action = [GET: "show", DELETE: "delete", PUT: "update"] }
 
         // Reports
-        "/api/reports"(controller: "report")
-        "/api/sites/$sid/reports/$rname"(controller: "report")
+        "/api/reports"(controller: "report")  { action = [GET: "generate"] }
 
         // Errors
         "500"(view: '/error')

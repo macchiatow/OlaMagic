@@ -1,19 +1,11 @@
 package com.olamagic
 
-/**
- * Created by togrul on 7/9/15.
- */
+import grails.converters.JSON
+
 class ReportController {
 
-    def reportOne(){
-
+    def generate(){
+        render ([report: [id: 1, a: []]] as JSON)
     }
 
-    def reportTwo(){
-
-    }
-
-    def reportThree(){
-
-    }
 }
