@@ -5,7 +5,4 @@ export default Ember.Route.extend({
     model: function() {
         return this.store.query('report', {type: 1});
     }
-
-
-
 });
