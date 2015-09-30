@@ -6619,24 +6619,18 @@ a {
   font-family: benton-sans;
   font-weight: 200;
   font-style: normal;
-  src: url(//www.herokucdn.com/fonts/bentonsans-book.eot);
-  src: url(//www.herokucdn.com/fonts/bentonsans-book.eot?#iefix) format("embedded-opentype"), url(//www.herokucdn.com/fonts/bentonsans-book.woff) format("woff"), url(//www.herokucdn.com/fonts/bentonsans-book.ttf) format("truetype"), url(//www.herokucdn.com/fonts/bentonsans-book.svg#benton-sans) format("svg")
 }
 
 @font-face {
   font-family: benton-sans;
   font-weight: 400;
   font-style: normal;
-  src: url(//www.herokucdn.com/fonts/bentonsans-regular.eot);
-  src: url(//www.herokucdn.com/fonts/bentonsans-regular.eot?#iefix) format("embedded-opentype"), url(//www.herokucdn.com/fonts/bentonsans-regular.woff) format("woff"), url(//www.herokucdn.com/fonts/bentonsans-regular.ttf) format("truetype"), url(//www.herokucdn.com/fonts/bentonsans-regular.svg#benton-sans) format("svg")
 }
 
 @font-face {
   font-family: benton-sans;
   font-weight: 700;
   font-style: normal;
-  src: url(//www.herokucdn.com/fonts/bentonsans-medium.eot);
-  src: url(//www.herokucdn.com/fonts/bentonsans-medium.eot?#iefix) format("embedded-opentype"), url(//www.herokucdn.com/fonts/bentonsans-medium.woff) format("woff"), url(//www.herokucdn.com/fonts/bentonsans-medium.ttf) format("truetype"), url(//www.herokucdn.com/fonts/bentonsans-medium.svg#benton-sans) format("svg")
 }
 
 .dyno-tier-picker-item-size-name, .h4, .list-item-distinct__title, .panel-section .panel-title, h4 {
