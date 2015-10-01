@@ -9,6 +9,6 @@ import static org.grails.datastore.gorm.GormStaticApi.executeQuery
 class CampaignReport {
 
     def generate(){
-        Call.executeQuery 'select n.upid, a.name from Call c, AdSource a, Number n where c.number = n.id and n.adSource = a.id'
+        Call.executeQuery 'select c.date as dates, n.upid as upid, c.duration as duration, a.name as name from Call c, AdSource a, Number n where c.number = n.id and n.adSource = a.id'
     }
 }

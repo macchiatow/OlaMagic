@@ -2,21 +2,28 @@
     <form>
         <table class="table editable-list domain-list">
             <tbody>
-            {{#each model.firstObject.a as |row|}}
+            <tr class="collaborator-item editable-item item-persisted">
+                <td>
+                    Date
+                </td>
+                <td>
+                    Number
+                </td>
+                <td>
+                    Duration
+                </td>
+                <td>
+                    Campaign
+                </td>
+            </tr>
+
+            {{#each report as |row|}}
                 <tr class="collaborator-item editable-item item-persisted">
-                    <td>
-                        {{#link-to 'dashboard.analytics.adsources.adsource' adsource.id class="sidebar-nav-heading org"}}
-                            {{row}}
-                        {{/link-to}}
-                    </td>
-
-
-                    <td class="action-cell">
-                        <button type="button" class="btn-link remove-item" {{action 'removeAdsource' adsource}}>
-                            <i class="icon icon-delete"></i>
-                        </button>
-                    </td>
-
+                    {{#each row as |column|}}
+                        <td>
+                            {{column}}
+                        </td>
+                    {{/each}}
                 </tr>
             {{/each}}
             </tbody>
