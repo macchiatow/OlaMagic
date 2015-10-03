@@ -6,8 +6,8 @@ import grails.converters.JSON
 class ReportController {
 
     def generate() {
-        def report = ReportTypeResolver.resolve[1].generate()
-        render ([reports: [[id: 1, a: report]]] as JSON)
+        def report = ReportTypeResolver.resolve[params.type].generate()
+        render ([reports: [[id: params.type, a: report]]] as JSON)
     }
 
 }

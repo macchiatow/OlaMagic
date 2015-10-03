@@ -6,6 +6,7 @@ package com.olamagic.report
 class ReportTypeResolver {
 
     static resolve = [
-            1: new CampaignReport()
+            "1": new CampaignReport(),
+            "2": new CallByDateReport()
     ]
 }
