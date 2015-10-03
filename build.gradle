@@ -24,6 +24,7 @@ grails {
 dependencies {
     bootstrap "org.grails.plugins:tomcat:7.0.50" // No container is deployed by default, so add this
     // plugins for the compile step
+    compile "org.grails.plugins:joda-time:1.5"
     compile("org.grails.plugins:spring-security-rest:1.5.2") { exclude module: 'xml-apis' }
     compile 'org.grails.plugins:cache:1.1.8'
 
