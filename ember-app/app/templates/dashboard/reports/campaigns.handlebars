@@ -1,0 +1,36 @@
+{{#if chartData}}
+    <div class="trendline-chart">
+        {{ember-chart type='Line' data=chartData width=900 height=200 legend=true options=chartOptions}}
+    </div>
+{{/if}}
+{{#if tableData}}
+    <div class="editable-table-component table-responsive">
+        <form>
+            <table class="table editable-list domain-list">
+                <tbody>
+                <tr class="collaborator-item editable-item item-persisted">
+                    <td>
+                        Campaign
+                    </td>
+                    <td>
+                        Count
+                    </td>
+                </tr>
+
+                {{#each tableData as |row|}}
+                    <tr class="collaborator-item editable-item item-persisted">
+                        <td>
+                            {{row.campaign}}
+                        </td>
+                        <td>
+                            {{row.count}}
+                        </td>
+                    </tr>
+                {{/each}}
+                </tbody>
+
+            </table>
+
+        </form>
+    </div>
+{{/if}}

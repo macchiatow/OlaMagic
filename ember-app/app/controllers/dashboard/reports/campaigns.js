@@ -11,6 +11,7 @@ export default Ember.Controller.extend({
     init: function () {
         var self = this;
         self.store.query('report', {type: 3}).then(function (reports) {
+            var tableData = [];
             var chartData = {
                 labels: reports.get('firstObject.a.x'),
                 datasets: []
@@ -28,17 +29,13 @@ export default Ember.Controller.extend({
                     pointHighlightStroke: "rgba(220,220,220,1)",
                     data: lineData[1]
                 };
+
                 chartData.datasets.push(line);
+                tableData.push({campaign:lineData[0], count: eval(lineData[1].join('+'))});
             }
 
-            self.set('chartData', chartData)
-            self.set('options', {
-                datasetFill: false,
-                bezierCurveTension: 0.2,
-                legendTemplate: "<ul class=\"<%=name.toLowerCase()%>-legend\"><% for (var i=0; i<datasets.length; i++){%><li style=\"color:<%=datasets[i].strokeColor%>\"><%if(datasets[i].label){%><%=datasets[i].label%><%}%></li><%}%></ul>"
-            })
-
-
+            self.set('chartData', chartData);
+            self.set('tableData', tableData)
         });
     },
 

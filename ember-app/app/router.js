@@ -13,9 +13,8 @@ Router.map(function () {
             this.route('workspace', {path: '/:wid'});
         });
         this.route('reports', function () {
-            this.route('report-one');
-            this.route('report-two');
-            this.route('report-three');
+            this.route('calls');
+            this.route('campaigns');
         });
         this.route('analytics', function () {
             this.route('adsources', function () {
