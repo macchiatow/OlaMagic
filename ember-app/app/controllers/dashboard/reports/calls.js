@@ -13,6 +13,8 @@ export default Ember.Controller.extend({
         return this.get('model.firstObject.a');
     }.property('model'),
 
+
+
     options: {
         datasetFill: false,
         bezierCurve: false,
@@ -22,22 +24,7 @@ export default Ember.Controller.extend({
     data: {},
 
     init: function () {
-        var self = this;
-        var color = "rgba(117, 25, 255,1)";
-        self.store.query('report', {type: 2}).then(function (reports) {
-            self.set('data', {
-                labels: reports.get('firstObject.a.x'),
-                datasets: [{
-                        label: "My First dataset",
-                        strokeColor: color,
-                        pointColor: color,
-                        pointStrokeColor: "#fff",
-                        pointHighlightFill: "#fff",
-                        pointHighlightStroke: "rgba(220,220,220,1)",
-                        data: reports.get('firstObject.a.y')
-                    }]
-            })
-        })
+        this.send('changeDetalization');
     },
 
 
@@ -49,5 +36,58 @@ export default Ember.Controller.extend({
         return "rgba(" + [c(), c(), c(), 1].join(',') + ")";
     },
 
-    actions: {}
+    actions: {
+        changeDetalization: function(rangeFrom, rangeTo) {
+            var self = this;
+            var color = "rgba(117, 25, 255,1)";
+            self.store.query('report', {type: 2, rangeFrom: rangeFrom, rangeTo: rangeTo}).then(function (reports) {
+                self.set('data', {
+                    labels: reports.get('firstObject.a.x'),
+                    datasets: [{
+                        label: "My First dataset",
+                        strokeColor: color,
+                        pointColor: color,
+                        pointStrokeColor: "#fff",
+                        pointHighlightFill: "#fff",
+                        pointHighlightStroke: "rgba(220,220,220,1)",
+                        data: reports.get('firstObject.a.y')
+                    }]
+                })
+            })
+        },
+
+        detalizeToday: function (){
+            var dateBeginning = Math.floor( new Date().getTime() / (1000*60*60*24) ) * (1000*60*60*24);
+            this._changeDetalization(dateBeginning, dateBeginning + 1000*60*60*24 - 1);
+        },
+
+        detalizeYesterday: function (){
+            var dateBeginning = Math.floor( new Date().getTime() / (1000*60*60*24) ) * (1000*60*60*24) -  (1000*60*60*24);
+            this._changeDetalization(dateBeginning, dateBeginning + 1000*60*60*24 - 1);
+        },
+
+        detalizeWeek: function (){
+            var dateBeginning = Math.floor( new Date().getTime() / (1000*60*60*24) ) * (1000*60*60*24) -  (1000*60*60*24);
+            this._changeDetalization(dateBeginning - (1000*60*60*24) * 6, dateBeginning + 1000*60*60*24 - 1);
+        }
+    },
+
+    _changeDetalization: function(rangeFrom, rangeTo) {
+        var self = this;
+        var color = "rgba(117, 25, 255,1)";
+        self.store.query('report', {type: 2, rangeFrom: rangeFrom, rangeTo: rangeTo}).then(function (reports) {
+            self.set('data', {
+                labels: reports.get('firstObject.a.x'),
+                datasets: [{
+                    label: "My First dataset",
+                    strokeColor: color,
+                    pointColor: color,
+                    pointStrokeColor: "#fff",
+                    pointHighlightFill: "#fff",
+                    pointHighlightStroke: "rgba(220,220,220,1)",
+                    data: reports.get('firstObject.a.y')
+                }]
+            })
+        })
+    }
 });
