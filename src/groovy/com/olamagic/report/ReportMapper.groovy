@@ -7,8 +7,7 @@ class ReportMapper {
 
     static resolve = [
             "1": new CallsInRangeReport(),
-            "2": new CallByDateReport(),
+            "call": new CallReport(),
             "3": new CampaignByDayReport(),
-            "call": new CallReport()
     ]
 }

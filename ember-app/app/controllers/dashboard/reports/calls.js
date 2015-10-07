@@ -13,8 +13,6 @@ export default Ember.Controller.extend({
         return this.get('model.firstObject.a');
     }.property('model'),
 
-
-
     options: {
         datasetFill: false,
         bezierCurve: false,
@@ -24,67 +22,36 @@ export default Ember.Controller.extend({
     data: {},
 
     init: function () {
-        this.send('changeDetalization');
-    },
-
-
-    _random_color: function () {
-        function c() {
-            return Math.floor(Math.random() * 256).toString(10)
-        }
-
-        return "rgba(" + [c(), c(), c(), 1].join(',') + ")";
+        this._changeDetalization();
     },
 
     actions: {
-        changeDetalization: function(rangeFrom, rangeTo) {
-            var self = this;
-            var color = "rgba(117, 25, 255,1)";
-            self.store.query('report', {type: 2, rangeFrom: rangeFrom, rangeTo: rangeTo}).then(function (reports) {
-                self.set('data', {
-                    labels: reports.get('firstObject.a.x'),
-                    datasets: [{
-                        label: "My First dataset",
-                        strokeColor: color,
-                        pointColor: color,
-                        pointStrokeColor: "#fff",
-                        pointHighlightFill: "#fff",
-                        pointHighlightStroke: "rgba(220,220,220,1)",
-                        data: reports.get('firstObject.a.y')
-                    }]
-                })
-            })
-        },
 
         detalizeToday: function (){
-            var dateBeginning = Math.floor( new Date().getTime() / (1000*60*60*24) ) * (1000*60*60*24);
-            this._changeDetalization(dateBeginning, dateBeginning + 1000*60*60*24 - 1);
+            this._changeDetalization(Date.today().getTime(), Date.today().addDays(1).getTime());
         },
 
         detalizeYesterday: function (){
-            var dateBeginning = Math.floor( new Date().getTime() / (1000*60*60*24) ) * (1000*60*60*24) -  (1000*60*60*24);
-            this._changeDetalization(dateBeginning, dateBeginning + 1000*60*60*24 - 1);
+            this._changeDetalization(Date.today().addDays(-1).getTime(), Date.today().getTime());
         },
 
         detalizeWeek: function (){
-            var dateBeginning = Math.floor( new Date().getTime() / (1000*60*60*24) ) * (1000*60*60*24) -  (1000*60*60*24);
-            this._changeDetalization(dateBeginning - (1000*60*60*24) * 6, dateBeginning + 1000*60*60*24 - 1);
+            this._changeDetalization(Date.today().addWeeks(-1).addDays(1).getTime(), Date.today().addDays(1).getTime());
+        },
+
+        detalizeMonth: function (){
+            this._changeDetalization(Date.today().addMonths(-1).getTime(), Date.today().addDays(1).getTime());
         }
     },
 
     _changeDetalization: function(rangeFrom, rangeTo) {
         var self = this;
-        var color = "rgba(117, 25, 255,1)";
-        self.store.query('report', {type: 2, rangeFrom: rangeFrom, rangeTo: rangeTo}).then(function (reports) {
+        self.store.query('report', {type: "call", rangeFrom: rangeFrom, rangeTo: rangeTo}).then(function (reports) {
             self.set('data', {
                 labels: reports.get('firstObject.a.x'),
                 datasets: [{
-                    label: "My First dataset",
-                    strokeColor: color,
-                    pointColor: color,
-                    pointStrokeColor: "#fff",
-                    pointHighlightFill: "#fff",
-                    pointHighlightStroke: "rgba(220,220,220,1)",
+                    strokeColor: "rgba(117, 25, 255,1)",
+                    pointColor: "rgba(117, 25, 255,1)",
                     data: reports.get('firstObject.a.y')
                 }]
             })

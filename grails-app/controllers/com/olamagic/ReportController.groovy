@@ -5,8 +5,8 @@ import grails.converters.JSON
 
 class ReportController {
 
-    def generate() {
-        def report = ReportMapper.resolve[params.type].generate()
+    def generate(Long rangeFrom, Long rangeTo) {
+        def report = ReportMapper.resolve[params.type].generate(rangeFrom, rangeTo)
         render ([reports: [[id: params.type, a: report]]] as JSON)
     }
 
