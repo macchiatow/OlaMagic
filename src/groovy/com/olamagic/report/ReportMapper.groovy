@@ -6,7 +6,6 @@ package com.olamagic.report
 class ReportMapper {
 
     static resolve = [
-            "1": new CallsInRangeReport(),
             "call": new CallReport(),
             "3": new CampaignByDayReport(),
     ]

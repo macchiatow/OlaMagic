@@ -9,7 +9,7 @@ import org.joda.time.format.DateTimeFormat
  */
 class CampaignByDayReport {
 
-    def generate(Long rangeFrom, Long rangeTo){
+    def generate(Long rangeFrom, Long rangeTo, String detalization){
         def f = DateTimeFormat.forPattern("ddMMyyyy");
 
         Call.withSession { session ->

@@ -11,7 +11,7 @@
     <button {{action 'detalizeMonth'}} type="button" class="btn btn-sm btn-default edit-button edit-button">
         Month
     </button>
-    <button {{action 'changeDetalization'}} type="button" class="btn btn-sm btn-default edit-button edit-button">
+    <button {{action 'detalizeYear'}} type="button" class="btn btn-sm btn-default edit-button edit-button">
         Year
     </button>
     <button type="button" class="btn btn-sm btn-default edit-button edit-button">
@@ -28,9 +28,12 @@
 
 </div>
 
-<div class="trendline-chart">
-    {{ember-chart type='Line' data=data width=900 height=200 legend=false options=options}}
+<div class="trendline-chart" style="width: 900px; height: 200px">
+    {{#if data}}
+        {{ember-chart type='Line' data=data width=900 height=200 legend=false options=options}}
+    {{/if}}
 </div>
+
 
 <div class="editable-table-component table-responsive">
     <form>
@@ -51,7 +54,7 @@
                 </td>
             </tr>
 
-            {{#each report as |row|}}
+            {{#each allCallsReport.firstObject.a as |row|}}
                 <tr class="collaborator-item editable-item item-persisted">
                     {{#each row as |column|}}
                         <td>
