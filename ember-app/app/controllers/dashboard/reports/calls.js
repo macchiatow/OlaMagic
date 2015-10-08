@@ -19,7 +19,8 @@ export default Ember.Controller.extend({
 
     options: {
         datasetFill: false,
-        bezierCurve: false,
+        bezierCurveTension: 0.3,
+        pointHitDetectionRadius : 4,
         legendTemplate: "<ul class=\"<%=name.toLowerCase()%>-legend\"><% for (var i=0; i<datasets.length; i++){%><li><span style=\"background-color:<%=datasets[i].strokeColor%>\"></span><%if(datasets[i].label){%><%=datasets[i].label%><%}%></li><%}%></ul>"
     },
 
@@ -78,8 +79,11 @@ export default Ember.Controller.extend({
             self.set('data', {
                 labels: reports.get('firstObject.a.x'),
                 datasets: [{
-                    strokeColor: "rgba(117, 25, 255,1)",
-                    pointColor: "rgba(117, 25, 255,1)",
+                    pointStrokeColor: "#fff",
+                    pointHighlightFill: "#fff",
+                    pointHighlightStroke: "rgba(220,220,220,1)",
+                    strokeColor: "#79589F",
+                    pointColor: "#79589F",
                     data: reports.get('firstObject.a.y')
                 }]
             })
