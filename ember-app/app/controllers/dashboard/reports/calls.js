@@ -45,7 +45,7 @@ export default Ember.Controller.extend({
         detalizeWeek: function () {
             this.set('rangeFrom', Date.today().addWeeks(-1).addDays(1).getTime());
             this.set('rangeTo', Date.today().addDays(1).getTime());
-            this.set('detalization', 'day');
+            this.set('detalization', 'days');
 
             this._updateChart();
         },
@@ -53,7 +53,7 @@ export default Ember.Controller.extend({
         detalizeMonth: function () {
             this.set('rangeFrom', Date.today().addMonths(-1).getTime());
             this.set('rangeTo', Date.today().addDays(1).getTime());
-            this.set('detalization', 'day');
+            this.set('detalization', 'days');
 
             this._updateChart();
         },
@@ -61,7 +61,7 @@ export default Ember.Controller.extend({
         detalizeYear: function () {
             this.set('rangeFrom', Date.today().addYears(-1).getTime());
             this.set('rangeTo', Date.today().addDays(1).getTime());
-            this.set('detalization', 'month');
+            this.set('detalization', 'months');
 
             this._updateChart();
         }
