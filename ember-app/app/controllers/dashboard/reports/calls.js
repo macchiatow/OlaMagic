@@ -12,7 +12,6 @@ export default Ember.Controller.extend({
     allCallsReport: function () {
         return this.store.query('report', {
             type: 'call',
-            detalization: 'none',
             rangeFrom: this.get('rangeFrom'),
             rangeTo: this.get('rangeTo')
         });
@@ -53,7 +52,7 @@ export default Ember.Controller.extend({
         detalizeMonth: function () {
             this.set('rangeFrom', Date.today().addMonths(-1).getTime());
             this.set('rangeTo', Date.today().addDays(1).getTime());
-            this.set('detalization', 'days');
+            this.set('detalization', 'weeks');
 
             this._updateChart();
         },
@@ -61,7 +60,7 @@ export default Ember.Controller.extend({
         detalizeYear: function () {
             this.set('rangeFrom', Date.today().addYears(-1).getTime());
             this.set('rangeTo', Date.today().addDays(1).getTime());
-            this.set('detalization', 'months');
+            this.set('detalization', 'weeks');
 
             this._updateChart();
         }
