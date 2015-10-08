@@ -7,7 +7,7 @@ import org.joda.time.format.DateTimeFormat
 /**
  * Created by togrul on 9/30/15.
  */
-class CampaignByDayReport {
+class Campaign {
 
     def generate(Long rangeFrom, Long rangeTo, String detalization){
         def f = DateTimeFormat.forPattern("ddMMyyyy");

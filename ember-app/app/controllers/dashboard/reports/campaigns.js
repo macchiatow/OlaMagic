@@ -10,7 +10,7 @@ export default Ember.Controller.extend({
 
     init: function () {
         var self = this;
-        self.store.query('report', {type: 3}).then(function (reports) {
+        self.store.query('report', {type: 'campaign'}).then(function (reports) {
             var tableData = [];
             var chartData = {
                 labels: reports.get('firstObject.a.x'),
