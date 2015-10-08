@@ -29,7 +29,7 @@ export default Ember.Controller.extend({
         detalizeToday: function () {
             this.set('rangeFrom', Date.today().getTime());
             this.set('rangeTo', Date.today().addDays(1).getTime());
-            this.set('detalization', 'hour');
+            this.set('detalization', 'hours');
 
             this._updateChart();
         },
@@ -37,7 +37,7 @@ export default Ember.Controller.extend({
         detalizeYesterday: function () {
             this.set('rangeFrom', Date.today().addDays(-1).getTime());
             this.set('rangeTo', Date.today().getTime());
-            this.set('detalization', 'hour');
+            this.set('detalization', 'hours');
 
             this._updateChart();
         },
