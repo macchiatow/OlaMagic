@@ -2,6 +2,13 @@ import Ember from 'ember';
 
 export default Ember.Controller.extend({
 
+    detalizationOptions: [
+        {"id": 0, "option": "detalization: hours"},
+        {"id": 1, "option": "detalization: days"},
+        {"id": 2, "option": "detalization: weeks"},
+        {"id": 3, "option": "detalization: months"}
+    ],
+
     chartOptions: {
         datasetFill: false,
         bezierCurveTension: 0.2,

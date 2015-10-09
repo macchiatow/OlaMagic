@@ -1,8 +1,38 @@
-{{#if chartData}}
-    <div class="trendline-chart">
-        {{ember-chart type='Line' data=chartData width=900 height=200 legend=true options=chartOptions}}
+<div style="padding-bottom: 2em">
+    <button {{action 'detalizeToday'}} type="button" class="btn btn-sm btn-primary save-button">
+        Today
+    </button>
+    <button {{action 'detalizeYesterday'}} type="button" class="btn btn-sm btn-default edit-button edit-button">
+        Yesterday
+    </button>
+    <button {{action 'detalizeWeek'}} type="button" class="btn btn-sm btn-default edit-button edit-button">
+        Week
+    </button>
+    <button {{action 'detalizeMonth'}} type="button" class="btn btn-sm btn-default edit-button edit-button">
+        Month
+    </button>
+    <button {{action 'detalizeYear'}} type="button" class="btn btn-sm btn-default edit-button edit-button">
+        Year
+    </button>
+    <button type="button" class="btn btn-sm btn-default edit-button edit-button">
+        6 October
+    </button>
+
+    <div style="width: 20em; padding-top: 1em">
+        {{view "select" class="ember-select form-control"
+        content=detalizationOptions
+        optionLabelPath="content.option"
+        value=detalizationOption
+        }}
     </div>
-{{/if}}
+
+</div>
+
+<div class="trendline-chart">
+    {{#if chartData}}
+        {{ember-chart type='Line' data=chartData width=900 height=200 legend=true options=chartOptions}}
+    {{/if}}
+</div>
 {{#if tableData}}
     <div class="editable-table-component table-responsive">
         <form>
