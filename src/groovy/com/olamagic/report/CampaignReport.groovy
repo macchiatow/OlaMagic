@@ -7,12 +7,12 @@ import org.joda.time.format.DateTimeFormat
 /**
  * Created by togrul on 9/30/15.
  */
-class Campaign {
+class CampaignReport {
 
     def generate(Long rangeFrom, Long rangeTo, String detalization){
         Call.withSession {
             if (detalization == 'hours') {
-                query(it, rangeFrom, rangeTo, new DateTime(rangeFrom), 'plusHours', 'DDMMYYYY', 'ddMMyyyy', 'HH:mm')
+                query(it, rangeFrom, rangeTo, new DateTime(rangeFrom), 'plusHours', 'HH24 dd Mon YYYY', 'H dd MMM YYYY', 'HH:mm')
 
             } else if (detalization == 'months') {
                 query(it, rangeFrom, rangeTo, new DateTime(rangeFrom).withDayOfMonth(1), 'plusMonths', 'Mon YYYY', 'MMM YYYY', 'MMM YYYY')
@@ -30,28 +30,24 @@ class Campaign {
     }
 
     def query(def session, def rangeFrom, def rangeTo, def startFrom, def incrementer, def groupByPattern, def parsePattern, def keyPattern) {
-        def f = DateTimeFormat.forPattern(parsePattern);
+        def q = session.createSQLQuery("select ifnull(a.name,'undefined'), to_char(c.date, '$groupByPattern'), count(*) from Call c INNER JOIN Number n ON c.number_id=n.id LEFT OUTER JOIN AD_SOURCE a ON n.AD_SOURCE_ID=a.id where datediff(s, '1970-01-01', date) * 1000 between $rangeFrom and $rangeTo GROUP BY a.name, to_char(c.date, '$groupByPattern')").list()
 
-        def q = session.createSQLQuery("select ifnull(a.name,'undefined'), to_char(c.date, '$groupByPattern'), count(*) from Call c INNER JOIN Number n ON c.number_id=n.id LEFT OUTER JOIN AD_SOURCE a ON n.AD_SOURCE_ID=a.id where datediff(s, '1970-01-01', date) * 1000 between $rangeFrom and $rangeTo GROUP BY a.name, to_char(c.date, '$groupByPattern')")
-                .list().sort {a,b -> f.parseDateTime(a[1]) <=> f.parseDateTime(b[1])}
-
-        def campaigns = q.collectEntries {[(it[0]):[]]}
+        def campaignsAndCount = q.collectEntries {[(it[0]):[]]}
         def dates = []
 
-        def start = new DateTime(rangeFrom)
-        while (start.isBefore(rangeTo)) {
-            dates << start;
-            start = start."$incrementer"(1)
+        while (startFrom.isBefore(rangeTo)) {
+            dates << startFrom;
+            startFrom = startFrom."$incrementer"(1)
         }
 
-        campaigns.each( { campaign,v ->
-            dates.collect({it.toString('ddMMyyyy')}).unique().each({day ->
+        campaignsAndCount.each( { campaign,count ->
+            dates.collect({it.toString(parsePattern)}).each({day ->
                 def found =  q.find ({qi-> qi[0] == campaign && qi[1] == day})
-                v << (found? found[2] : 0)
+                count << (found? found[2] : 0)
             })
         })
 
-        [x:dates.collect({it.toString('ddMMyyyy')}).unique(), y:campaigns.collect { [it.key, it.value] }]
+        [x:dates.collect({it.toString(keyPattern)}), y:campaignsAndCount.collect { [it.key, it.value] }]
     }
 
 }

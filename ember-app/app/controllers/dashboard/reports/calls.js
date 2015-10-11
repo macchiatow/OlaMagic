@@ -3,10 +3,10 @@ import Ember from 'ember';
 export default Ember.Controller.extend({
 
     detalizationOptions: [
-        {"id": 0, "option": "detalization: hours"},
-        {"id": 1, "option": "detalization: days"},
-        {"id": 2, "option": "detalization: weeks"},
-        {"id": 3, "option": "detalization: months"}
+        {"id": 0, "option": "detalization: hours", value: "hours"},
+        {"id": 1, "option": "detalization: days", value: "days"},
+        {"id": 2, "option": "detalization: weeks", value: "weeks"},
+        {"id": 3, "option": "detalization: months", value: "months"}
     ],
 
     allCallsReport: function () {
@@ -72,7 +72,7 @@ export default Ember.Controller.extend({
         this.set('data', undefined);
         this.store.query('report', {
             type: "call",
-            detalization: this.get('detalization'),
+            detalization: this.get('detalizationOption'),
             rangeFrom: this.get('rangeFrom'),
             rangeTo: this.get('rangeTo')
         }).then(function (reports) {

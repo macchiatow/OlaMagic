@@ -3,23 +3,42 @@ import Ember from 'ember';
 export default Ember.Controller.extend({
 
     detalizationOptions: [
-        {"id": 0, "option": "detalization: hours"},
-        {"id": 1, "option": "detalization: days"},
-        {"id": 2, "option": "detalization: weeks"},
-        {"id": 3, "option": "detalization: months"}
+        {"id": 0, "option": "detalization: hours", value: "hours"},
+        {"id": 1, "option": "detalization: days", value: "days"},
+        {"id": 2, "option": "detalization: weeks", value: "weeks"},
+        {"id": 3, "option": "detalization: months", value: "months"}
+    ],
+
+    colors: [
+        "rgba(100,149,237,1)",
+        "rgba(205,133,63,1)",
+        "rgba(50,205,50,1)",
+        "rgba(0,0,255,1)",
+        "rgba(255,255,0,1)",
+        "rgba(0,255,255,1)",
+        "rgba(255,0,255,1)",
+        "rgba(128,128,128,1)",
+        "rgba(128,0,0,1)",
+        "rgba(128,128,0,1)",
+        "rgba(0,128,0,1)",
+        "rgba(128,0,128,1)",
+        "rgba(0,128,128,1)",
+        "rgba(0,0,128,1)"
     ],
 
     chartOptions: {
         datasetFill: false,
-        bezierCurveTension: 0.2,
+        bezierCurveTension: 0.3,
+        pointHitDetectionRadius : 4,
         legendTemplate: "<ul class=\"<%=name.toLowerCase()%>-legend\"><% for (var i=0; i<datasets.length; i++){%><li style=\"color:<%=datasets[i].strokeColor%>\"><%if(datasets[i].label){%><%=datasets[i].label%><%}%></li><%}%></ul>"
     },
 
     _updateChart: function () {
         var self = this;
+        this.set('chartData', undefined);
         self.store.query('report', {
                 type: 'campaign',
-                detalization: 'hours',
+                detalization: this.get('detalizationOption'),
                 rangeFrom: this.get('rangeFrom'),
                 rangeTo: this.get('rangeTo')
             }).then(function (reports) {
@@ -30,7 +49,7 @@ export default Ember.Controller.extend({
                 };
 
                 for (var i = 0; i < reports.get('firstObject.a.y').length; i++) {
-                    var color = self._random_color();
+                    var color = self.get('colors').get(i);
                     var lineData = reports.get('firstObject.a.y')[i];
                     var line = {
                         label: lineData[0],
@@ -56,7 +75,6 @@ export default Ember.Controller.extend({
         detalizeToday: function () {
             this.set('rangeFrom', Date.today().getTime());
             this.set('rangeTo', Date.today().addDays(1).getTime());
-            this.set('detalization', 'hours');
 
             this._updateChart();
         },
@@ -64,7 +82,6 @@ export default Ember.Controller.extend({
         detalizeYesterday: function () {
             this.set('rangeFrom', Date.today().addDays(-1).getTime());
             this.set('rangeTo', Date.today().getTime());
-            this.set('detalization', 'hours');
 
             this._updateChart();
         },
@@ -80,7 +97,6 @@ export default Ember.Controller.extend({
         detalizeMonth: function () {
             this.set('rangeFrom', Date.today().addMonths(-1).getTime());
             this.set('rangeTo', Date.today().addDays(1).getTime());
-            this.set('detalization', 'weeks');
 
             this._updateChart();
         },
@@ -88,18 +104,9 @@ export default Ember.Controller.extend({
         detalizeYear: function () {
             this.set('rangeFrom', Date.today().addYears(-1).getTime());
             this.set('rangeTo', Date.today().addDays(1).getTime());
-            this.set('detalization', 'weeks');
 
             this._updateChart();
         }
-    },
-
-    _random_color: function () {
-        function c() {
-            return Math.floor(Math.random() * 256).toString(10)
-        }
-
-        return "rgba(" + [c(), c(), c(), 1].join(',') + ")";
     }
 
 });

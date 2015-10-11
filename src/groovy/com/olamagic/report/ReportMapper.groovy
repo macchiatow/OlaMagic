@@ -7,6 +7,6 @@ class ReportMapper {
 
     static resolve = [
             'call': new CallReport(),
-            'campaign': new Campaign()
+            'campaign': new CampaignReport()
     ]
 }
