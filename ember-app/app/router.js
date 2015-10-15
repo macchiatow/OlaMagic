@@ -30,8 +30,9 @@ Router.map(function () {
         })
     });
     this.route('login');
-    this.route('one');
-
+    this.route('dashboard1', function () {
+        this.route('one');
+    });
     this.route('authority-based-router');
 });
 
